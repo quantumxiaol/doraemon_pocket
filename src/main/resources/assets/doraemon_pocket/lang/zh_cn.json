@@ -1,5 +1,7 @@
 {
 	"item.doraemon_pocket.bamboo_copter": "竹蜻蜓",
 	"item.doraemon_pocket.bamboo_copter.tooltip": "戴在头上后，按住跳跃上升，按住潜行下降。",
+	"item.doraemon_pocket.air_cannon": "空气炮",
+	"item.doraemon_pocket.air_cannon.tooltip": "右键发射空气冲击，击退前方实体。",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"
 }

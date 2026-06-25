@@ -15,7 +15,10 @@ public final class ModItemGroups {
 			FabricItemGroup.builder()
 					.displayName(Text.translatable("itemGroup.doraemon_pocket.tools"))
 					.icon(() -> new ItemStack(ModItems.BAMBOO_COPTER))
-					.entries((context, entries) -> entries.add(ModItems.BAMBOO_COPTER))
+					.entries((context, entries) -> {
+						entries.add(ModItems.BAMBOO_COPTER);
+						entries.add(ModItems.AIR_CANNON);
+					})
 					.build()
 	);
 

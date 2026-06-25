@@ -1,6 +1,7 @@
 package com.doraemon.pocket.registry;
 
 import com.doraemon.pocket.DoraemonPocket;
+import com.doraemon.pocket.item.AirCannonItem;
 import com.doraemon.pocket.item.BambooCopterItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
@@ -17,6 +18,10 @@ public final class ModItems {
 					ArmorItem.Type.HELMET,
 					new FabricItemSettings().maxDamage(600).rarity(Rarity.UNCOMMON)
 			)
+	);
+	public static final Item AIR_CANNON = register(
+			"air_cannon",
+			new AirCannonItem(new FabricItemSettings().maxCount(1).maxDamage(250).rarity(Rarity.UNCOMMON))
 	);
 
 	private ModItems() {

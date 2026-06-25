@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ICI",
+		" R ",
+		" B "
+	],
+	"key": {
+		"I": {
+			"item": "minecraft:iron_ingot"
+		},
+		"C": {
+			"item": "minecraft:fire_charge"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		},
+		"B": {
+			"item": "minecraft:blaze_rod"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:air_cannon",
+		"count": 1
+	}
+}
