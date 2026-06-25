@@ -1,6 +1,8 @@
 package com.doraemon.pocket;
 
 import com.doraemon.pocket.event.BambooCopterTickHandler;
+import com.doraemon.pocket.event.DodgeCloakEvents;
+import com.doraemon.pocket.event.ShockGunStunHandler;
 import com.doraemon.pocket.network.DoraemonPackets;
 import com.doraemon.pocket.registry.ModItemGroups;
 import com.doraemon.pocket.registry.ModItems;
@@ -19,6 +21,8 @@ public class DoraemonPocket implements ModInitializer {
 		ModItemGroups.register();
 		DoraemonPackets.registerServerReceivers();
 		BambooCopterTickHandler.register();
+		ShockGunStunHandler.register();
+		DodgeCloakEvents.register();
 
 		LOGGER.info("Doraemon Pocket initialized.");
 	}

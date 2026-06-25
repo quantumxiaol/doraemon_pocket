@@ -3,6 +3,8 @@ package com.doraemon.pocket.registry;
 import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.item.AirCannonItem;
 import com.doraemon.pocket.item.BambooCopterItem;
+import com.doraemon.pocket.item.DodgeCloakItem;
+import com.doraemon.pocket.item.ShockGunItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -22,6 +24,18 @@ public final class ModItems {
 	public static final Item AIR_CANNON = register(
 			"air_cannon",
 			new AirCannonItem(new FabricItemSettings().maxCount(1).maxDamage(250).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item SHOCK_GUN = register(
+			"shock_gun",
+			new ShockGunItem(new FabricItemSettings().maxCount(1).maxDamage(180).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item DODGE_CLOAK = register(
+			"dodge_cloak",
+			new DodgeCloakItem(
+					ModArmorMaterials.DODGE_CLOAK,
+					ArmorItem.Type.CHESTPLATE,
+					new FabricItemSettings().maxDamage(360).rarity(Rarity.UNCOMMON)
+			)
 	);
 
 	private ModItems() {

@@ -18,6 +18,8 @@ public final class ModItemGroups {
 					.entries((context, entries) -> {
 						entries.add(ModItems.BAMBOO_COPTER);
 						entries.add(ModItems.AIR_CANNON);
+						entries.add(ModItems.SHOCK_GUN);
+						entries.add(ModItems.DODGE_CLOAK);
 					})
 					.build()
 	);

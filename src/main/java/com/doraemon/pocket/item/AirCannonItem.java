@@ -7,7 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -77,6 +79,7 @@ public class AirCannonItem extends Item {
 		}
 
 		double effectiveRange = start.distanceTo(end);
+		spawnAirWaveParticles(world, start, direction, effectiveRange);
 		world.getOtherEntities(user, user.getBoundingBox().stretch(direction.multiply(effectiveRange)).expand(END_RADIUS), AirCannonItem::canHit)
 				.forEach(target -> hitTarget(world, user, target, start, direction, effectiveRange));
 	}
@@ -115,5 +118,19 @@ public class AirCannonItem extends Item {
 
 	private static boolean canHit(Entity entity) {
 		return entity.isAlive() && entity.canHit() && !entity.isSpectator();
+	}
+
+	private static void spawnAirWaveParticles(World world, Vec3d start, Vec3d direction, double effectiveRange) {
+		if (!(world instanceof ServerWorld serverWorld)) {
+			return;
+		}
+
+		int steps = Math.max(4, (int) Math.ceil(effectiveRange));
+		for (int i = 1; i <= steps; i++) {
+			double distance = effectiveRange * i / steps;
+			Vec3d pos = start.add(direction.multiply(distance));
+			double spread = START_RADIUS + (END_RADIUS - START_RADIUS) * (distance / RANGE);
+			serverWorld.spawnParticles(ParticleTypes.CLOUD, pos.x, pos.y, pos.z, 2, spread * 0.15D, spread * 0.08D, spread * 0.15D, 0.01D);
+		}
 	}
 }

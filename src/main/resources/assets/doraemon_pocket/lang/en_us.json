@@ -3,5 +3,9 @@
 	"item.doraemon_pocket.bamboo_copter.tooltip": "Wear it on your head. Hold jump to rise, hold sneak to descend.",
 	"item.doraemon_pocket.air_cannon": "Air Cannon",
 	"item.doraemon_pocket.air_cannon.tooltip": "Right-click to fire an air blast that knocks back entities.",
+	"item.doraemon_pocket.shock_gun": "Shock Gun",
+	"item.doraemon_pocket.shock_gun.tooltip": "Right-click an entity to briefly slow, weaken, suppress jumping, and disable AI.",
+	"item.doraemon_pocket.dodge_cloak": "Dodge Cloak",
+	"item.doraemon_pocket.dodge_cloak.tooltip": "Wear it in the chest slot or hold it for a chance to dodge damage and deflect projectiles.",
 	"itemGroup.doraemon_pocket.tools": "Doraemon Pocket"
 }
