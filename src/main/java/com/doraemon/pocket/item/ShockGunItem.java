@@ -6,8 +6,11 @@ import com.doraemon.pocket.event.ShockGunStunHandler;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.ElderGuardianEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
@@ -33,7 +36,8 @@ public class ShockGunItem extends Item {
 	private static final double RAYCAST_MARGIN = 0.75D;
 	private static final int EFFECT_TICKS = 100;
 	private static final int AI_STUN_TICKS = 100;
-	private static final int COOLDOWN_TICKS = 18;
+	private static final int RESISTANT_EFFECT_TICKS = 40;
+	private static final int COOLDOWN_TICKS = 50;
 
 	public ShockGunItem(Settings settings) {
 		super(settings);
@@ -94,6 +98,13 @@ public class ShockGunItem extends Item {
 			return;
 		}
 
+		if (isResistantTarget(target)) {
+			target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, RESISTANT_EFFECT_TICKS, 4, false, true, true), user);
+			target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, RESISTANT_EFFECT_TICKS, 1, false, true, true), user);
+			spawnImpactParticles(world, target);
+			return;
+		}
+
 		target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, EFFECT_TICKS, 9, false, true, true), user);
 		target.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, EFFECT_TICKS, -10, false, true, true), user);
 		target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, EFFECT_TICKS, 4, false, true, true), user);
@@ -105,13 +116,22 @@ public class ShockGunItem extends Item {
 			mob.setAiDisabled(true);
 		}
 
-		if (world instanceof ServerWorld serverWorld) {
-			serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK, target.getX(), target.getEyeY(), target.getZ(), 18, 0.45D, 0.55D, 0.45D, 0.08D);
-		}
+		spawnImpactParticles(world, target);
 	}
 
 	private static boolean canHit(Entity entity) {
 		return entity instanceof LivingEntity && entity.isAlive() && entity.canHit() && !entity.isSpectator();
+	}
+
+	private static boolean isResistantTarget(LivingEntity target) {
+		return target instanceof EnderDragonEntity || target instanceof WitherEntity || target instanceof ElderGuardianEntity;
+	}
+
+	private static void spawnImpactParticles(World world, LivingEntity target) {
+		if (world instanceof ServerWorld serverWorld) {
+			serverWorld.spawnParticles(ParticleTypes.ELECTRIC_SPARK, target.getX(), target.getEyeY(), target.getZ(), 18, 0.45D, 0.55D, 0.45D, 0.08D);
+			serverWorld.spawnParticles(ParticleTypes.POOF, target.getX(), target.getEyeY(), target.getZ(), 8, 0.35D, 0.45D, 0.35D, 0.02D);
+		}
 	}
 
 	private static void spawnBeamParticles(World world, Vec3d start, Vec3d end) {

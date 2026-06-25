@@ -4,7 +4,7 @@
 	"item.doraemon_pocket.air_cannon": "空气炮",
 	"item.doraemon_pocket.air_cannon.tooltip": "右键发射空气冲击，击退前方实体。",
 	"item.doraemon_pocket.shock_gun": "休克枪",
-	"item.doraemon_pocket.shock_gun.tooltip": "右键命中实体，使其短暂迟缓、虚弱、难以跳跃并停用 AI。",
+	"item.doraemon_pocket.shock_gun.tooltip": "右键使普通怪短暂休克；休克目标受伤会立刻苏醒。",
 	"item.doraemon_pocket.dodge_cloak": "闪避斗篷",
 	"item.doraemon_pocket.dodge_cloak.tooltip": "装备在胸甲栏或拿在手上时，有概率闪避伤害并弹开投射物。",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"
