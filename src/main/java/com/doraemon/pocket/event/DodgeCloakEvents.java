@@ -1,5 +1,10 @@
 package com.doraemon.pocket.event;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
+
 import com.doraemon.pocket.registry.ModItems;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.entity.EquipmentSlot;
@@ -21,7 +26,10 @@ import net.minecraft.util.math.random.Random;
 public final class DodgeCloakEvents {
 	private static final float BASE_DODGE_CHANCE = 0.32F;
 	private static final float PROJECTILE_DODGE_CHANCE = 1.0F;
-	private static final double PROJECTILE_DEFLECT_SPEED = 2.2D;
+	private static final double PROJECTILE_DEFLECT_SPEED = 3.4D;
+	private static final double PROJECTILE_DEFLECT_DISTANCE = 3.0D;
+	private static final int DEFLECTED_PROJECTILE_PROTECTION_TICKS = 200;
+	private static final Map<UUID, DeflectedProjectile> DEFLECTED_PROJECTILES = new HashMap<>();
 
 	private DodgeCloakEvents() {
 	}
@@ -31,12 +39,19 @@ public final class DodgeCloakEvents {
 	}
 
 	private static boolean allowDamage(LivingEntity entity, DamageSource source, float amount) {
+		cleanupDeflectedProjectiles(entity.getWorld().getTime());
+
 		if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			return true;
 		}
 
 		if (EnvironmentalAdaptationEvents.isEnvironmentalDamage(source)) {
 			return true;
+		}
+
+		if (source.getSource() instanceof ProjectileEntity projectile && isProtectedDeflectedProjectile(entity, projectile)) {
+			projectile.discard();
+			return false;
 		}
 
 		CloakStack cloakStack = findCloak(entity);
@@ -54,6 +69,7 @@ public final class DodgeCloakEvents {
 
 		if (projectileDamage && source.getSource() instanceof ProjectileEntity projectile) {
 			deflectProjectile(entity, projectile, random);
+			rememberDeflectedProjectile(entity, projectile);
 		}
 
 		playDodgeFeedback(entity);
@@ -85,10 +101,11 @@ public final class DodgeCloakEvents {
 				? projectile.getVelocity().normalize().negate()
 				: entity.getRotationVec(1.0F);
 		Vec3d jitter = new Vec3d(random.nextDouble() - 0.5D, random.nextDouble() * 0.35D, random.nextDouble() - 0.5D).multiply(0.55D);
-		Vec3d deflected = baseDirection.add(jitter).normalize().multiply(PROJECTILE_DEFLECT_SPEED);
+		Vec3d deflected = baseDirection.add(jitter).normalize().multiply(PROJECTILE_DEFLECT_SPEED).add(0.0D, 0.35D, 0.0D);
+		Vec3d deflectedDirection = deflected.normalize();
 
 		projectile.setOwner(entity);
-		projectile.refreshPositionAfterTeleport(entity.getEyePos().add(deflected.normalize().multiply(1.2D)));
+		projectile.refreshPositionAfterTeleport(entity.getEyePos().add(deflectedDirection.multiply(PROJECTILE_DEFLECT_DISTANCE)));
 		projectile.setVelocity(deflected);
 		if (projectile instanceof ExplosiveProjectileEntity explosiveProjectile) {
 			explosiveProjectile.powerX = deflected.x * 0.1D;
@@ -96,6 +113,33 @@ public final class DodgeCloakEvents {
 			explosiveProjectile.powerZ = deflected.z * 0.1D;
 		}
 		projectile.velocityModified = true;
+	}
+
+	private static void rememberDeflectedProjectile(LivingEntity entity, ProjectileEntity projectile) {
+		DEFLECTED_PROJECTILES.put(projectile.getUuid(), new DeflectedProjectile(entity.getUuid(), entity.getWorld().getTime() + DEFLECTED_PROJECTILE_PROTECTION_TICKS));
+	}
+
+	private static boolean isProtectedDeflectedProjectile(LivingEntity entity, ProjectileEntity projectile) {
+		DeflectedProjectile deflectedProjectile = DEFLECTED_PROJECTILES.get(projectile.getUuid());
+		if (deflectedProjectile == null) {
+			return false;
+		}
+
+		if (entity.getWorld().getTime() > deflectedProjectile.expiresAt()) {
+			DEFLECTED_PROJECTILES.remove(projectile.getUuid());
+			return false;
+		}
+
+		return deflectedProjectile.protectedEntity().equals(entity.getUuid());
+	}
+
+	private static void cleanupDeflectedProjectiles(long currentTime) {
+		Iterator<Map.Entry<UUID, DeflectedProjectile>> iterator = DEFLECTED_PROJECTILES.entrySet().iterator();
+		while (iterator.hasNext()) {
+			if (currentTime > iterator.next().getValue().expiresAt()) {
+				iterator.remove();
+			}
+		}
 	}
 
 	private static void playDodgeFeedback(LivingEntity entity) {
@@ -117,5 +161,8 @@ public final class DodgeCloakEvents {
 	}
 
 	private record CloakStack(ItemStack stack, EquipmentSlot slot, Hand hand) {
+	}
+
+	private record DeflectedProjectile(UUID protectedEntity, long expiresAt) {
 	}
 }

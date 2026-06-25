@@ -36,7 +36,7 @@ public final class ModItems {
 			new DodgeCloakItem(
 					ModArmorMaterials.DODGE_CLOAK,
 					ArmorItem.Type.CHESTPLATE,
-					new FabricItemSettings().maxDamage(360).rarity(Rarity.UNCOMMON)
+					new FabricItemSettings().maxDamage(720).rarity(Rarity.UNCOMMON)
 			)
 	);
 	public static final Item TIME_CLOTH = register(
