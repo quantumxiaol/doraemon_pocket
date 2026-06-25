@@ -1,10 +1,12 @@
 package com.doraemon.pocket.registry;
 
 import com.doraemon.pocket.DoraemonPocket;
+import com.doraemon.pocket.item.AdaptationLightItem;
 import com.doraemon.pocket.item.AirCannonItem;
 import com.doraemon.pocket.item.BambooCopterItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
 import com.doraemon.pocket.item.ShockGunItem;
+import com.doraemon.pocket.item.TimeClothItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
@@ -36,6 +38,14 @@ public final class ModItems {
 					ArmorItem.Type.CHESTPLATE,
 					new FabricItemSettings().maxDamage(360).rarity(Rarity.UNCOMMON)
 			)
+	);
+	public static final Item TIME_CLOTH = register(
+			"time_cloth",
+			new TimeClothItem(new FabricItemSettings().maxCount(1).maxDamage(128).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item ADAPTATION_LIGHT = register(
+			"adaptation_light",
+			new AdaptationLightItem(new FabricItemSettings().maxCount(1).rarity(Rarity.UNCOMMON))
 	);
 
 	private ModItems() {

@@ -7,5 +7,10 @@
 	"item.doraemon_pocket.shock_gun.tooltip": "右键使普通怪短暂休克；休克目标受伤会立刻苏醒。",
 	"item.doraemon_pocket.dodge_cloak": "闪避斗篷",
 	"item.doraemon_pocket.dodge_cloak.tooltip": "装备在胸甲栏或拿在手上时，有概率闪避伤害并弹开投射物。",
+	"item.doraemon_pocket.time_cloth": "时光包袱皮",
+	"item.doraemon_pocket.time_cloth.tooltip": "一手拿包袱皮，另一手拿受损物品，右键消耗 30 点经验修复。",
+	"item.doraemon_pocket.adaptation_light": "适应灯",
+	"item.doraemon_pocket.adaptation_light.tooltip": "放在背包或手上时，持续赋予环境适应效果。",
+	"effect.doraemon_pocket.environmental_adaptation": "环境适应",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"
 }

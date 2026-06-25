@@ -2,10 +2,13 @@ package com.doraemon.pocket;
 
 import com.doraemon.pocket.event.BambooCopterTickHandler;
 import com.doraemon.pocket.event.DodgeCloakEvents;
+import com.doraemon.pocket.event.EnvironmentalAdaptationEvents;
 import com.doraemon.pocket.event.ShockGunStunHandler;
+import com.doraemon.pocket.event.TimeClothUseHandler;
 import com.doraemon.pocket.network.DoraemonPackets;
 import com.doraemon.pocket.registry.ModItemGroups;
 import com.doraemon.pocket.registry.ModItems;
+import com.doraemon.pocket.registry.ModStatusEffects;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -17,11 +20,14 @@ public class DoraemonPocket implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModStatusEffects.register();
 		ModItems.register();
 		ModItemGroups.register();
 		DoraemonPackets.registerServerReceivers();
 		BambooCopterTickHandler.register();
 		ShockGunStunHandler.register();
+		TimeClothUseHandler.register();
+		EnvironmentalAdaptationEvents.register();
 		DodgeCloakEvents.register();
 
 		LOGGER.info("Doraemon Pocket initialized.");

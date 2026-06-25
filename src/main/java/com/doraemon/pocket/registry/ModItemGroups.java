@@ -20,6 +20,8 @@ public final class ModItemGroups {
 						entries.add(ModItems.AIR_CANNON);
 						entries.add(ModItems.SHOCK_GUN);
 						entries.add(ModItems.DODGE_CLOAK);
+						entries.add(ModItems.TIME_CLOTH);
+						entries.add(ModItems.ADAPTATION_LIGHT);
 					})
 					.build()
 	);

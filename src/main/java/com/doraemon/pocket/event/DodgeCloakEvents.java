@@ -35,6 +35,10 @@ public final class DodgeCloakEvents {
 			return true;
 		}
 
+		if (EnvironmentalAdaptationEvents.isEnvironmentalDamage(source)) {
+			return true;
+		}
+
 		CloakStack cloakStack = findCloak(entity);
 		if (cloakStack == null) {
 			return true;

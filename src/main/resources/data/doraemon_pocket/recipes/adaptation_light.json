@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" G ",
+		"CLC",
+		" R "
+	],
+	"key": {
+		"G": {
+			"item": "minecraft:glowstone_dust"
+		},
+		"C": {
+			"item": "minecraft:copper_ingot"
+		},
+		"L": {
+			"item": "minecraft:lantern"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:adaptation_light",
+		"count": 1
+	}
+}

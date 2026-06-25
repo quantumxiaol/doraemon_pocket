@@ -7,5 +7,10 @@
 	"item.doraemon_pocket.shock_gun.tooltip": "Right-click to stun normal mobs; stunned targets wake up when damaged.",
 	"item.doraemon_pocket.dodge_cloak": "Dodge Cloak",
 	"item.doraemon_pocket.dodge_cloak.tooltip": "Wear it in the chest slot or hold it for a chance to dodge damage and deflect projectiles.",
+	"item.doraemon_pocket.time_cloth": "Time Cloth",
+	"item.doraemon_pocket.time_cloth.tooltip": "Hold it in one hand and a damaged item in the other, then right-click to spend 30 XP repairing it.",
+	"item.doraemon_pocket.adaptation_light": "Adaptation Light",
+	"item.doraemon_pocket.adaptation_light.tooltip": "Keep it in inventory or hand to maintain environmental adaptation.",
+	"effect.doraemon_pocket.environmental_adaptation": "Environmental Adaptation",
 	"itemGroup.doraemon_pocket.tools": "Doraemon Pocket"
 }
