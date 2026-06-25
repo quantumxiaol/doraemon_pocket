@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"PPP",
+		" S ",
+		" S "
+	],
+	"key": {
+		"P": {
+			"item": "minecraft:bamboo"
+		},
+		"S": {
+			"item": "minecraft:string"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:bamboo_copter",
+		"count": 1
+	}
+}

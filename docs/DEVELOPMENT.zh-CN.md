@@ -1,0 +1,68 @@
+# 开发说明
+
+本文档面向开发者，用于本地构建、运行和实机测试。
+
+## 环境
+
+项目配置为：
+
+- Minecraft 1.20.1
+- Fabric Loader
+- Fabric API `0.92.9+1.20.1`
+- Gradle/Loom 使用 JDK 21 运行
+- Mod 字节码保持 Java 17 兼容
+
+VS Code 已在本地 `.vscode/settings.json` 指向本机 JDK 21 路径。这个配置不会修改 shell 环境变量，并且 `.vscode/` 当前被 `.gitignore` 忽略，不会提交本机路径。
+
+## 构建
+
+使用项目自带的 Gradle Wrapper，不需要全局安装 Gradle：
+
+```bash
+JAVA_HOME="$(/usr/libexec/java_home -v 21)" ./gradlew build
+```
+
+这只是给单次命令指定 JDK 21，不会修改全局环境变量。
+
+构建成功后，可用于实机测试的 Mod jar 位于：
+
+```text
+build/libs/doraemon_pocket-1.0.0.jar
+```
+
+不要使用：
+
+```text
+build/libs/doraemon_pocket-1.0.0-sources.jar
+```
+
+那个是源码包。
+
+## 开发客户端
+
+```bash
+JAVA_HOME="$(/usr/libexec/java_home -v 21)" ./gradlew runClient
+```
+
+## 实机测试
+
+把下面两个 jar 放进同一个 Minecraft `mods/` 文件夹：
+
+```text
+doraemon_pocket-1.0.0.jar
+fabric-api-0.92.9+1.20.1.jar
+```
+
+建议重点测试：
+
+- 创造模式物品栏是否出现 `Doraemon Pocket` 分组。
+- 是否能拿到“竹蜻蜓”。
+- 戴到头盔栏后，跳跃键是否上升。
+- 戴到头盔栏后，潜行键是否下降。
+- 空中按住前后左右移动键时，是否能按视角方向前进和转向。
+- 高处落下是否不会受到摔落伤害。
+- 生存模式主动飞行时耐久是否会消耗。
+
+## 资源来源
+
+竹蜻蜓的物品贴图、实体贴图和头戴模型结构参考自 `teaconmc/DoraemonProps`。该仓库根目录当前没有看到明确的 `LICENSE` 文件；如果后续准备公开发布整合这些资源的版本，建议先确认资源授权或重做自有美术资源。
