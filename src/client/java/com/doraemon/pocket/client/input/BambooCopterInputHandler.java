@@ -10,7 +10,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
 
 public final class BambooCopterInputHandler {
+	private static final int HEARTBEAT_INTERVAL_TICKS = 10;
+
 	private static boolean sentIdleControl = true;
+	private static BambooCopterControl lastSentControl = BambooCopterControl.IDLE;
+	private static int ticksSinceLastSend = HEARTBEAT_INTERVAL_TICKS;
 
 	private BambooCopterInputHandler() {
 	}
@@ -21,25 +25,31 @@ public final class BambooCopterInputHandler {
 
 	private static void tick(MinecraftClient client) {
 		if (client.player == null || client.getNetworkHandler() == null) {
-			sentIdleControl = true;
+			resetSentState();
 			return;
 		}
 
 		if (BambooCopterItem.isEquipped(client.player)) {
-			send(BambooCopterControl.fromInput(
+			BambooCopterControl control = BambooCopterControl.fromInput(
 					client.player.input.jumping,
 					client.player.input.sneaking,
 					client.player.input.movementForward,
-					client.player.input.movementSideways,
-					client.player.getYaw()
-			));
-			sentIdleControl = false;
+					client.player.input.movementSideways
+			);
+			if (!control.equals(lastSentControl) || ticksSinceLastSend >= HEARTBEAT_INTERVAL_TICKS) {
+				send(control);
+				lastSentControl = control;
+				ticksSinceLastSend = 0;
+				sentIdleControl = control.isIdle();
+			} else {
+				ticksSinceLastSend++;
+			}
 			return;
 		}
 
 		if (!sentIdleControl) {
 			send(BambooCopterControl.IDLE);
-			sentIdleControl = true;
+			resetSentState();
 		}
 	}
 
@@ -47,5 +57,11 @@ public final class BambooCopterInputHandler {
 		PacketByteBuf buf = PacketByteBufs.create();
 		control.write(buf);
 		ClientPlayNetworking.send(DoraemonPackets.BAMBOO_COPTER_CONTROL, buf);
+	}
+
+	private static void resetSentState() {
+		sentIdleControl = true;
+		lastSentControl = BambooCopterControl.IDLE;
+		ticksSinceLastSend = HEARTBEAT_INTERVAL_TICKS;
 	}
 }

@@ -21,5 +21,6 @@
 	"item.doraemon_pocket.depleted_radar_sword.tooltip": "自动防御功能耗尽，但仍可以当剑使用。",
 	"item.doraemon_pocket.dorayaki": "铜锣烧",
 	"effect.doraemon_pocket.environmental_adaptation": "环境适应",
+	"effect.doraemon_pocket.stunned": "休克",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"
 }

@@ -2,7 +2,7 @@ package com.doraemon.pocket.item;
 
 import java.util.List;
 
-import com.doraemon.pocket.event.ShockGunStunHandler;
+import com.doraemon.pocket.registry.ModStatusEffects;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -35,7 +35,6 @@ public class ShockGunItem extends Item {
 	private static final double RANGE = 12.0D;
 	private static final double RAYCAST_MARGIN = 0.75D;
 	private static final int EFFECT_TICKS = 100;
-	private static final int AI_STUN_TICKS = 100;
 	private static final int RESISTANT_EFFECT_TICKS = 40;
 	private static final int COOLDOWN_TICKS = 50;
 
@@ -105,15 +104,12 @@ public class ShockGunItem extends Item {
 			return;
 		}
 
-		target.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, EFFECT_TICKS, 9, false, true, true), user);
-		target.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, EFFECT_TICKS, -10, false, true, true), user);
+		target.addStatusEffect(new StatusEffectInstance(ModStatusEffects.STUNNED, EFFECT_TICKS, 0, false, true, true), user);
 		target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, EFFECT_TICKS, 4, false, true, true), user);
 
 		if (target instanceof MobEntity mob) {
 			mob.setTarget(null);
 			mob.getNavigation().stop();
-			ShockGunStunHandler.stun(mob, AI_STUN_TICKS);
-			mob.setAiDisabled(true);
 		}
 
 		spawnImpactParticles(world, target);

@@ -12,6 +12,7 @@ import net.minecraft.util.Identifier;
 
 public final class StoneHatArmorRenderer {
 	private static final Identifier TEXTURE = DoraemonPocket.id("textures/models/armor/stone_hat_layer_1.png");
+	private static ArmorEntityModel<LivingEntity> model;
 
 	private StoneHatArmorRenderer() {
 	}
@@ -22,14 +23,21 @@ public final class StoneHatArmorRenderer {
 				return;
 			}
 
-			ArmorEntityModel<LivingEntity> model = new ArmorEntityModel<>(
+			ArmorEntityModel<LivingEntity> stoneHatModel = getModel();
+			contextModel.copyBipedStateTo(stoneHatModel);
+			stoneHatModel.setVisible(false);
+			stoneHatModel.head.visible = true;
+			stoneHatModel.hat.visible = true;
+			ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, stoneHatModel, TEXTURE);
+		}, ModItems.STONE_HAT);
+	}
+
+	private static ArmorEntityModel<LivingEntity> getModel() {
+		if (model == null) {
+			model = new ArmorEntityModel<>(
 					MinecraftClient.getInstance().getEntityModelLoader().getModelPart(EntityModelLayers.PLAYER_OUTER_ARMOR)
 			);
-			contextModel.copyBipedStateTo(model);
-			model.setVisible(false);
-			model.head.visible = true;
-			model.hat.visible = true;
-			ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, model, TEXTURE);
-		}, ModItems.STONE_HAT);
+		}
+		return model;
 	}
 }

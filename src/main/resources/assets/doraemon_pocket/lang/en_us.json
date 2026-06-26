@@ -21,5 +21,6 @@
 	"item.doraemon_pocket.depleted_radar_sword.tooltip": "Its auto-defense power is drained, but it still works as a sword.",
 	"item.doraemon_pocket.dorayaki": "Dorayaki",
 	"effect.doraemon_pocket.environmental_adaptation": "Environmental Adaptation",
+	"effect.doraemon_pocket.stunned": "Stunned",
 	"itemGroup.doraemon_pocket.tools": "Doraemon Pocket"
 }

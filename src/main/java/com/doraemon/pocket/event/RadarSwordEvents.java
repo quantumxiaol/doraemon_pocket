@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.doraemon.pocket.registry.ModItems;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -42,8 +43,13 @@ public final class RadarSwordEvents {
 	}
 
 	public static void register() {
-		ServerTickEvents.START_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(RadarSwordEvents::tickPrimedCreeper));
-		ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(RadarSwordEvents::tickPlayer));
+		ServerTickEvents.END_SERVER_TICK.register(server -> {
+			if (server.getTicks() % 20 == 0) {
+				cleanupDeflectedProjectiles(server.getTicks());
+			}
+			server.getPlayerManager().getPlayerList().forEach(RadarSwordEvents::tickPlayer);
+		});
+		ServerLifecycleEvents.SERVER_STOPPED.register(server -> DEFLECTED_PROJECTILES.clear());
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(RadarSwordEvents::allowDamage);
 	}
 
@@ -53,25 +59,21 @@ public final class RadarSwordEvents {
 			return;
 		}
 
-		long time = player.getWorld().getTime();
-		cleanupDeflectedProjectiles(time);
-		Box box = player.getBoundingBox().expand(PROJECTILE_SCAN_RANGE);
-		for (Entity entity : player.getWorld().getOtherEntities(player, box, entity -> entity instanceof ProjectileEntity)) {
-			ProjectileEntity projectile = (ProjectileEntity) entity;
-			if (shouldDeflectProjectile(player, projectile, time)) {
-				deflectProjectile(player, projectile);
-				playParryFeedback(player);
-				damageRadarSword(player, swordStack, PROJECTILE_DURABILITY_COST);
-				return;
+		long time = player.getServerWorld().getServer().getTicks();
+		if (player.age % 2 == 0) {
+			Box box = player.getBoundingBox().expand(PROJECTILE_SCAN_RANGE);
+			for (Entity entity : player.getWorld().getOtherEntities(player, box, entity -> entity instanceof ProjectileEntity)) {
+				ProjectileEntity projectile = (ProjectileEntity) entity;
+				if (shouldDeflectProjectile(player, projectile, time)) {
+					deflectProjectile(player, projectile);
+					playParryFeedback(player);
+					damageRadarSword(player, swordStack, PROJECTILE_DURABILITY_COST);
+					return;
+				}
 			}
 		}
 
-		counterNearestPrimedCreeper(player, swordStack);
-	}
-
-	private static void tickPrimedCreeper(ServerPlayerEntity player) {
-		RadarSwordStack swordStack = findRadarSword(player);
-		if (swordStack != null) {
+		if (player.age % 5 == 0) {
 			counterNearestPrimedCreeper(player, swordStack);
 		}
 	}
@@ -195,7 +197,7 @@ public final class RadarSwordEvents {
 			explosiveProjectile.powerZ = deflected.z * 0.1D;
 		}
 		projectile.velocityModified = true;
-		DEFLECTED_PROJECTILES.put(projectile.getUuid(), player.getWorld().getTime() + DEFLECTED_PROJECTILE_COOLDOWN_TICKS);
+		DEFLECTED_PROJECTILES.put(projectile.getUuid(), (long) player.getServerWorld().getServer().getTicks() + DEFLECTED_PROJECTILE_COOLDOWN_TICKS);
 	}
 
 	private static void turnPlayerToFace(ServerPlayerEntity player, LivingEntity target) {

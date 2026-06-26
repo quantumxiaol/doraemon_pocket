@@ -36,7 +36,7 @@ public final class BambooCopterTickHandler {
 			return;
 		}
 
-		BambooCopterControl control = DoraemonPackets.getBambooCopterControl(player.getUuid());
+		BambooCopterControl control = DoraemonPackets.getBambooCopterControl(player);
 		applyFlight(player, control);
 		damageCopter(player, copter, control);
 	}
@@ -56,7 +56,7 @@ public final class BambooCopterTickHandler {
 			nextYVelocity = HOVER_FALL_SPEED;
 		}
 
-		Vec3d horizontalMovement = getHorizontalMovement(control);
+		Vec3d horizontalMovement = getHorizontalMovement(control, player.getYaw());
 		if (horizontalMovement.lengthSquared() > 0.0D) {
 			nextXVelocity += horizontalMovement.x * HORIZONTAL_ACCELERATION;
 			nextZVelocity += horizontalMovement.z * HORIZONTAL_ACCELERATION;
@@ -80,7 +80,7 @@ public final class BambooCopterTickHandler {
 		player.fallDistance = 0.0F;
 	}
 
-	private static Vec3d getHorizontalMovement(BambooCopterControl control) {
+	private static Vec3d getHorizontalMovement(BambooCopterControl control, float yaw) {
 		double forward = control.forward();
 		double sideways = control.sideways();
 
@@ -88,7 +88,7 @@ public final class BambooCopterTickHandler {
 			return Vec3d.ZERO;
 		}
 
-		double yawRadians = Math.toRadians(control.yaw());
+		double yawRadians = Math.toRadians(yaw);
 		double sin = Math.sin(yawRadians);
 		double cos = Math.cos(yawRadians);
 		double x = sideways * cos - forward * sin;

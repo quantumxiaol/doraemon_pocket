@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.entity.Entity;
@@ -15,12 +16,14 @@ import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 public final class MomotaroObedienceHandler {
 	private static final int DURATION_TICKS = 20 * 60;
@@ -31,6 +34,9 @@ public final class MomotaroObedienceHandler {
 	private static final float MIN_RIDE_WIDTH = 0.8F;
 	private static final float MIN_RIDE_HEIGHT = 0.9F;
 	private static final double RIDE_SPEED = 0.34D;
+	private static final int REPATH_INTERVAL_TICKS = 10;
+	private static final double OWNER_REPATH_DISTANCE_SQUARED = 2.0D * 2.0D;
+	private static final int MAX_OBEDIENT_ENTITIES_PER_PLAYER = 16;
 	private static final Map<UUID, ObedienceState> OBEDIENT_ENTITIES = new HashMap<>();
 
 	private MomotaroObedienceHandler() {
@@ -38,6 +44,8 @@ public final class MomotaroObedienceHandler {
 
 	public static void register() {
 		ServerTickEvents.END_SERVER_TICK.register(MomotaroObedienceHandler::tick);
+		ServerLifecycleEvents.SERVER_STOPPING.register(MomotaroObedienceHandler::releaseLoadedStates);
+		ServerLifecycleEvents.SERVER_STOPPED.register(server -> OBEDIENT_ENTITIES.clear());
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(MomotaroObedienceHandler::allowDamage);
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
 			if (world.isClient() || !(player instanceof ServerPlayerEntity serverPlayer) || !(entity instanceof LivingEntity livingEntity)) {
@@ -66,13 +74,19 @@ public final class MomotaroObedienceHandler {
 			return tryMount(player, entity) ? UseResult.MOUNTED : UseResult.ALREADY_ACTIVE;
 		}
 
+		if (isPermanentlyTameable(entity)) {
+			return applyPermanentTaming(player, entity);
+		}
+
 		if (!canTemporarilyControl(player, entity)) {
+			return UseResult.FAILED;
+		}
+		if (countObedientEntities(player.getUuid()) >= MAX_OBEDIENT_ENTITIES_PER_PLAYER) {
 			return UseResult.FAILED;
 		}
 
 		ObedienceState state = ObedienceState.capture(player, entity);
 		OBEDIENT_ENTITIES.put(entityUuid, state);
-		applyTemporaryTaming(player, entity);
 		clearHostility(entity);
 		return UseResult.APPLIED;
 	}
@@ -93,13 +107,19 @@ public final class MomotaroObedienceHandler {
 			return UseResult.APPLIED;
 		}
 
+		if (isPermanentlyTameable(entity)) {
+			return applyPermanentTaming(player, entity);
+		}
+
 		if (!canTemporarilyControl(player, entity)) {
+			return UseResult.FAILED;
+		}
+		if (countObedientEntities(player.getUuid()) >= MAX_OBEDIENT_ENTITIES_PER_PLAYER) {
 			return UseResult.FAILED;
 		}
 
 		ObedienceState state = ObedienceState.capture(player, entity);
 		OBEDIENT_ENTITIES.put(entityUuid, state);
-		applyTemporaryTaming(player, entity);
 		clearHostility(entity);
 		return UseResult.APPLIED;
 	}
@@ -108,8 +128,8 @@ public final class MomotaroObedienceHandler {
 		Iterator<Map.Entry<UUID, ObedienceState>> iterator = OBEDIENT_ENTITIES.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<UUID, ObedienceState> entry = iterator.next();
-			Entity entity = findEntity(server, entry.getKey());
 			ObedienceState state = entry.getValue();
+			Entity entity = findEntity(server, state.worldKey, entry.getKey());
 
 			if (!(entity instanceof LivingEntity livingEntity) || !livingEntity.isAlive()) {
 				iterator.remove();
@@ -131,9 +151,19 @@ public final class MomotaroObedienceHandler {
 			if (livingEntity.getPassengerList().contains(owner)) {
 				controlMountedEntity(livingEntity, owner);
 			} else {
-				followOwner(livingEntity, owner);
+				followOwner(livingEntity, owner, state);
 			}
 		}
+	}
+
+	private static void releaseLoadedStates(MinecraftServer server) {
+		for (Map.Entry<UUID, ObedienceState> entry : OBEDIENT_ENTITIES.entrySet()) {
+			Entity entity = findEntity(server, entry.getValue().worldKey, entry.getKey());
+			if (entity instanceof LivingEntity livingEntity) {
+				release(livingEntity, entry.getValue());
+			}
+		}
+		OBEDIENT_ENTITIES.clear();
 	}
 
 	private static ActionResult interactObedientEntity(ServerPlayerEntity player, LivingEntity entity) {
@@ -166,31 +196,44 @@ public final class MomotaroObedienceHandler {
 	}
 
 	private static boolean canTemporarilyControl(ServerPlayerEntity player, LivingEntity entity) {
+		return entity instanceof MobEntity && !isPermanentlyTameable(entity);
+	}
+
+	private static boolean isPermanentlyTameable(LivingEntity entity) {
+		return entity instanceof TameableEntity || entity instanceof AbstractHorseEntity;
+	}
+
+	private static UseResult applyPermanentTaming(ServerPlayerEntity player, LivingEntity entity) {
 		if (entity instanceof TameableEntity tameable) {
 			UUID ownerUuid = tameable.getOwnerUuid();
-			return !tameable.isTamed() || ownerUuid == null || ownerUuid.equals(player.getUuid());
+			if (tameable.isTamed() && ownerUuid != null && !ownerUuid.equals(player.getUuid())) {
+				return UseResult.FAILED;
+			}
+			if (tameable.isTamed() && player.getUuid().equals(ownerUuid)) {
+				return tryMount(player, entity) ? UseResult.MOUNTED : UseResult.ALREADY_ACTIVE;
+			}
+			tameable.setSitting(false);
+			tameable.setOwner(player);
+			clearHostility(entity);
+			return UseResult.APPLIED;
 		}
 
 		if (entity instanceof AbstractHorseEntity horse) {
 			UUID ownerUuid = horse.getOwnerUuid();
-			return !horse.isTame() || ownerUuid == null || ownerUuid.equals(player.getUuid());
-		}
-
-		return entity instanceof MobEntity;
-	}
-
-	private static void applyTemporaryTaming(ServerPlayerEntity player, LivingEntity entity) {
-		if (entity instanceof TameableEntity tameable) {
-			tameable.setSitting(false);
-			tameable.setOwner(player);
-			return;
-		}
-
-		if (entity instanceof AbstractHorseEntity horse) {
+			if (horse.isTame() && ownerUuid != null && !ownerUuid.equals(player.getUuid())) {
+				return UseResult.FAILED;
+			}
+			if (horse.isTame() && player.getUuid().equals(ownerUuid)) {
+				return tryMount(player, entity) ? UseResult.MOUNTED : UseResult.ALREADY_ACTIVE;
+			}
 			horse.setTame(true);
 			horse.setOwnerUuid(player.getUuid());
 			horse.setAngry(false);
+			clearHostility(entity);
+			return UseResult.APPLIED;
 		}
+
+		return UseResult.FAILED;
 	}
 
 	private static void release(LivingEntity entity, ObedienceState state) {
@@ -203,17 +246,6 @@ public final class MomotaroObedienceHandler {
 		}
 		entity.setAttacker(null);
 
-		if (entity instanceof TameableEntity tameable && state.tameableState != null) {
-			tameable.setSitting(state.tameableState.sitting);
-			tameable.setTamed(state.tameableState.tamed);
-			tameable.setOwnerUuid(state.tameableState.ownerUuid);
-		}
-
-		if (entity instanceof AbstractHorseEntity horse && state.horseState != null) {
-			horse.setTame(state.horseState.tame);
-			horse.setOwnerUuid(state.horseState.ownerUuid);
-			horse.setAngry(state.horseState.angry);
-		}
 		entity.setStepHeight(state.stepHeight);
 	}
 
@@ -299,7 +331,7 @@ public final class MomotaroObedienceHandler {
 		}
 	}
 
-	private static void followOwner(LivingEntity entity, ServerPlayerEntity owner) {
+	private static void followOwner(LivingEntity entity, ServerPlayerEntity owner, ObedienceState state) {
 		if (!(entity instanceof MobEntity mob)) {
 			return;
 		}
@@ -311,18 +343,32 @@ public final class MomotaroObedienceHandler {
 		}
 		if (distanceSquared <= FOLLOW_MAX_DISTANCE_SQUARED && distanceSquared >= FOLLOW_START_DISTANCE_SQUARED) {
 			mob.getLookControl().lookAt(owner, 30.0F, 30.0F);
-			mob.getNavigation().startMovingTo(owner, FOLLOW_SPEED);
+			long time = mob.getWorld().getTime();
+			boolean ownerMoved = state.lastOwnerTargetPos == null || state.lastOwnerTargetPos.squaredDistanceTo(owner.getPos()) >= OWNER_REPATH_DISTANCE_SQUARED;
+			if (time >= state.nextRepathTick || mob.getNavigation().isIdle() || ownerMoved) {
+				mob.getNavigation().startMovingTo(owner, FOLLOW_SPEED);
+				state.nextRepathTick = time + REPATH_INTERVAL_TICKS;
+				state.lastOwnerTargetPos = owner.getPos();
+			}
 		}
 	}
 
-	private static Entity findEntity(MinecraftServer server, UUID uuid) {
-		for (ServerWorld world : server.getWorlds()) {
-			Entity entity = world.getEntity(uuid);
-			if (entity != null) {
-				return entity;
+	private static Entity findEntity(MinecraftServer server, RegistryKey<World> worldKey, UUID uuid) {
+		ServerWorld world = server.getWorld(worldKey);
+		if (world == null) {
+			return null;
+		}
+		return world.getEntity(uuid);
+	}
+
+	private static int countObedientEntities(UUID ownerUuid) {
+		int count = 0;
+		for (ObedienceState state : OBEDIENT_ENTITIES.values()) {
+			if (state.ownerUuid.equals(ownerUuid)) {
+				count++;
 			}
 		}
-		return null;
+		return count;
 	}
 
 	public enum UseResult {
@@ -333,25 +379,28 @@ public final class MomotaroObedienceHandler {
 		FAILED
 	}
 
-	private record ObedienceState(UUID ownerUuid, long expiresAt, TameableState tameableState, HorseState horseState, float stepHeight) {
-		ObedienceState withRefreshedDuration(long refreshedExpiresAt) {
-			return new ObedienceState(ownerUuid, refreshedExpiresAt, tameableState, horseState, stepHeight);
+	private static final class ObedienceState {
+		private final UUID ownerUuid;
+		private final RegistryKey<World> worldKey;
+		private final float stepHeight;
+		private long expiresAt;
+		private long nextRepathTick;
+		private Vec3d lastOwnerTargetPos;
+
+		private ObedienceState(UUID ownerUuid, RegistryKey<World> worldKey, long expiresAt, float stepHeight) {
+			this.ownerUuid = ownerUuid;
+			this.worldKey = worldKey;
+			this.expiresAt = expiresAt;
+			this.stepHeight = stepHeight;
 		}
 
-		static ObedienceState capture(ServerPlayerEntity player, LivingEntity entity) {
-			TameableState tameableState = entity instanceof TameableEntity tameable
-					? new TameableState(tameable.isTamed(), tameable.getOwnerUuid(), tameable.isSitting())
-					: null;
-			HorseState horseState = entity instanceof AbstractHorseEntity horse
-					? new HorseState(horse.isTame(), horse.getOwnerUuid(), horse.isAngry())
-					: null;
-			return new ObedienceState(player.getUuid(), entity.getWorld().getTime() + DURATION_TICKS, tameableState, horseState, entity.getStepHeight());
+		private ObedienceState withRefreshedDuration(long refreshedExpiresAt) {
+			expiresAt = refreshedExpiresAt;
+			return this;
 		}
-	}
 
-	private record TameableState(boolean tamed, UUID ownerUuid, boolean sitting) {
-	}
-
-	private record HorseState(boolean tame, UUID ownerUuid, boolean angry) {
+		private static ObedienceState capture(ServerPlayerEntity player, LivingEntity entity) {
+			return new ObedienceState(player.getUuid(), entity.getWorld().getRegistryKey(), entity.getWorld().getTime() + DURATION_TICKS, entity.getStepHeight());
+		}
 	}
 }

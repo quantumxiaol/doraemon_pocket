@@ -27,7 +27,6 @@ public final class StoneHatEvents {
 	}
 
 	public static void register() {
-		ServerTickEvents.START_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(StoneHatEvents::tickPlayer));
 		ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(StoneHatEvents::tickPlayer));
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(StoneHatEvents::allowDamage);
 	}
@@ -43,6 +42,10 @@ public final class StoneHatEvents {
 			return;
 		}
 
+		if (player.age % 5 != 0) {
+			return;
+		}
+
 		Box box = player.getBoundingBox().expand(IGNORE_RANGE);
 		player.getWorld().getOtherEntities(player, box, entity -> entity instanceof MobEntity)
 				.forEach(entity -> makeMobIgnorePlayer((MobEntity) entity, player));
@@ -53,14 +56,14 @@ public final class StoneHatEvents {
 			return true;
 		}
 
-		Entity attacker = source.getAttacker();
-		if (attacker instanceof MobEntity) {
-			return false;
-		}
-
 		Entity sourceEntity = source.getSource();
 		if (sourceEntity instanceof ProjectileEntity projectile && projectile.getOwner() instanceof MobEntity) {
 			projectile.discard();
+			return false;
+		}
+
+		Entity attacker = source.getAttacker();
+		if (attacker instanceof MobEntity) {
 			return false;
 		}
 

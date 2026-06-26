@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import com.doraemon.pocket.registry.ModItems;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -35,12 +37,16 @@ public final class DodgeCloakEvents {
 	}
 
 	public static void register() {
+		ServerTickEvents.END_SERVER_TICK.register(server -> {
+			if (server.getTicks() % 20 == 0) {
+				cleanupDeflectedProjectiles(server.getTicks());
+			}
+		});
+		ServerLifecycleEvents.SERVER_STOPPED.register(server -> DEFLECTED_PROJECTILES.clear());
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(DodgeCloakEvents::allowDamage);
 	}
 
 	private static boolean allowDamage(LivingEntity entity, DamageSource source, float amount) {
-		cleanupDeflectedProjectiles(entity.getWorld().getTime());
-
 		if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			return true;
 		}
@@ -60,6 +66,10 @@ public final class DodgeCloakEvents {
 		}
 
 		boolean projectileDamage = source.isIn(DamageTypeTags.IS_PROJECTILE) || source.getSource() instanceof ProjectileEntity;
+		if (!projectileDamage && source.getAttacker() == null) {
+			return true;
+		}
+
 		float chance = projectileDamage ? PROJECTILE_DODGE_CHANCE : BASE_DODGE_CHANCE;
 		Random random = entity.getWorld().getRandom();
 
@@ -116,7 +126,10 @@ public final class DodgeCloakEvents {
 	}
 
 	private static void rememberDeflectedProjectile(LivingEntity entity, ProjectileEntity projectile) {
-		DEFLECTED_PROJECTILES.put(projectile.getUuid(), new DeflectedProjectile(entity.getUuid(), entity.getWorld().getTime() + DEFLECTED_PROJECTILE_PROTECTION_TICKS));
+		DEFLECTED_PROJECTILES.put(projectile.getUuid(), new DeflectedProjectile(
+				entity.getUuid(),
+				((ServerWorld) entity.getWorld()).getServer().getTicks() + DEFLECTED_PROJECTILE_PROTECTION_TICKS
+		));
 	}
 
 	private static boolean isProtectedDeflectedProjectile(LivingEntity entity, ProjectileEntity projectile) {
@@ -125,7 +138,7 @@ public final class DodgeCloakEvents {
 			return false;
 		}
 
-		if (entity.getWorld().getTime() > deflectedProjectile.expiresAt()) {
+		if (((ServerWorld) entity.getWorld()).getServer().getTicks() > deflectedProjectile.expiresAt()) {
 			DEFLECTED_PROJECTILES.remove(projectile.getUuid());
 			return false;
 		}

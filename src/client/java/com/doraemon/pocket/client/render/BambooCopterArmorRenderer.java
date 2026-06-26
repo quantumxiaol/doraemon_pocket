@@ -7,6 +7,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EquipmentSlot;
 
 public final class BambooCopterArmorRenderer {
+	private static BambooCopterModel model;
+
 	private BambooCopterArmorRenderer() {
 	}
 
@@ -16,11 +18,18 @@ public final class BambooCopterArmorRenderer {
 				return;
 			}
 
-			BambooCopterModel model = BambooCopterModel.create(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(BambooCopterModel.LAYER));
-			contextModel.copyBipedStateTo(model);
-			model.setVisible(false);
-			model.hat.visible = true;
-			ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, model, BambooCopterModel.TEXTURE);
+			BambooCopterModel bambooCopterModel = getModel();
+			contextModel.copyBipedStateTo(bambooCopterModel);
+			bambooCopterModel.setVisible(false);
+			bambooCopterModel.hat.visible = true;
+			ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, bambooCopterModel, BambooCopterModel.TEXTURE);
 		}, ModItems.BAMBOO_COPTER);
+	}
+
+	private static BambooCopterModel getModel() {
+		if (model == null) {
+			model = BambooCopterModel.create(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(BambooCopterModel.LAYER));
+		}
+		return model;
 	}
 }
