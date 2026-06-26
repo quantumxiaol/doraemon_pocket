@@ -27,6 +27,7 @@ public final class StoneHatEvents {
 	}
 
 	public static void register() {
+		ServerTickEvents.START_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(StoneHatEvents::tickPlayer));
 		ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(StoneHatEvents::tickPlayer));
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(StoneHatEvents::allowDamage);
 	}
@@ -93,8 +94,11 @@ public final class StoneHatEvents {
 			angerable.setAttacker(null);
 		}
 
-		if (targetingPlayer && mob instanceof CreeperEntity creeper) {
+		if (mob instanceof CreeperEntity creeper) {
 			creeper.setFuseSpeed(-1);
+			if (targetingPlayer) {
+				creeper.getNavigation().stop();
+			}
 		}
 	}
 }

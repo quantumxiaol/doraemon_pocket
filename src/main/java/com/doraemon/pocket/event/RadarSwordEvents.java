@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -29,16 +30,19 @@ import net.minecraft.util.math.Vec3d;
 public final class RadarSwordEvents {
 	private static final double PROJECTILE_SCAN_RANGE = 6.0D;
 	private static final double COUNTER_RANGE_SQUARED = 3.0D * 3.0D;
+	private static final double CREEPER_COUNTER_RANGE_SQUARED = 4.0D * 4.0D;
 	private static final int PROJECTILE_DURABILITY_COST = 8;
 	private static final int COUNTER_DURABILITY_COST = 10;
 	private static final int DEFLECTED_PROJECTILE_COOLDOWN_TICKS = 20;
 	private static final double DEFLECT_SPEED = 2.8D;
+	private static final float COUNTER_DAMAGE = 7.0F;
 	private static final Map<UUID, Long> DEFLECTED_PROJECTILES = new HashMap<>();
 
 	private RadarSwordEvents() {
 	}
 
 	public static void register() {
+		ServerTickEvents.START_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(RadarSwordEvents::tickPrimedCreeper));
 		ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(RadarSwordEvents::tickPlayer));
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(RadarSwordEvents::allowDamage);
 	}
@@ -60,6 +64,15 @@ public final class RadarSwordEvents {
 				damageRadarSword(player, swordStack, PROJECTILE_DURABILITY_COST);
 				return;
 			}
+		}
+
+		counterNearestPrimedCreeper(player, swordStack);
+	}
+
+	private static void tickPrimedCreeper(ServerPlayerEntity player) {
+		RadarSwordStack swordStack = findRadarSword(player);
+		if (swordStack != null) {
+			counterNearestPrimedCreeper(player, swordStack);
 		}
 	}
 
@@ -105,6 +118,42 @@ public final class RadarSwordEvents {
 		}
 
 		return null;
+	}
+
+	private static void counterNearestPrimedCreeper(ServerPlayerEntity player, RadarSwordStack swordStack) {
+		Box box = player.getBoundingBox().expand(Math.sqrt(CREEPER_COUNTER_RANGE_SQUARED));
+		CreeperEntity nearestCreeper = null;
+		double nearestDistance = Double.MAX_VALUE;
+		for (Entity entity : player.getWorld().getOtherEntities(player, box, entity -> entity instanceof CreeperEntity)) {
+			CreeperEntity creeper = (CreeperEntity) entity;
+			double distance = creeper.squaredDistanceTo(player);
+			if (shouldCounterPrimedCreeper(player, creeper, distance) && distance < nearestDistance) {
+				nearestCreeper = creeper;
+				nearestDistance = distance;
+			}
+		}
+
+		if (nearestCreeper == null) {
+			return;
+		}
+
+		nearestCreeper.setFuseSpeed(-1);
+		nearestCreeper.getNavigation().stop();
+		turnPlayerToFace(player, nearestCreeper);
+		player.swingHand(swordStack.hand, true);
+		playParryFeedback(player);
+		counterAttack(player, nearestCreeper);
+		damageRadarSword(player, swordStack, COUNTER_DURABILITY_COST);
+	}
+
+	private static boolean shouldCounterPrimedCreeper(ServerPlayerEntity player, CreeperEntity creeper, double squaredDistance) {
+		if (!creeper.isAlive() || squaredDistance > CREEPER_COUNTER_RANGE_SQUARED) {
+			return false;
+		}
+		if (creeper.getFuseSpeed() > 0 || creeper.isIgnited()) {
+			return true;
+		}
+		return creeper.getTarget() == player && squaredDistance <= COUNTER_RANGE_SQUARED;
 	}
 
 	private static boolean shouldDeflectProjectile(ServerPlayerEntity player, ProjectileEntity projectile, long time) {
@@ -158,7 +207,7 @@ public final class RadarSwordEvents {
 	}
 
 	private static void counterAttack(ServerPlayerEntity player, LivingEntity target) {
-		target.damage(player.getDamageSources().playerAttack(player), 4.0F);
+		target.damage(player.getDamageSources().playerAttack(player), COUNTER_DAMAGE);
 		Vec3d knockback = target.getPos().subtract(player.getPos()).normalize().multiply(1.25D).add(0.0D, 0.25D, 0.0D);
 		target.addVelocity(knockback);
 		target.velocityModified = true;

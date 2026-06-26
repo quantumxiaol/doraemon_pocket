@@ -4,8 +4,8 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
 public enum ModToolMaterials implements ToolMaterial {
-	RADAR_SWORD(64, 1, 6.0F, 2.0F, 18),
-	DEPLETED_RADAR_SWORD(250, 1, 6.0F, 2.0F, 14);
+	RADAR_SWORD(640, 1, 6.0F, 3.0F, 18),
+	DEPLETED_RADAR_SWORD(250, 1, 6.0F, 3.0F, 14);
 
 	private final int durability;
 	private final int miningLevel;

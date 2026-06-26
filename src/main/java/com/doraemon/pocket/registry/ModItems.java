@@ -25,7 +25,7 @@ public final class ModItems {
 			new BambooCopterItem(
 					ModArmorMaterials.BAMBOO_COPTER,
 					ArmorItem.Type.HELMET,
-					new FabricItemSettings().maxDamage(600).rarity(Rarity.UNCOMMON)
+					new FabricItemSettings().maxDamage(6000).rarity(Rarity.UNCOMMON)
 			)
 	);
 	public static final Item AIR_CANNON = register(
@@ -66,11 +66,11 @@ public final class ModItems {
 	);
 	public static final Item RADAR_SWORD = register(
 			"radar_sword",
-			new RadarSwordItem(ModToolMaterials.RADAR_SWORD, 3, -2.4F, new FabricItemSettings().rarity(Rarity.RARE))
+			new RadarSwordItem(ModToolMaterials.RADAR_SWORD, 5, -2.4F, new FabricItemSettings().rarity(Rarity.RARE))
 	);
 	public static final Item DEPLETED_RADAR_SWORD = register(
 			"depleted_radar_sword",
-			new DepletedRadarSwordItem(ModToolMaterials.DEPLETED_RADAR_SWORD, 3, -2.4F, new FabricItemSettings().rarity(Rarity.UNCOMMON))
+			new DepletedRadarSwordItem(ModToolMaterials.DEPLETED_RADAR_SWORD, 5, -2.4F, new FabricItemSettings().rarity(Rarity.UNCOMMON))
 	);
 	public static final Item DORAYAKI = register(
 			"dorayaki",

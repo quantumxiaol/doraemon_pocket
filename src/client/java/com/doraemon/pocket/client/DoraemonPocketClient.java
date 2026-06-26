@@ -2,6 +2,7 @@ package com.doraemon.pocket.client;
 
 import com.doraemon.pocket.client.input.BambooCopterInputHandler;
 import com.doraemon.pocket.client.model.BambooCopterModel;
+import com.doraemon.pocket.client.model.DodgeCloakModel;
 import com.doraemon.pocket.client.render.BambooCopterArmorRenderer;
 import com.doraemon.pocket.client.render.DodgeCloakArmorRenderer;
 import com.doraemon.pocket.client.render.StoneHatArmorRenderer;
@@ -14,6 +15,7 @@ public class DoraemonPocketClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		BambooCopterModel.registerLayer();
+		DodgeCloakModel.registerLayer();
 		BambooCopterArmorRenderer.register();
 		DodgeCloakArmorRenderer.register();
 		StoneHatArmorRenderer.register();

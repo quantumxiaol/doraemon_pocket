@@ -214,6 +214,7 @@ public final class MomotaroObedienceHandler {
 			horse.setOwnerUuid(state.horseState.ownerUuid);
 			horse.setAngry(state.horseState.angry);
 		}
+		entity.setStepHeight(state.stepHeight);
 	}
 
 	private static boolean tryMount(ServerPlayerEntity player, LivingEntity entity) {
@@ -244,6 +245,7 @@ public final class MomotaroObedienceHandler {
 		}
 
 		mob.getNavigation().stop();
+		mob.setStepHeight(Math.max(mob.getStepHeight(), 1.0F));
 		float yaw = rider.getYaw();
 		mob.setYaw(yaw);
 		mob.setBodyYaw(yaw);
@@ -331,9 +333,9 @@ public final class MomotaroObedienceHandler {
 		FAILED
 	}
 
-	private record ObedienceState(UUID ownerUuid, long expiresAt, TameableState tameableState, HorseState horseState) {
+	private record ObedienceState(UUID ownerUuid, long expiresAt, TameableState tameableState, HorseState horseState, float stepHeight) {
 		ObedienceState withRefreshedDuration(long refreshedExpiresAt) {
-			return new ObedienceState(ownerUuid, refreshedExpiresAt, tameableState, horseState);
+			return new ObedienceState(ownerUuid, refreshedExpiresAt, tameableState, horseState, stepHeight);
 		}
 
 		static ObedienceState capture(ServerPlayerEntity player, LivingEntity entity) {
@@ -343,7 +345,7 @@ public final class MomotaroObedienceHandler {
 			HorseState horseState = entity instanceof AbstractHorseEntity horse
 					? new HorseState(horse.isTame(), horse.getOwnerUuid(), horse.isAngry())
 					: null;
-			return new ObedienceState(player.getUuid(), entity.getWorld().getTime() + DURATION_TICKS, tameableState, horseState);
+			return new ObedienceState(player.getUuid(), entity.getWorld().getTime() + DURATION_TICKS, tameableState, horseState, entity.getStepHeight());
 		}
 	}
 

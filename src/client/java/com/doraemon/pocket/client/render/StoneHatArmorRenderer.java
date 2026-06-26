@@ -3,7 +3,11 @@ package com.doraemon.pocket.client.render;
 import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.registry.ModItems;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.entity.model.ArmorEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
 public final class StoneHatArmorRenderer {
@@ -18,10 +22,14 @@ public final class StoneHatArmorRenderer {
 				return;
 			}
 
-			contextModel.setVisible(false);
-			contextModel.head.visible = true;
-			contextModel.hat.visible = true;
-			ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, contextModel, TEXTURE);
+			ArmorEntityModel<LivingEntity> model = new ArmorEntityModel<>(
+					MinecraftClient.getInstance().getEntityModelLoader().getModelPart(EntityModelLayers.PLAYER_OUTER_ARMOR)
+			);
+			contextModel.copyBipedStateTo(model);
+			model.setVisible(false);
+			model.head.visible = true;
+			model.hat.visible = true;
+			ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, model, TEXTURE);
 		}, ModItems.STONE_HAT);
 	}
 }
