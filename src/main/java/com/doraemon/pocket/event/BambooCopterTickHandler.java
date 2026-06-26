@@ -37,8 +37,20 @@ public final class BambooCopterTickHandler {
 		}
 
 		BambooCopterControl control = DoraemonPackets.getBambooCopterControl(player);
+		if (!isFlightActive(player, control)) {
+			return;
+		}
+
 		applyFlight(player, control);
-		damageCopter(player, copter, control);
+		damageCopter(player, copter);
+	}
+
+	private static boolean isFlightActive(ServerPlayerEntity player, BambooCopterControl control) {
+		if (player.hasVehicle() || player.isFallFlying() || player.isClimbing() || player.isTouchingWater()) {
+			return false;
+		}
+
+		return control.vertical() > 0 || !player.isOnGround();
 	}
 
 	private static void applyFlight(ServerPlayerEntity player, BambooCopterControl control) {
@@ -102,8 +114,8 @@ public final class BambooCopterTickHandler {
 		return movement;
 	}
 
-	private static void damageCopter(ServerPlayerEntity player, ItemStack copter, BambooCopterControl control) {
-		if (player.isCreative() || control.isIdle() || player.age % DURABILITY_DAMAGE_INTERVAL != 0) {
+	private static void damageCopter(ServerPlayerEntity player, ItemStack copter) {
+		if (player.isCreative() || player.age % DURABILITY_DAMAGE_INTERVAL != 0) {
 			return;
 		}
 

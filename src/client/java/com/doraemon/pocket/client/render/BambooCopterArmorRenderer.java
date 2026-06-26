@@ -22,6 +22,7 @@ public final class BambooCopterArmorRenderer {
 			contextModel.copyBipedStateTo(bambooCopterModel);
 			bambooCopterModel.setVisible(false);
 			bambooCopterModel.hat.visible = true;
+			bambooCopterModel.setFanYaw(getFanYaw(entity));
 			ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, bambooCopterModel, BambooCopterModel.TEXTURE);
 		}, ModItems.BAMBOO_COPTER);
 	}
@@ -31,5 +32,20 @@ public final class BambooCopterArmorRenderer {
 			model = BambooCopterModel.create(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(BambooCopterModel.LAYER));
 		}
 		return model;
+	}
+
+	private static float getFanYaw(net.minecraft.entity.LivingEntity entity) {
+		float tickDelta = MinecraftClient.getInstance().getTickDelta();
+		float time = entity.age + tickDelta;
+		float speed = isFastSpinning(entity) ? 2.2F : 0.12F;
+		return (float) (time * speed % (Math.PI * 2.0D));
+	}
+
+	private static boolean isFastSpinning(net.minecraft.entity.LivingEntity entity) {
+		return !entity.isOnGround()
+				&& !entity.hasVehicle()
+				&& !entity.isFallFlying()
+				&& !entity.isClimbing()
+				&& !entity.isTouchingWater();
 	}
 }

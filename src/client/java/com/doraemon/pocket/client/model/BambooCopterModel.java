@@ -19,8 +19,11 @@ public class BambooCopterModel extends BipedEntityModel<LivingEntity> {
 	public static final EntityModelLayer LAYER = new EntityModelLayer(DoraemonPocket.id("bamboo_copter"), "main");
 	public static final Identifier TEXTURE = DoraemonPocket.id("textures/entity/bamboo_copter.png");
 
+	private final ModelPart fan;
+
 	private BambooCopterModel(ModelPart root) {
 		super(root);
+		this.fan = this.hat.getChild("fan");
 	}
 
 	public static BambooCopterModel create(ModelPart root) {
@@ -29,6 +32,10 @@ public class BambooCopterModel extends BipedEntityModel<LivingEntity> {
 
 	public static void registerLayer() {
 		EntityModelLayerRegistry.registerModelLayer(LAYER, BambooCopterModel::getTexturedModelData);
+	}
+
+	public void setFanYaw(float yaw) {
+		fan.yaw = yaw;
 	}
 
 	public static TexturedModelData getTexturedModelData() {

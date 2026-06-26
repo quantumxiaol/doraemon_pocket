@@ -82,16 +82,24 @@ public final class StoneHatEvents {
 	}
 
 	private static void makeMobIgnorePlayer(MobEntity mob, ServerPlayerEntity player) {
-		boolean targetingPlayer = mob.getTarget() == player;
-		if (mob.getTarget() == player) {
+		boolean targetsPlayer = mob.getTarget() == player;
+		boolean attackedByPlayer = mob.getAttacker() == player;
+		Angerable angerable = mob instanceof Angerable angerableMob ? angerableMob : null;
+		boolean angryAtPlayer = angerable != null && player.getUuid().equals(angerable.getAngryAt());
+
+		if (!targetsPlayer && !attackedByPlayer && !angryAtPlayer) {
+			return;
+		}
+
+		if (targetsPlayer) {
 			mob.setTarget(null);
 		}
-		if (mob.getAttacker() == player) {
+		if (attackedByPlayer) {
 			mob.setAttacker(null);
 		}
 		mob.setAttacking(false);
 
-		if (mob instanceof Angerable angerable && (player.getUuid().equals(angerable.getAngryAt()) || angerable.getTarget() == player)) {
+		if (angerable != null && angryAtPlayer) {
 			angerable.stopAnger();
 			angerable.setTarget(null);
 			angerable.setAttacker(null);
@@ -99,9 +107,7 @@ public final class StoneHatEvents {
 
 		if (mob instanceof CreeperEntity creeper) {
 			creeper.setFuseSpeed(-1);
-			if (targetingPlayer) {
-				creeper.getNavigation().stop();
-			}
+			creeper.getNavigation().stop();
 		}
 	}
 }

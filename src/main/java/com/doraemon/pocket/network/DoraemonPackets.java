@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 public final class DoraemonPackets {
 	public static final Identifier BAMBOO_COPTER_CONTROL = DoraemonPocket.id("bamboo_copter_control");
 
-	private static final int BAMBOO_COPTER_CONTROL_TIMEOUT_TICKS = 12;
+	private static final int BAMBOO_COPTER_CONTROL_TIMEOUT_TICKS = 30;
 	private static final Map<UUID, TimedBambooCopterControl> BAMBOO_COPTER_CONTROLS = new ConcurrentHashMap<>();
 
 	private DoraemonPackets() {
