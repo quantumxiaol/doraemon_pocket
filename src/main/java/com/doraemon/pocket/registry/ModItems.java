@@ -5,6 +5,7 @@ import com.doraemon.pocket.item.AdaptationLightItem;
 import com.doraemon.pocket.item.AirCannonItem;
 import com.doraemon.pocket.item.BambooCopterItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
+import com.doraemon.pocket.item.MomotaroDumplingItem;
 import com.doraemon.pocket.item.ShockGunItem;
 import com.doraemon.pocket.item.TimeClothItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -46,6 +47,10 @@ public final class ModItems {
 	public static final Item ADAPTATION_LIGHT = register(
 			"adaptation_light",
 			new AdaptationLightItem(new FabricItemSettings().maxCount(1).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item MOMOTARO_DUMPLING = register(
+			"momotaro_dumpling",
+			new MomotaroDumplingItem(new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
 	);
 
 	private ModItems() {

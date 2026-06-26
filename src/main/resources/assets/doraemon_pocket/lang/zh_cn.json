@@ -11,6 +11,8 @@
 	"item.doraemon_pocket.time_cloth.tooltip": "一手拿包袱皮，另一手拿受损物品，右键消耗 30 点经验修复。",
 	"item.doraemon_pocket.adaptation_light": "适应灯",
 	"item.doraemon_pocket.adaptation_light.tooltip": "放在背包或手上时，持续赋予环境适应效果。",
+	"item.doraemon_pocket.momotaro_dumpling": "桃太郎饭团",
+	"item.doraemon_pocket.momotaro_dumpling.tooltip": "右键投掷或喂给生物；大体型目标可骑乘，潜行右键放归。",
 	"effect.doraemon_pocket.environmental_adaptation": "环境适应",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"
 }

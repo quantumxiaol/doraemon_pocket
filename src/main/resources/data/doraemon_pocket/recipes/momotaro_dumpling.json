@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:bread"
+		},
+		{
+			"item": "minecraft:wheat"
+		},
+		{
+			"item": "minecraft:sugar"
+		},
+		{
+			"item": "minecraft:sweet_berries"
+		}
+	],
+	"result": {
+		"item": "doraemon_pocket:momotaro_dumpling",
+		"count": 4
+	}
+}

@@ -3,9 +3,11 @@ package com.doraemon.pocket;
 import com.doraemon.pocket.event.BambooCopterTickHandler;
 import com.doraemon.pocket.event.DodgeCloakEvents;
 import com.doraemon.pocket.event.EnvironmentalAdaptationEvents;
+import com.doraemon.pocket.event.MomotaroObedienceHandler;
 import com.doraemon.pocket.event.ShockGunStunHandler;
 import com.doraemon.pocket.event.TimeClothUseHandler;
 import com.doraemon.pocket.network.DoraemonPackets;
+import com.doraemon.pocket.registry.ModEntities;
 import com.doraemon.pocket.registry.ModItemGroups;
 import com.doraemon.pocket.registry.ModItems;
 import com.doraemon.pocket.registry.ModStatusEffects;
@@ -22,11 +24,13 @@ public class DoraemonPocket implements ModInitializer {
 	public void onInitialize() {
 		ModStatusEffects.register();
 		ModItems.register();
+		ModEntities.register();
 		ModItemGroups.register();
 		DoraemonPackets.registerServerReceivers();
 		BambooCopterTickHandler.register();
 		ShockGunStunHandler.register();
 		TimeClothUseHandler.register();
+		MomotaroObedienceHandler.register();
 		EnvironmentalAdaptationEvents.register();
 		DodgeCloakEvents.register();
 

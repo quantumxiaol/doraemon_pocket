@@ -22,6 +22,7 @@ public final class ModItemGroups {
 						entries.add(ModItems.DODGE_CLOAK);
 						entries.add(ModItems.TIME_CLOTH);
 						entries.add(ModItems.ADAPTATION_LIGHT);
+						entries.add(ModItems.MOMOTARO_DUMPLING);
 					})
 					.build()
 	);

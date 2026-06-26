@@ -11,6 +11,8 @@
 	"item.doraemon_pocket.time_cloth.tooltip": "Hold it in one hand and a damaged item in the other, then right-click to spend 30 XP repairing it.",
 	"item.doraemon_pocket.adaptation_light": "Adaptation Light",
 	"item.doraemon_pocket.adaptation_light.tooltip": "Keep it in inventory or hand to maintain environmental adaptation.",
+	"item.doraemon_pocket.momotaro_dumpling": "Momotaro Dumpling",
+	"item.doraemon_pocket.momotaro_dumpling.tooltip": "Right-click to throw or feed it. Large targets can be ridden; sneak-right-click to release.",
 	"effect.doraemon_pocket.environmental_adaptation": "Environmental Adaptation",
 	"itemGroup.doraemon_pocket.tools": "Doraemon Pocket"
 }
