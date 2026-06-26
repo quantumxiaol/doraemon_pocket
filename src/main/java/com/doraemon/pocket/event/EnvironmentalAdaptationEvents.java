@@ -42,6 +42,7 @@ public final class EnvironmentalAdaptationEvents {
 				|| source.isOf(DamageTypes.OUT_OF_WORLD)
 				|| source.isOf(DamageTypes.IN_WALL)
 				|| source.isOf(DamageTypes.DRY_OUT)
+				|| source.isOf(DamageTypes.CACTUS)
 				|| source.isOf(DamageTypes.SWEET_BERRY_BUSH);
 	}
 
