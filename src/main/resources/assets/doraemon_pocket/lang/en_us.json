@@ -13,6 +13,13 @@
 	"item.doraemon_pocket.adaptation_light.tooltip": "Keep it in inventory or hand to maintain environmental adaptation.",
 	"item.doraemon_pocket.momotaro_dumpling": "Momotaro Dumpling",
 	"item.doraemon_pocket.momotaro_dumpling.tooltip": "Right-click to throw or feed it. Large targets can be ridden; sneak-right-click to release.",
+	"item.doraemon_pocket.stone_hat": "Stone Hat",
+	"item.doraemon_pocket.stone_hat.tooltip": "Wear it on your head to make mobs ignore you. It falls off when touching water.",
+	"item.doraemon_pocket.radar_sword": "Radar Sword",
+	"item.doraemon_pocket.radar_sword.tooltip": "Hold it to auto-parry frontal projectiles and counter nearby attackers.",
+	"item.doraemon_pocket.depleted_radar_sword": "Depleted Radar Sword",
+	"item.doraemon_pocket.depleted_radar_sword.tooltip": "Its auto-defense power is drained, but it still works as a sword.",
+	"item.doraemon_pocket.dorayaki": "Dorayaki",
 	"effect.doraemon_pocket.environmental_adaptation": "Environmental Adaptation",
 	"itemGroup.doraemon_pocket.tools": "Doraemon Pocket"
 }

@@ -13,6 +13,13 @@
 	"item.doraemon_pocket.adaptation_light.tooltip": "放在背包或手上时，持续赋予环境适应效果。",
 	"item.doraemon_pocket.momotaro_dumpling": "桃太郎饭团",
 	"item.doraemon_pocket.momotaro_dumpling.tooltip": "右键投掷或喂给生物；大体型目标可骑乘，潜行右键放归。",
+	"item.doraemon_pocket.stone_hat": "石头帽",
+	"item.doraemon_pocket.stone_hat.tooltip": "戴在头上后让怪物无视你；接触水时会脱落。",
+	"item.doraemon_pocket.radar_sword": "名刀“电光丸”",
+	"item.doraemon_pocket.radar_sword.tooltip": "手持时自动格挡正面投射物，并反击近身攻击者。",
+	"item.doraemon_pocket.depleted_radar_sword": "没电的电光丸",
+	"item.doraemon_pocket.depleted_radar_sword.tooltip": "自动防御功能耗尽，但仍可以当剑使用。",
+	"item.doraemon_pocket.dorayaki": "铜锣烧",
 	"effect.doraemon_pocket.environmental_adaptation": "环境适应",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"
 }

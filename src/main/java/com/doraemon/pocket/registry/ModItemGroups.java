@@ -23,6 +23,10 @@ public final class ModItemGroups {
 						entries.add(ModItems.TIME_CLOTH);
 						entries.add(ModItems.ADAPTATION_LIGHT);
 						entries.add(ModItems.MOMOTARO_DUMPLING);
+						entries.add(ModItems.STONE_HAT);
+						entries.add(ModItems.RADAR_SWORD);
+						entries.add(ModItems.DEPLETED_RADAR_SWORD);
+						entries.add(ModItems.DORAYAKI);
 					})
 					.build()
 	);

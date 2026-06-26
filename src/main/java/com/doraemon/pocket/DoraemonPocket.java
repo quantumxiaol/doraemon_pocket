@@ -4,7 +4,9 @@ import com.doraemon.pocket.event.BambooCopterTickHandler;
 import com.doraemon.pocket.event.DodgeCloakEvents;
 import com.doraemon.pocket.event.EnvironmentalAdaptationEvents;
 import com.doraemon.pocket.event.MomotaroObedienceHandler;
+import com.doraemon.pocket.event.RadarSwordEvents;
 import com.doraemon.pocket.event.ShockGunStunHandler;
+import com.doraemon.pocket.event.StoneHatEvents;
 import com.doraemon.pocket.event.TimeClothUseHandler;
 import com.doraemon.pocket.network.DoraemonPackets;
 import com.doraemon.pocket.registry.ModEntities;
@@ -31,6 +33,8 @@ public class DoraemonPocket implements ModInitializer {
 		ShockGunStunHandler.register();
 		TimeClothUseHandler.register();
 		MomotaroObedienceHandler.register();
+		StoneHatEvents.register();
+		RadarSwordEvents.register();
 		EnvironmentalAdaptationEvents.register();
 		DodgeCloakEvents.register();
 

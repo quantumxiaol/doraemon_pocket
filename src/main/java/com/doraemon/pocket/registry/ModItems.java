@@ -4,12 +4,16 @@ import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.item.AdaptationLightItem;
 import com.doraemon.pocket.item.AirCannonItem;
 import com.doraemon.pocket.item.BambooCopterItem;
+import com.doraemon.pocket.item.DepletedRadarSwordItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
 import com.doraemon.pocket.item.MomotaroDumplingItem;
+import com.doraemon.pocket.item.RadarSwordItem;
 import com.doraemon.pocket.item.ShockGunItem;
+import com.doraemon.pocket.item.StoneHatItem;
 import com.doraemon.pocket.item.TimeClothItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -51,6 +55,26 @@ public final class ModItems {
 	public static final Item MOMOTARO_DUMPLING = register(
 			"momotaro_dumpling",
 			new MomotaroDumplingItem(new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item STONE_HAT = register(
+			"stone_hat",
+			new StoneHatItem(
+					ModArmorMaterials.STONE_HAT,
+					ArmorItem.Type.HELMET,
+					new FabricItemSettings().maxDamage(88).rarity(Rarity.UNCOMMON)
+			)
+	);
+	public static final Item RADAR_SWORD = register(
+			"radar_sword",
+			new RadarSwordItem(ModToolMaterials.RADAR_SWORD, 3, -2.4F, new FabricItemSettings().rarity(Rarity.RARE))
+	);
+	public static final Item DEPLETED_RADAR_SWORD = register(
+			"depleted_radar_sword",
+			new DepletedRadarSwordItem(ModToolMaterials.DEPLETED_RADAR_SWORD, 3, -2.4F, new FabricItemSettings().rarity(Rarity.UNCOMMON))
+	);
+	public static final Item DORAYAKI = register(
+			"dorayaki",
+			new Item(new FabricItemSettings().maxCount(64).food(new FoodComponent.Builder().hunger(5).saturationModifier(0.6F).build()))
 	);
 
 	private ModItems() {
