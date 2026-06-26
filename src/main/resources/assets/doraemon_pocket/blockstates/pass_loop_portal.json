@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"facing=down,half=lower": { "model": "doraemon_pocket:block/pass_loop_portal_down" },
+		"facing=down,half=upper": { "model": "doraemon_pocket:block/pass_loop_portal_down" },
+		"facing=east,half=lower": { "model": "doraemon_pocket:block/pass_loop_portal_east" },
+		"facing=east,half=upper": { "model": "doraemon_pocket:block/pass_loop_portal_east" },
+		"facing=north,half=lower": { "model": "doraemon_pocket:block/pass_loop_portal_north" },
+		"facing=north,half=upper": { "model": "doraemon_pocket:block/pass_loop_portal_north" },
+		"facing=south,half=lower": { "model": "doraemon_pocket:block/pass_loop_portal_south" },
+		"facing=south,half=upper": { "model": "doraemon_pocket:block/pass_loop_portal_south" },
+		"facing=up,half=lower": { "model": "doraemon_pocket:block/pass_loop_portal_up" },
+		"facing=up,half=upper": { "model": "doraemon_pocket:block/pass_loop_portal_up" },
+		"facing=west,half=lower": { "model": "doraemon_pocket:block/pass_loop_portal_west" },
+		"facing=west,half=upper": { "model": "doraemon_pocket:block/pass_loop_portal_west" }
+	}
+}

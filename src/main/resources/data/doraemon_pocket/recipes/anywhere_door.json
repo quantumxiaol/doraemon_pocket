@@ -1,0 +1,29 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"RER",
+		"IDI",
+		"RPR"
+	],
+	"key": {
+		"R": {
+			"item": "minecraft:red_dye"
+		},
+		"E": {
+			"item": "minecraft:ender_pearl"
+		},
+		"I": {
+			"item": "minecraft:iron_ingot"
+		},
+		"D": {
+			"item": "minecraft:iron_door"
+		},
+		"P": {
+			"item": "minecraft:paper"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:anywhere_door",
+		"count": 1
+	}
+}

@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/door_bottom_left",
+	"textures": {
+		"bottom": "doraemon_pocket:block/anywhere_door_portal_lower",
+		"top": "doraemon_pocket:block/anywhere_door_portal_upper"
+	}
+}

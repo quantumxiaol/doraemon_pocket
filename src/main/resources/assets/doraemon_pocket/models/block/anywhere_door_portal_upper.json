@@ -1,0 +1,16 @@
+{
+	"ambientocclusion": false,
+	"textures": {
+		"portal": "doraemon_pocket:block/anywhere_door_portal_upper"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 15.8],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": { "uv": [0, 0, 16, 16], "texture": "#portal" },
+				"south": { "uv": [16, 0, 0, 16], "texture": "#portal" }
+			}
+		}
+	]
+}

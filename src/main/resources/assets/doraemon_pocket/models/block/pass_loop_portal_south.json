@@ -1,0 +1,7 @@
+{
+	"ambientocclusion": false,
+	"textures": { "portal": "doraemon_pocket:block/pass_loop_portal" },
+	"elements": [
+		{ "from": [0, 0, 0], "to": [16, 16, 0.2], "faces": { "north": { "uv": [0, 0, 16, 16], "texture": "#portal" }, "south": { "uv": [16, 0, 0, 16], "texture": "#portal" } } }
+	]
+}

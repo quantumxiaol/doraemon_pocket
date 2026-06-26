@@ -3,10 +3,12 @@ package com.doraemon.pocket.registry;
 import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.item.AdaptationLightItem;
 import com.doraemon.pocket.item.AirCannonItem;
+import com.doraemon.pocket.item.AnywhereDoorItem;
 import com.doraemon.pocket.item.BambooCopterItem;
 import com.doraemon.pocket.item.DepletedRadarSwordItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
 import com.doraemon.pocket.item.MomotaroDumplingItem;
+import com.doraemon.pocket.item.PassLoopItem;
 import com.doraemon.pocket.item.RadarSwordItem;
 import com.doraemon.pocket.item.ShockGunItem;
 import com.doraemon.pocket.item.StoneHatItem;
@@ -55,6 +57,14 @@ public final class ModItems {
 	public static final Item MOMOTARO_DUMPLING = register(
 			"momotaro_dumpling",
 			new MomotaroDumplingItem(new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item ANYWHERE_DOOR = register(
+			"anywhere_door",
+			new AnywhereDoorItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE))
+	);
+	public static final Item PASS_LOOP = register(
+			"pass_loop",
+			new PassLoopItem(new FabricItemSettings().maxCount(1).rarity(Rarity.UNCOMMON))
 	);
 	public static final Item STONE_HAT = register(
 			"stone_hat",
