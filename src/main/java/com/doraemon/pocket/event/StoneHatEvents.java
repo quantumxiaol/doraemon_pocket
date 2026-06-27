@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -22,6 +23,8 @@ import net.minecraft.util.math.Box;
 
 public final class StoneHatEvents {
 	private static final double IGNORE_RANGE = 36.0D;
+	private static final double CLOSE_SUPPRESS_RANGE = 18.0D;
+	private static final double PROJECTILE_SUPPRESS_RANGE = 18.0D;
 
 	private StoneHatEvents() {
 	}
@@ -42,6 +45,9 @@ public final class StoneHatEvents {
 			return;
 		}
 
+		discardHostileProjectiles(player);
+		suppressCloseMobs(player);
+
 		if (player.age % 5 != 0) {
 			return;
 		}
@@ -59,6 +65,10 @@ public final class StoneHatEvents {
 		Entity sourceEntity = source.getSource();
 		if (sourceEntity instanceof ProjectileEntity projectile && projectile.getOwner() instanceof MobEntity) {
 			projectile.discard();
+			return false;
+		}
+
+		if (source.isIn(DamageTypeTags.IS_EXPLOSION) && (sourceEntity instanceof MobEntity || source.getAttacker() instanceof MobEntity)) {
 			return false;
 		}
 
@@ -81,13 +91,28 @@ public final class StoneHatEvents {
 		}
 	}
 
+	private static void discardHostileProjectiles(ServerPlayerEntity player) {
+		Box box = player.getBoundingBox().expand(PROJECTILE_SUPPRESS_RANGE);
+		player.getWorld().getOtherEntities(player, box, entity -> entity instanceof ProjectileEntity projectile && projectile.getOwner() instanceof MobEntity)
+				.forEach(Entity::discard);
+	}
+
+	private static void suppressCloseMobs(ServerPlayerEntity player) {
+		Box box = player.getBoundingBox().expand(CLOSE_SUPPRESS_RANGE);
+		player.getWorld().getOtherEntities(player, box, entity -> entity instanceof MobEntity)
+				.forEach(entity -> makeMobIgnorePlayer((MobEntity) entity, player));
+	}
+
 	private static void makeMobIgnorePlayer(MobEntity mob, ServerPlayerEntity player) {
 		boolean targetsPlayer = mob.getTarget() == player;
 		boolean attackedByPlayer = mob.getAttacker() == player;
 		Angerable angerable = mob instanceof Angerable angerableMob ? angerableMob : null;
 		boolean angryAtPlayer = angerable != null && player.getUuid().equals(angerable.getAngryAt());
+		boolean primedCreeperNearPlayer = mob instanceof CreeperEntity creeper
+				&& mob.squaredDistanceTo(player) <= CLOSE_SUPPRESS_RANGE * CLOSE_SUPPRESS_RANGE
+				&& (creeper.getFuseSpeed() > 0 || creeper.isIgnited());
 
-		if (!targetsPlayer && !attackedByPlayer && !angryAtPlayer) {
+		if (!targetsPlayer && !attackedByPlayer && !angryAtPlayer && !primedCreeperNearPlayer) {
 			return;
 		}
 
@@ -98,6 +123,8 @@ public final class StoneHatEvents {
 			mob.setAttacker(null);
 		}
 		mob.setAttacking(false);
+		mob.clearActiveItem();
+		mob.getNavigation().stop();
 
 		if (angerable != null && angryAtPlayer) {
 			angerable.stopAnger();
@@ -107,7 +134,6 @@ public final class StoneHatEvents {
 
 		if (mob instanceof CreeperEntity creeper) {
 			creeper.setFuseSpeed(-1);
-			creeper.getNavigation().stop();
 		}
 	}
 }
