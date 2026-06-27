@@ -11,6 +11,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -32,12 +34,17 @@ public final class RadarSwordEvents {
 	private static final double PROJECTILE_SCAN_RANGE = 6.0D;
 	private static final double COUNTER_RANGE_SQUARED = 3.0D * 3.0D;
 	private static final double CREEPER_COUNTER_RANGE_SQUARED = 4.0D * 4.0D;
+	private static final double DRAGON_CONTACT_SCAN_RANGE = 4.0D;
 	private static final int PROJECTILE_DURABILITY_COST = 8;
 	private static final int COUNTER_DURABILITY_COST = 10;
+	private static final int DRAGON_DURABILITY_COST = 16;
 	private static final int DEFLECTED_PROJECTILE_COOLDOWN_TICKS = 20;
+	private static final int DRAGON_PARRY_COOLDOWN_TICKS = 8;
 	private static final double DEFLECT_SPEED = 2.8D;
 	private static final float COUNTER_DAMAGE = 7.0F;
+	private static final float DRAGON_COUNTER_DAMAGE = 4.0F;
 	private static final Map<UUID, Long> DEFLECTED_PROJECTILES = new HashMap<>();
+	private static final Map<UUID, Long> DRAGON_PARRY_COOLDOWNS = new HashMap<>();
 
 	private RadarSwordEvents() {
 	}
@@ -45,11 +52,14 @@ public final class RadarSwordEvents {
 	public static void register() {
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			if (server.getTicks() % 20 == 0) {
-				cleanupDeflectedProjectiles(server.getTicks());
+				cleanupCaches(server.getTicks());
 			}
 			server.getPlayerManager().getPlayerList().forEach(RadarSwordEvents::tickPlayer);
 		});
-		ServerLifecycleEvents.SERVER_STOPPED.register(server -> DEFLECTED_PROJECTILES.clear());
+		ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+			DEFLECTED_PROJECTILES.clear();
+			DRAGON_PARRY_COOLDOWNS.clear();
+		});
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(RadarSwordEvents::allowDamage);
 	}
 
@@ -76,6 +86,8 @@ public final class RadarSwordEvents {
 		if (player.age % 5 == 0) {
 			counterNearestPrimedCreeper(player, swordStack);
 		}
+
+		counterNearbyDragonPart(player, swordStack, time);
 	}
 
 	private static boolean allowDamage(LivingEntity entity, DamageSource source, float amount) {
@@ -96,6 +108,12 @@ public final class RadarSwordEvents {
 		}
 
 		Entity attacker = source.getAttacker();
+		Entity dragonSource = findDragonSource(source);
+		if (dragonSource != null) {
+			parryDragonContact(player, swordStack, dragonSource, player.getServerWorld().getServer().getTicks());
+			return false;
+		}
+
 		if (attacker instanceof MobEntity mobAttacker && attacker.squaredDistanceTo(player) <= COUNTER_RANGE_SQUARED) {
 			turnPlayerToFace(player, mobAttacker);
 			player.swingHand(swordStack.hand, true);
@@ -158,6 +176,55 @@ public final class RadarSwordEvents {
 		return creeper.getTarget() == player && squaredDistance <= COUNTER_RANGE_SQUARED;
 	}
 
+	private static void counterNearbyDragonPart(ServerPlayerEntity player, RadarSwordStack swordStack, long time) {
+		if (DRAGON_PARRY_COOLDOWNS.getOrDefault(player.getUuid(), 0L) > time) {
+			return;
+		}
+
+		Box box = player.getBoundingBox().expand(DRAGON_CONTACT_SCAN_RANGE);
+		Entity nearestDragonSource = null;
+		double nearestDistance = Double.MAX_VALUE;
+		for (Entity entity : player.getWorld().getOtherEntities(player, box, RadarSwordEvents::isDragonSourceEntity)) {
+			double distance = entity.squaredDistanceTo(player);
+			if (distance < nearestDistance) {
+				nearestDragonSource = entity;
+				nearestDistance = distance;
+			}
+		}
+
+		Box dragonSearchBox = player.getBoundingBox().expand(32.0D);
+		for (EnderDragonEntity dragon : player.getWorld().getEntitiesByClass(EnderDragonEntity.class, dragonSearchBox, EnderDragonEntity::isAlive)) {
+			for (EnderDragonPart part : dragon.getBodyParts()) {
+				if (!part.getBoundingBox().intersects(box)) {
+					continue;
+				}
+				double distance = part.squaredDistanceTo(player);
+				if (distance < nearestDistance) {
+					nearestDragonSource = part;
+					nearestDistance = distance;
+				}
+			}
+		}
+
+		if (nearestDragonSource != null) {
+			parryDragonContact(player, swordStack, nearestDragonSource, time);
+		}
+	}
+
+	private static boolean isDragonSourceEntity(Entity entity) {
+		return entity instanceof EnderDragonEntity || entity instanceof EnderDragonPart;
+	}
+
+	private static Entity findDragonSource(DamageSource source) {
+		Entity direct = source.getSource();
+		if (isDragonSourceEntity(direct)) {
+			return direct;
+		}
+
+		Entity attacker = source.getAttacker();
+		return isDragonSourceEntity(attacker) ? attacker : null;
+	}
+
 	private static boolean shouldDeflectProjectile(ServerPlayerEntity player, ProjectileEntity projectile, long time) {
 		if (!projectile.isAlive() || projectile.getOwner() == player || DEFLECTED_PROJECTILES.getOrDefault(projectile.getUuid(), 0L) > time) {
 			return false;
@@ -200,7 +267,7 @@ public final class RadarSwordEvents {
 		DEFLECTED_PROJECTILES.put(projectile.getUuid(), (long) player.getServerWorld().getServer().getTicks() + DEFLECTED_PROJECTILE_COOLDOWN_TICKS);
 	}
 
-	private static void turnPlayerToFace(ServerPlayerEntity player, LivingEntity target) {
+	private static void turnPlayerToFace(ServerPlayerEntity player, Entity target) {
 		Vec3d offset = target.getPos().subtract(player.getPos());
 		float yaw = (float) (MathHelper.atan2(offset.z, offset.x) * 57.2957763671875D) - 90.0F;
 		player.setYaw(yaw);
@@ -215,6 +282,44 @@ public final class RadarSwordEvents {
 		target.velocityModified = true;
 		if (target instanceof MobEntity mob) {
 			mob.setTarget(null);
+		}
+	}
+
+	private static void parryDragonContact(ServerPlayerEntity player, RadarSwordStack swordStack, Entity dragonSource, long time) {
+		if (DRAGON_PARRY_COOLDOWNS.getOrDefault(player.getUuid(), 0L) > time) {
+			return;
+		}
+
+		turnPlayerToFace(player, dragonSource);
+		player.swingHand(swordStack.hand, true);
+		playParryFeedback(player);
+		knockPlayerAwayFromDragon(player, dragonSource);
+		damageDragon(player, dragonSource);
+		damageRadarSword(player, swordStack, DRAGON_DURABILITY_COST);
+		DRAGON_PARRY_COOLDOWNS.put(player.getUuid(), time + DRAGON_PARRY_COOLDOWN_TICKS);
+	}
+
+	private static void knockPlayerAwayFromDragon(ServerPlayerEntity player, Entity dragonSource) {
+		Vec3d away = player.getPos().subtract(dragonSource.getPos());
+		if (away.lengthSquared() < 0.001D) {
+			away = player.getRotationVec(1.0F).negate();
+		}
+
+		Vec3d controlledKnockback = away.normalize().multiply(0.72D).add(0.0D, 0.20D, 0.0D);
+		player.setVelocity(controlledKnockback);
+		player.velocityModified = true;
+	}
+
+	private static void damageDragon(ServerPlayerEntity player, Entity dragonSource) {
+		EnderDragonEntity dragon = null;
+		if (dragonSource instanceof EnderDragonEntity enderDragon) {
+			dragon = enderDragon;
+		} else if (dragonSource instanceof EnderDragonPart dragonPart) {
+			dragon = dragonPart.owner;
+		}
+
+		if (dragon != null && dragon.isAlive()) {
+			dragon.damage(player.getDamageSources().playerAttack(player), DRAGON_COUNTER_DAMAGE);
 		}
 	}
 
@@ -250,8 +355,15 @@ public final class RadarSwordEvents {
 		}
 	}
 
-	private static void cleanupDeflectedProjectiles(long time) {
+	private static void cleanupCaches(long time) {
 		Iterator<Map.Entry<UUID, Long>> iterator = DEFLECTED_PROJECTILES.entrySet().iterator();
+		while (iterator.hasNext()) {
+			if (iterator.next().getValue() <= time) {
+				iterator.remove();
+			}
+		}
+
+		iterator = DRAGON_PARRY_COOLDOWNS.entrySet().iterator();
 		while (iterator.hasNext()) {
 			if (iterator.next().getValue() <= time) {
 				iterator.remove();
