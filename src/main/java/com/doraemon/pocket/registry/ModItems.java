@@ -6,6 +6,7 @@ import com.doraemon.pocket.item.AirCannonItem;
 import com.doraemon.pocket.item.ApartmentTreeItem;
 import com.doraemon.pocket.item.AnywhereDoorItem;
 import com.doraemon.pocket.item.BambooCopterItem;
+import com.doraemon.pocket.item.CloudHardeningGasItem;
 import com.doraemon.pocket.item.CoconutItem;
 import com.doraemon.pocket.item.DepletedRadarSwordItem;
 import com.doraemon.pocket.item.DevilsPassportItem;
@@ -151,6 +152,14 @@ public final class ModItems {
 	public static final Item DEVILS_PASSPORT = register(
 			"devils_passport",
 			new DevilsPassportItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE))
+	);
+	public static final Item CLOUD_HARDENING_GAS = register(
+			"cloud_hardening_gas",
+			new CloudHardeningGasItem(new FabricItemSettings().maxCount(1).maxDamage(64).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item SOLIDIFIED_CLOUD = register(
+			"solidified_cloud",
+			new BlockItem(ModBlocks.SOLIDIFIED_CLOUD, new FabricItemSettings().maxCount(64).rarity(Rarity.UNCOMMON))
 	);
 
 	private ModItems() {

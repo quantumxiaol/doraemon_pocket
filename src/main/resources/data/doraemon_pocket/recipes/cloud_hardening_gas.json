@@ -1,0 +1,28 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" S ",
+		"WBG",
+		" R "
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:snowball"
+		},
+		"W": {
+			"item": "minecraft:white_dye"
+		},
+		"B": {
+			"item": "minecraft:glass_bottle"
+		},
+		"G": {
+			"item": "minecraft:gunpowder"
+		},
+		"R": {
+			"item": "minecraft:slime_ball"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:cloud_hardening_gas"
+	}
+}

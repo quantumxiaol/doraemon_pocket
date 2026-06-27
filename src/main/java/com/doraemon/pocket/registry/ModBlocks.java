@@ -6,6 +6,7 @@ import com.doraemon.pocket.block.AnywhereDoorPortalBlock;
 import com.doraemon.pocket.block.CoconutFruitBlock;
 import com.doraemon.pocket.block.GourmetTableClothBlock;
 import com.doraemon.pocket.block.LinkedPortalBlock;
+import com.doraemon.pocket.block.SolidifiedCloudBlock;
 import com.doraemon.pocket.block.WeatherBoxBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
@@ -38,6 +39,10 @@ public final class ModBlocks {
 	public static final GourmetTableClothBlock GOURMET_TABLE_CLOTH = register(
 			"gourmet_table_cloth",
 			new GourmetTableClothBlock(clothSettings())
+	);
+	public static final SolidifiedCloudBlock SOLIDIFIED_CLOUD = register(
+			"solidified_cloud",
+			new SolidifiedCloudBlock(cloudSettings())
 	);
 
 	private ModBlocks() {
@@ -106,6 +111,15 @@ public final class ModBlocks {
 				.noCollision()
 				.nonOpaque()
 				.strength(0.15F)
+				.sounds(BlockSoundGroup.WOOL)
+				.pistonBehavior(PistonBehavior.DESTROY);
+	}
+
+	private static AbstractBlock.Settings cloudSettings() {
+		return AbstractBlock.Settings.create()
+				.mapColor(MapColor.WHITE)
+				.strength(0.25F)
+				.slipperiness(0.86F)
 				.sounds(BlockSoundGroup.WOOL)
 				.pistonBehavior(PistonBehavior.DESTROY);
 	}

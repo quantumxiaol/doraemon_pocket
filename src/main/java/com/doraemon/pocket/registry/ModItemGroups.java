@@ -43,6 +43,8 @@ public final class ModItemGroups {
 						entries.add(ModItems.SHADOW_SCISSORS);
 						entries.add(ModItems.SHADOW_GLUE);
 						entries.add(ModItems.DEVILS_PASSPORT);
+						entries.add(ModItems.CLOUD_HARDENING_GAS);
+						entries.add(ModItems.SOLIDIFIED_CLOUD);
 					})
 					.build()
 	);
