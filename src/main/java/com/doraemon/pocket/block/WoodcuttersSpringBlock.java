@@ -75,6 +75,18 @@ public class WoodcuttersSpringBlock extends Block {
         if (input.isOf(Items.IRON_HOE)) {
             return new ItemStack(Items.DIAMOND_HOE);
         }
+        if (input.isOf(Items.IRON_HELMET)) {
+            return new ItemStack(Items.DIAMOND_HELMET);
+        }
+        if (input.isOf(Items.IRON_CHESTPLATE)) {
+            return new ItemStack(Items.DIAMOND_CHESTPLATE);
+        }
+        if (input.isOf(Items.IRON_LEGGINGS)) {
+            return new ItemStack(Items.DIAMOND_LEGGINGS);
+        }
+        if (input.isOf(Items.IRON_BOOTS)) {
+            return new ItemStack(Items.DIAMOND_BOOTS);
+        }
         if (input.isOf(Items.GOLDEN_PICKAXE) || input.isOf(Items.STONE_PICKAXE) || input.isOf(Items.WOODEN_PICKAXE)) {
             return new ItemStack(Items.IRON_PICKAXE);
         }
@@ -89,6 +101,18 @@ public class WoodcuttersSpringBlock extends Block {
         }
         if (input.isOf(Items.GOLDEN_HOE) || input.isOf(Items.STONE_HOE) || input.isOf(Items.WOODEN_HOE)) {
             return new ItemStack(Items.IRON_HOE);
+        }
+        if (input.isOf(Items.GOLDEN_HELMET) || input.isOf(Items.CHAINMAIL_HELMET) || input.isOf(Items.LEATHER_HELMET)) {
+            return new ItemStack(Items.IRON_HELMET);
+        }
+        if (input.isOf(Items.GOLDEN_CHESTPLATE) || input.isOf(Items.CHAINMAIL_CHESTPLATE) || input.isOf(Items.LEATHER_CHESTPLATE)) {
+            return new ItemStack(Items.IRON_CHESTPLATE);
+        }
+        if (input.isOf(Items.GOLDEN_LEGGINGS) || input.isOf(Items.CHAINMAIL_LEGGINGS) || input.isOf(Items.LEATHER_LEGGINGS)) {
+            return new ItemStack(Items.IRON_LEGGINGS);
+        }
+        if (input.isOf(Items.GOLDEN_BOOTS) || input.isOf(Items.CHAINMAIL_BOOTS) || input.isOf(Items.LEATHER_BOOTS)) {
+            return new ItemStack(Items.IRON_BOOTS);
         }
 
         return ItemStack.EMPTY;
