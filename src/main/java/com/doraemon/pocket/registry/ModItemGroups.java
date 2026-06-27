@@ -39,6 +39,10 @@ public final class ModItemGroups {
 						entries.add(ModItems.WEATHER_CARD_SNOW);
 						entries.add(ModItems.TRANSLATION_GUMMY);
 						entries.add(ModItems.FOUR_DIMENSIONAL_POCKET);
+						entries.add(ModItems.GOURMET_TABLE_CLOTH);
+						entries.add(ModItems.SHADOW_SCISSORS);
+						entries.add(ModItems.SHADOW_GLUE);
+						entries.add(ModItems.DEVILS_PASSPORT);
 					})
 					.build()
 	);

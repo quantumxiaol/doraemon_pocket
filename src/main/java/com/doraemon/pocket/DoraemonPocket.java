@@ -5,6 +5,7 @@ import com.doraemon.pocket.command.ModCommands;
 import com.doraemon.pocket.event.AnywhereDoorTickHandler;
 import com.doraemon.pocket.event.DodgeCloakEvents;
 import com.doraemon.pocket.event.DoraemonFlybyEvents;
+import com.doraemon.pocket.event.DevilsPassportEvents;
 import com.doraemon.pocket.event.EnvironmentalAdaptationEvents;
 import com.doraemon.pocket.event.MomotaroObedienceHandler;
 import com.doraemon.pocket.event.RadarSwordEvents;
@@ -51,6 +52,7 @@ public class DoraemonPocket implements ModInitializer {
 		DodgeCloakEvents.register();
 		DoraemonFlybyEvents.register();
 		UniversalUnderstandingEvents.register();
+		DevilsPassportEvents.register();
 
 		LOGGER.info("Doraemon Pocket initialized.");
 	}

@@ -7,6 +7,7 @@ import com.doraemon.pocket.client.model.DodgeCloakModel;
 import com.doraemon.pocket.client.render.BambooCopterArmorRenderer;
 import com.doraemon.pocket.client.render.DodgeCloakArmorRenderer;
 import com.doraemon.pocket.client.render.LinkedPortalBlockEntityRenderer;
+import com.doraemon.pocket.client.render.ShadowEntityRenderer;
 import com.doraemon.pocket.client.render.StoneHatArmorRenderer;
 import com.doraemon.pocket.client.screen.FourDimensionalPocketScreen;
 import com.doraemon.pocket.client.sound.BambooCopterSoundManager;
@@ -35,10 +36,12 @@ public class DoraemonPocketClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PASS_LOOP_PORTAL, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COCONUT_FRUIT, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.APARTMENT_TREE_SAPLING, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GOURMET_TABLE_CLOTH, RenderLayer.getCutout());
 		HandledScreens.register(ModScreenHandlers.FOUR_DIMENSIONAL_POCKET, FourDimensionalPocketScreen::new);
 		BambooCopterInputHandler.register();
 		FourDimensionalPocketInputHandler.register();
 		BambooCopterSoundManager.register();
 		EntityRendererRegistry.register(ModEntities.MOMOTARO_DUMPLING, FlyingItemEntityRenderer::new);
+		EntityRendererRegistry.register(ModEntities.SHADOW, ShadowEntityRenderer::new);
 	}
 }

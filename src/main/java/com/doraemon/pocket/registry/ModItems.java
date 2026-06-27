@@ -8,6 +8,7 @@ import com.doraemon.pocket.item.AnywhereDoorItem;
 import com.doraemon.pocket.item.BambooCopterItem;
 import com.doraemon.pocket.item.CoconutItem;
 import com.doraemon.pocket.item.DepletedRadarSwordItem;
+import com.doraemon.pocket.item.DevilsPassportItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
 import com.doraemon.pocket.item.FourDimensionalPocketItem;
 import com.doraemon.pocket.item.MomotaroDumplingItem;
@@ -15,6 +16,8 @@ import com.doraemon.pocket.item.PassLoopItem;
 import com.doraemon.pocket.item.PlantModificationLiquidItem;
 import com.doraemon.pocket.item.RadarSwordItem;
 import com.doraemon.pocket.item.ShockGunItem;
+import com.doraemon.pocket.item.ShadowCuttingScissorsItem;
+import com.doraemon.pocket.item.ShadowGlueItem;
 import com.doraemon.pocket.item.StoneHatItem;
 import com.doraemon.pocket.item.TimeClothItem;
 import com.doraemon.pocket.item.TranslationGummyItem;
@@ -132,6 +135,22 @@ public final class ModItems {
 	public static final Item FOUR_DIMENSIONAL_POCKET = register(
 			"four_dimensional_pocket",
 			new FourDimensionalPocketItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE))
+	);
+	public static final Item GOURMET_TABLE_CLOTH = register(
+			"gourmet_table_cloth",
+			new BlockItem(ModBlocks.GOURMET_TABLE_CLOTH, new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item SHADOW_SCISSORS = register(
+			"shadow_scissors",
+			new ShadowCuttingScissorsItem(new FabricItemSettings().maxCount(1).maxDamage(64).rarity(Rarity.RARE))
+	);
+	public static final Item SHADOW_GLUE = register(
+			"shadow_glue",
+			new ShadowGlueItem(new FabricItemSettings().maxCount(1).maxDamage(64).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item DEVILS_PASSPORT = register(
+			"devils_passport",
+			new DevilsPassportItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE))
 	);
 
 	private ModItems() {

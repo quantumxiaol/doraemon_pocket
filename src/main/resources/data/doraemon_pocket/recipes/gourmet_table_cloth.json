@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"WSW",
+		"RCR",
+		"WSW"
+	],
+	"key": {
+		"W": {
+			"item": "minecraft:white_wool"
+		},
+		"S": {
+			"item": "minecraft:string"
+		},
+		"R": {
+			"item": "minecraft:red_dye"
+		},
+		"C": {
+			"item": "minecraft:cake"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:gourmet_table_cloth"
+	}
+}

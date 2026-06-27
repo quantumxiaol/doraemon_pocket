@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" E",
+		"S "
+	],
+	"key": {
+		"E": {
+			"item": "minecraft:ender_pearl"
+		},
+		"S": {
+			"item": "minecraft:shears"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:shadow_scissors"
+	}
+}

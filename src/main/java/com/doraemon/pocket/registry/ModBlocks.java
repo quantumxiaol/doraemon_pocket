@@ -4,6 +4,7 @@ import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.block.ApartmentTreeSaplingBlock;
 import com.doraemon.pocket.block.AnywhereDoorPortalBlock;
 import com.doraemon.pocket.block.CoconutFruitBlock;
+import com.doraemon.pocket.block.GourmetTableClothBlock;
 import com.doraemon.pocket.block.LinkedPortalBlock;
 import com.doraemon.pocket.block.WeatherBoxBlock;
 import net.minecraft.block.AbstractBlock;
@@ -33,6 +34,10 @@ public final class ModBlocks {
 	public static final WeatherBoxBlock WEATHER_BOX = register(
 			"weather_box",
 			new WeatherBoxBlock(machineSettings())
+	);
+	public static final GourmetTableClothBlock GOURMET_TABLE_CLOTH = register(
+			"gourmet_table_cloth",
+			new GourmetTableClothBlock(clothSettings())
 	);
 
 	private ModBlocks() {
@@ -93,6 +98,16 @@ public final class ModBlocks {
 				.sounds(BlockSoundGroup.METAL)
 				.luminance(state -> 4)
 				.requiresTool();
+	}
+
+	private static AbstractBlock.Settings clothSettings() {
+		return AbstractBlock.Settings.create()
+				.mapColor(MapColor.WHITE)
+				.noCollision()
+				.nonOpaque()
+				.strength(0.15F)
+				.sounds(BlockSoundGroup.WOOL)
+				.pistonBehavior(PistonBehavior.DESTROY);
 	}
 
 	private static <T extends net.minecraft.block.Block> T register(String path, T block) {

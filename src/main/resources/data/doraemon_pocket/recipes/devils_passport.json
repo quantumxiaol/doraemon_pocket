@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"RBR",
+		"GBG",
+		"RBR"
+	],
+	"key": {
+		"R": {
+			"item": "minecraft:red_dye"
+		},
+		"B": {
+			"item": "minecraft:book"
+		},
+		"G": {
+			"item": "minecraft:gold_ingot"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:devils_passport"
+	}
+}
