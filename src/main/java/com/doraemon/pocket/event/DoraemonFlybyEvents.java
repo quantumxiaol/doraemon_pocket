@@ -22,7 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
 public final class DoraemonFlybyEvents {
-	private static final int DURATION_TICKS = 110;
+	private static final int DURATION_TICKS = 150;
 	private static final double DRAGON_TRIGGER_RANGE_SQUARED = 192.0D * 192.0D;
 	private static final List<Flyby> ACTIVE_FLYBYS = new ArrayList<>();
 
@@ -47,10 +47,10 @@ public final class DoraemonFlybyEvents {
 		Vec3d look = horizontalOrFallback(player.getRotationVec(1.0F), new Vec3d(0.0D, 0.0D, 1.0D));
 		Vec3d right = new Vec3d(-look.z, 0.0D, look.x).normalize();
 		Vec3d viewer = player.getEyePos();
-		Vec3d focus = viewer.add(look.multiply(6.0D)).add(0.0D, 1.0D, 0.0D);
-		Vec3d start = focus.subtract(right.multiply(5.5D)).add(0.0D, 1.0D, 0.0D);
-		Vec3d control = focus.add(look.multiply(1.4D)).add(0.0D, 2.8D, 0.0D);
-		Vec3d end = focus.add(right.multiply(5.5D)).add(0.0D, 0.25D, 0.0D);
+		Vec3d focus = viewer.add(look.multiply(7.0D)).add(0.0D, 1.1D, 0.0D);
+		Vec3d start = focus.subtract(right.multiply(8.8D)).add(0.0D, 1.2D, 0.0D);
+		Vec3d control = focus.add(look.multiply(1.8D)).add(0.0D, 3.1D, 0.0D);
+		Vec3d end = focus.add(right.multiply(8.8D)).add(0.0D, 0.2D, 0.0D);
 		start(player.getServerWorld(), start, control, end, viewer);
 	}
 
@@ -66,9 +66,9 @@ public final class DoraemonFlybyEvents {
 		}
 
 		Vec3d center = entity.getPos().add(0.0D, 5.0D, 0.0D);
-		Vec3d start = center.add(-7.0D, 2.5D, 0.0D);
-		Vec3d control = center.add(0.0D, 5.5D, 2.0D);
-		Vec3d end = center.add(7.0D, 1.0D, 0.0D);
+		Vec3d start = center.add(-10.5D, 3.0D, 0.0D);
+		Vec3d control = center.add(0.0D, 6.2D, 2.5D);
+		Vec3d end = center.add(10.5D, 0.8D, 0.0D);
 		start(world, start, control, end, center.add(0.0D, 0.0D, -8.0D));
 	}
 
@@ -173,12 +173,19 @@ public final class DoraemonFlybyEvents {
 				double y = 0.03D + Math.sin(a) * 0.85D;
 				plot(center, right, up, face, x, y, 0.14D, BLUE, 1.0F);
 			}
-			for (int i = 0; i < 8; i++) {
-				double a = Math.PI * 2.0D * i / 8.0D;
-				plot(center, right, up, face, Math.cos(a) * 0.42D, -0.73D + Math.sin(a) * 0.23D, 0.62D, WHITE, 0.95F);
+			drawLine(center, right, up, face, -0.52D, -0.44D, 0.92D, 0.52D, -0.44D, 0.92D, RED, 6, 0.72F);
+			for (int i = 0; i < 14; i++) {
+				double a = Math.PI * 2.0D * i / 14.0D;
+				plot(center, right, up, face, Math.cos(a) * 0.54D, -0.75D + Math.sin(a) * 0.30D, 0.78D, WHITE, 1.05F);
 			}
-			plot(center, right, up, face, 0.0D, -0.78D, 0.76D, YELLOW, 1.25F);
-			plot(center, right, up, face, 0.0D, -0.78D, 0.90D, BLACK, 0.55F);
+			plot(center, right, up, face, 0.0D, -0.75D, 0.86D, WHITE, 1.15F);
+			drawLine(center, right, up, face, -0.30D, -0.78D, 1.00D, 0.30D, -0.78D, 1.00D, BLACK, 4, 0.35F);
+			for (int i = 0; i < 7; i++) {
+				double a = Math.PI + Math.PI * i / 6.0D;
+				plot(center, right, up, face, Math.cos(a) * 0.30D, -0.81D + Math.sin(a) * 0.16D, 1.00D, BLACK, 0.35F);
+			}
+			plot(center, right, up, face, 0.0D, -0.53D, 1.00D, YELLOW, 1.25F);
+			plot(center, right, up, face, 0.0D, -0.53D, 1.14D, BLACK, 0.55F);
 			plot(center, right, up, face, -0.72D, -0.18D, 0.28D, WHITE, 0.85F);
 			plot(center, right, up, face, 0.72D, -0.18D, 0.28D, WHITE, 0.85F);
 		}
