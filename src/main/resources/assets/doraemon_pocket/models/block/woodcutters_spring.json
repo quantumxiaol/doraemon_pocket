@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "doraemon_pocket:block/woodcutters_spring"
+	}
+}

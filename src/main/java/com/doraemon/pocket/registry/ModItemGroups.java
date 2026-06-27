@@ -45,6 +45,11 @@ public final class ModItemGroups {
 						entries.add(ModItems.DEVILS_PASSPORT);
 						entries.add(ModItems.CLOUD_HARDENING_GAS);
 						entries.add(ModItems.SOLIDIFIED_CLOUD);
+						entries.add(ModItems.DEEP_SEA_CREAM);
+						entries.add(ModItems.FAST_FORWARD_WINDER);
+						entries.add(ModItems.WOODCUTTERS_SPRING);
+						entries.add(ModItems.CAMPING_CAPSULE);
+						entries.add(ModItems.RESTORING_FLASHLIGHT);
 					})
 					.build()
 	);

@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" A ",
+		"CSC",
+		" R "
+	],
+	"key": {
+		"A": {
+			"item": "minecraft:amethyst_shard"
+		},
+		"C": {
+			"item": "minecraft:copper_ingot"
+		},
+		"S": {
+			"item": "minecraft:spyglass"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:restoring_flashlight"
+	}
+}

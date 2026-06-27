@@ -6,16 +6,20 @@ import com.doraemon.pocket.item.AirCannonItem;
 import com.doraemon.pocket.item.ApartmentTreeItem;
 import com.doraemon.pocket.item.AnywhereDoorItem;
 import com.doraemon.pocket.item.BambooCopterItem;
+import com.doraemon.pocket.item.CampingCapsuleItem;
 import com.doraemon.pocket.item.CloudHardeningGasItem;
 import com.doraemon.pocket.item.CoconutItem;
+import com.doraemon.pocket.item.DeepSeaCreamItem;
 import com.doraemon.pocket.item.DepletedRadarSwordItem;
 import com.doraemon.pocket.item.DevilsPassportItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
+import com.doraemon.pocket.item.FastForwardWinderItem;
 import com.doraemon.pocket.item.FourDimensionalPocketItem;
 import com.doraemon.pocket.item.MomotaroDumplingItem;
 import com.doraemon.pocket.item.PassLoopItem;
 import com.doraemon.pocket.item.PlantModificationLiquidItem;
 import com.doraemon.pocket.item.RadarSwordItem;
+import com.doraemon.pocket.item.RestoringFlashlightItem;
 import com.doraemon.pocket.item.ShockGunItem;
 import com.doraemon.pocket.item.ShadowCuttingScissorsItem;
 import com.doraemon.pocket.item.ShadowGlueItem;
@@ -160,6 +164,26 @@ public final class ModItems {
 	public static final Item SOLIDIFIED_CLOUD = register(
 			"solidified_cloud",
 			new BlockItem(ModBlocks.SOLIDIFIED_CLOUD, new FabricItemSettings().maxCount(64).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item DEEP_SEA_CREAM = register(
+			"deep_sea_cream",
+			new DeepSeaCreamItem(new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item FAST_FORWARD_WINDER = register(
+			"fast_forward_winder",
+			new FastForwardWinderItem(new FabricItemSettings().maxCount(1).maxDamage(64).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item WOODCUTTERS_SPRING = register(
+			"woodcutters_spring",
+			new BlockItem(ModBlocks.WOODCUTTERS_SPRING, new FabricItemSettings().maxCount(16).rarity(Rarity.RARE))
+	);
+	public static final Item CAMPING_CAPSULE = register(
+			"camping_capsule",
+			new CampingCapsuleItem(new FabricItemSettings().maxCount(16).rarity(Rarity.RARE))
+	);
+	public static final Item RESTORING_FLASHLIGHT = register(
+			"restoring_flashlight",
+			new RestoringFlashlightItem(new FabricItemSettings().maxCount(1).maxDamage(128).rarity(Rarity.RARE))
 	);
 
 	private ModItems() {

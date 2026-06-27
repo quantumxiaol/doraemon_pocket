@@ -3,6 +3,7 @@
 	"package": "com.doraemon.pocket.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"AbstractFurnaceBlockEntityAccessor",
 		"EndermanEntityMixin",
 		"PiglinBrainMixin",
 		"VillagerEntityMixin"

@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:honey_bottle"
+		},
+		{
+			"item": "minecraft:kelp"
+		},
+		{
+			"item": "minecraft:nautilus_shell"
+		},
+		{
+			"item": "minecraft:glow_ink_sac"
+		}
+	],
+	"result": {
+		"item": "doraemon_pocket:deep_sea_cream",
+		"count": 2
+	}
+}

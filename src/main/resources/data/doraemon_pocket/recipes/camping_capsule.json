@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" Q ",
+		"LBL",
+		" S "
+	],
+	"key": {
+		"Q": {
+			"item": "minecraft:quartz_block"
+		},
+		"L": {
+			"item": "minecraft:lantern"
+		},
+		"B": {
+			"item": "minecraft:white_bed"
+		},
+		"S": {
+			"item": "minecraft:scaffolding"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:camping_capsule"
+	}
+}

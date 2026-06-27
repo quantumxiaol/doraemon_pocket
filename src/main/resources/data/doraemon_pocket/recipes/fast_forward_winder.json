@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" C ",
+		"RWR",
+		" C "
+	],
+	"key": {
+		"C": {
+			"item": "minecraft:copper_ingot"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		},
+		"W": {
+			"item": "minecraft:clock"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:fast_forward_winder"
+	}
+}

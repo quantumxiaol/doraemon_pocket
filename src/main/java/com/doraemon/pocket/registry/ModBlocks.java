@@ -8,6 +8,7 @@ import com.doraemon.pocket.block.GourmetTableClothBlock;
 import com.doraemon.pocket.block.LinkedPortalBlock;
 import com.doraemon.pocket.block.SolidifiedCloudBlock;
 import com.doraemon.pocket.block.WeatherBoxBlock;
+import com.doraemon.pocket.block.WoodcuttersSpringBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.piston.PistonBehavior;
@@ -43,6 +44,10 @@ public final class ModBlocks {
 	public static final SolidifiedCloudBlock SOLIDIFIED_CLOUD = register(
 			"solidified_cloud",
 			new SolidifiedCloudBlock(cloudSettings())
+	);
+	public static final WoodcuttersSpringBlock WOODCUTTERS_SPRING = register(
+			"woodcutters_spring",
+			new WoodcuttersSpringBlock(springSettings())
 	);
 
 	private ModBlocks() {
@@ -121,6 +126,17 @@ public final class ModBlocks {
 				.strength(0.25F)
 				.slipperiness(0.86F)
 				.sounds(BlockSoundGroup.WOOL)
+				.pistonBehavior(PistonBehavior.DESTROY);
+	}
+
+	private static AbstractBlock.Settings springSettings() {
+		return AbstractBlock.Settings.create()
+				.mapColor(MapColor.WATER_BLUE)
+				.noCollision()
+				.nonOpaque()
+				.strength(1.5F, 6.0F)
+				.sounds(BlockSoundGroup.STONE)
+				.luminance(state -> 5)
 				.pistonBehavior(PistonBehavior.DESTROY);
 	}
 
