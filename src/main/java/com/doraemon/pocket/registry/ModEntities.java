@@ -1,6 +1,8 @@
 package com.doraemon.pocket.registry;
 
 import com.doraemon.pocket.DoraemonPocket;
+import com.doraemon.pocket.entity.DoraemonEntity;
+import com.doraemon.pocket.entity.MiniDoraemonEntity;
 import com.doraemon.pocket.entity.MomotaroDumplingEntity;
 import com.doraemon.pocket.entity.ShadowEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -28,12 +30,32 @@ public final class ModEntities {
 					.trackingTickInterval(3)
 					.build(DoraemonPocket.id("shadow").toString())
 	);
+	public static final EntityType<DoraemonEntity> DORAEMON = Registry.register(
+			Registries.ENTITY_TYPE,
+			DoraemonPocket.id("doraemon"),
+			EntityType.Builder.<DoraemonEntity>create(DoraemonEntity::new, SpawnGroup.CREATURE)
+					.setDimensions(0.9F, 1.55F)
+					.maxTrackingRange(10)
+					.trackingTickInterval(3)
+					.build(DoraemonPocket.id("doraemon").toString())
+	);
+	public static final EntityType<MiniDoraemonEntity> MINI_DORAEMON = Registry.register(
+			Registries.ENTITY_TYPE,
+			DoraemonPocket.id("mini_doraemon"),
+			EntityType.Builder.<MiniDoraemonEntity>create(MiniDoraemonEntity::new, SpawnGroup.CREATURE)
+					.setDimensions(0.45F, 0.75F)
+					.maxTrackingRange(8)
+					.trackingTickInterval(3)
+					.build(DoraemonPocket.id("mini_doraemon").toString())
+	);
 
 	private ModEntities() {
 	}
 
 	public static void register() {
 		FabricDefaultAttributeRegistry.register(SHADOW, ShadowEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(DORAEMON, DoraemonEntity.createAttributes());
+		FabricDefaultAttributeRegistry.register(MINI_DORAEMON, MiniDoraemonEntity.createAttributes());
 		DoraemonPocket.LOGGER.debug("Registered Doraemon Pocket entities.");
 	}
 }

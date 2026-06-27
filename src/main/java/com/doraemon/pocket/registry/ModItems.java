@@ -32,6 +32,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Rarity;
@@ -184,6 +185,14 @@ public final class ModItems {
 	public static final Item RESTORING_FLASHLIGHT = register(
 			"restoring_flashlight",
 			new RestoringFlashlightItem(new FabricItemSettings().maxCount(1).maxDamage(128).rarity(Rarity.RARE))
+	);
+	public static final Item DORAEMON_SPAWN_EGG = register(
+			"doraemon_spawn_egg",
+			new SpawnEggItem(ModEntities.DORAEMON, 0x1599D3, 0xFFFFFF, new FabricItemSettings().rarity(Rarity.RARE))
+	);
+	public static final Item MINI_DORAEMON_SPAWN_EGG = register(
+			"mini_doraemon_spawn_egg",
+			new SpawnEggItem(ModEntities.MINI_DORAEMON, 0x0CA7DC, 0xF5F5F5, new FabricItemSettings().rarity(Rarity.UNCOMMON))
 	);
 
 	private ModItems() {

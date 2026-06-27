@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.doraemon.pocket.entity.DoraemonEntity;
+import com.doraemon.pocket.registry.ModEntities;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -17,8 +19,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Heightmap;
 import org.joml.Vector3f;
 
 public final class DoraemonFlybyEvents {
@@ -59,6 +64,8 @@ public final class DoraemonFlybyEvents {
 			return;
 		}
 
+		spawnDoraemonCompanion(world, entity.getPos());
+
 		ServerPlayerEntity viewer = findViewer(world, entity, source);
 		if (viewer != null) {
 			playForPlayer(viewer);
@@ -70,6 +77,54 @@ public final class DoraemonFlybyEvents {
 		Vec3d control = center.add(0.0D, 6.2D, 2.5D);
 		Vec3d end = center.add(10.5D, 0.8D, 0.0D);
 		start(world, start, control, end, center.add(0.0D, 0.0D, -8.0D));
+	}
+
+	private static void spawnDoraemonCompanion(ServerWorld world, Vec3d center) {
+		BlockPos spawnPos = findDoraemonSpawnPos(world, center);
+		DoraemonEntity doraemon = new DoraemonEntity(ModEntities.DORAEMON, world);
+		doraemon.refreshPositionAndAngles(
+				spawnPos.getX() + 0.5D,
+				spawnPos.getY() + 0.1D,
+				spawnPos.getZ() + 0.5D,
+				world.random.nextFloat() * 360.0F,
+				0.0F
+		);
+		doraemon.setCustomName(Text.translatable("entity.doraemon_pocket.doraemon"));
+		doraemon.setCustomNameVisible(true);
+		world.spawnEntity(doraemon);
+		world.spawnParticles(ParticleTypes.HAPPY_VILLAGER, doraemon.getX(), doraemon.getBodyY(0.75D), doraemon.getZ(), 24, 0.45D, 0.45D, 0.45D, 0.04D);
+		world.playSound(null, doraemon.getX(), doraemon.getY(), doraemon.getZ(), SoundEvents.BLOCK_BEACON_ACTIVATE, SoundCategory.NEUTRAL, 0.7F, 1.55F);
+	}
+
+	private static BlockPos findDoraemonSpawnPos(ServerWorld world, Vec3d center) {
+		int centerX = MathHelper.floor(center.x);
+		int centerZ = MathHelper.floor(center.z);
+		for (int radius = 0; radius <= 12; radius++) {
+			for (int dx = -radius; dx <= radius; dx++) {
+				for (int dz = -radius; dz <= radius; dz++) {
+					if (Math.max(Math.abs(dx), Math.abs(dz)) != radius) {
+						continue;
+					}
+					BlockPos column = new BlockPos(centerX + dx, world.getBottomY(), centerZ + dz);
+					BlockPos top = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, column);
+					if (isClearSpawnPos(world, top)) {
+						return top;
+					}
+				}
+			}
+		}
+		return BlockPos.ofFloored(center.x, Math.max(world.getBottomY() + 8.0D, center.y), center.z);
+	}
+
+	private static boolean isClearSpawnPos(ServerWorld world, BlockPos pos) {
+		if (pos.getY() <= world.getBottomY() || pos.getY() >= world.getTopY() - 2) {
+			return false;
+		}
+		return world.getBlockState(pos.down()).isSolidBlock(world, pos.down())
+				&& world.getBlockState(pos).isAir()
+				&& world.getBlockState(pos.up()).isAir()
+				&& world.getFluidState(pos).isEmpty()
+				&& world.getFluidState(pos.up()).isEmpty();
 	}
 
 	private static ServerPlayerEntity findViewer(ServerWorld world, LivingEntity killed, DamageSource source) {

@@ -3,10 +3,13 @@ package com.doraemon.pocket.client;
 import com.doraemon.pocket.client.input.BambooCopterInputHandler;
 import com.doraemon.pocket.client.input.FourDimensionalPocketInputHandler;
 import com.doraemon.pocket.client.model.BambooCopterModel;
+import com.doraemon.pocket.client.model.DoraemonEntityModel;
 import com.doraemon.pocket.client.model.DodgeCloakModel;
 import com.doraemon.pocket.client.render.BambooCopterArmorRenderer;
 import com.doraemon.pocket.client.render.DodgeCloakArmorRenderer;
+import com.doraemon.pocket.client.render.DoraemonEntityRenderer;
 import com.doraemon.pocket.client.render.LinkedPortalBlockEntityRenderer;
+import com.doraemon.pocket.client.render.MiniDoraemonEntityRenderer;
 import com.doraemon.pocket.client.render.ShadowEntityRenderer;
 import com.doraemon.pocket.client.render.StoneHatArmorRenderer;
 import com.doraemon.pocket.client.screen.FourDimensionalPocketScreen;
@@ -27,6 +30,7 @@ public class DoraemonPocketClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		BambooCopterModel.registerLayer();
+		DoraemonEntityModel.registerLayer();
 		DodgeCloakModel.registerLayer();
 		BambooCopterArmorRenderer.register();
 		DodgeCloakArmorRenderer.register();
@@ -43,5 +47,7 @@ public class DoraemonPocketClient implements ClientModInitializer {
 		BambooCopterSoundManager.register();
 		EntityRendererRegistry.register(ModEntities.MOMOTARO_DUMPLING, FlyingItemEntityRenderer::new);
 		EntityRendererRegistry.register(ModEntities.SHADOW, ShadowEntityRenderer::new);
+		EntityRendererRegistry.register(ModEntities.DORAEMON, context -> new DoraemonEntityRenderer<>(context, 1.0F, 0.45F));
+		EntityRendererRegistry.register(ModEntities.MINI_DORAEMON, MiniDoraemonEntityRenderer::new);
 	}
 }

@@ -50,6 +50,8 @@ public final class ModItemGroups {
 						entries.add(ModItems.WOODCUTTERS_SPRING);
 						entries.add(ModItems.CAMPING_CAPSULE);
 						entries.add(ModItems.RESTORING_FLASHLIGHT);
+						entries.add(ModItems.DORAEMON_SPAWN_EGG);
+						entries.add(ModItems.MINI_DORAEMON_SPAWN_EGG);
 					})
 					.build()
 	);
