@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "doraemon_pocket:item/weather_card_rain"
+	}
+}

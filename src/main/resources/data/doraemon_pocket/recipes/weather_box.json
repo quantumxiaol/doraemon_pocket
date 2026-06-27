@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IGI",
+		"RNR",
+		"III"
+	],
+	"key": {
+		"I": {
+			"item": "minecraft:iron_ingot"
+		},
+		"G": {
+			"item": "minecraft:glass"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		},
+		"N": {
+			"item": "minecraft:note_block"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:weather_box"
+	}
+}

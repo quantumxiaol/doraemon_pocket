@@ -5,6 +5,7 @@ import com.doraemon.pocket.block.ApartmentTreeSaplingBlock;
 import com.doraemon.pocket.block.AnywhereDoorPortalBlock;
 import com.doraemon.pocket.block.CoconutFruitBlock;
 import com.doraemon.pocket.block.LinkedPortalBlock;
+import com.doraemon.pocket.block.WeatherBoxBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.piston.PistonBehavior;
@@ -28,6 +29,10 @@ public final class ModBlocks {
 	public static final ApartmentTreeSaplingBlock APARTMENT_TREE_SAPLING = register(
 			"apartment_tree_sapling",
 			new ApartmentTreeSaplingBlock(saplingSettings())
+	);
+	public static final WeatherBoxBlock WEATHER_BOX = register(
+			"weather_box",
+			new WeatherBoxBlock(machineSettings())
 	);
 
 	private ModBlocks() {
@@ -79,6 +84,15 @@ public final class ModBlocks {
 				.sounds(BlockSoundGroup.GRASS)
 				.pistonBehavior(PistonBehavior.DESTROY)
 				.dropsNothing();
+	}
+
+	private static AbstractBlock.Settings machineSettings() {
+		return AbstractBlock.Settings.create()
+				.mapColor(MapColor.LIGHT_BLUE)
+				.strength(2.2F, 6.0F)
+				.sounds(BlockSoundGroup.METAL)
+				.luminance(state -> 4)
+				.requiresTool();
 	}
 
 	private static <T extends net.minecraft.block.Block> T register(String path, T block) {

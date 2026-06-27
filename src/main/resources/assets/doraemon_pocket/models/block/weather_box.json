@@ -1,0 +1,12 @@
+{
+	"parent": "minecraft:block/cube",
+	"textures": {
+		"particle": "doraemon_pocket:block/weather_box_side",
+		"down": "doraemon_pocket:block/weather_box_side",
+		"up": "doraemon_pocket:block/weather_box_top",
+		"north": "doraemon_pocket:block/weather_box_front",
+		"south": "doraemon_pocket:block/weather_box_side",
+		"east": "doraemon_pocket:block/weather_box_side",
+		"west": "doraemon_pocket:block/weather_box_side"
+	}
+}

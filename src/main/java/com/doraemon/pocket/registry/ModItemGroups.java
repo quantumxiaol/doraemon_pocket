@@ -32,6 +32,13 @@ public final class ModItemGroups {
 						entries.add(ModItems.PLANT_MODIFICATION_LIQUID);
 						entries.add(ModItems.COCONUT);
 						entries.add(ModItems.APARTMENT_TREE);
+						entries.add(ModItems.WEATHER_BOX);
+						entries.add(ModItems.WEATHER_CARD_CLEAR);
+						entries.add(ModItems.WEATHER_CARD_RAIN);
+						entries.add(ModItems.WEATHER_CARD_THUNDER);
+						entries.add(ModItems.WEATHER_CARD_SNOW);
+						entries.add(ModItems.TRANSLATION_GUMMY);
+						entries.add(ModItems.FOUR_DIMENSIONAL_POCKET);
 					})
 					.build()
 	);

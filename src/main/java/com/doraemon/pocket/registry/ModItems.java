@@ -9,6 +9,7 @@ import com.doraemon.pocket.item.BambooCopterItem;
 import com.doraemon.pocket.item.CoconutItem;
 import com.doraemon.pocket.item.DepletedRadarSwordItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
+import com.doraemon.pocket.item.FourDimensionalPocketItem;
 import com.doraemon.pocket.item.MomotaroDumplingItem;
 import com.doraemon.pocket.item.PassLoopItem;
 import com.doraemon.pocket.item.PlantModificationLiquidItem;
@@ -16,8 +17,11 @@ import com.doraemon.pocket.item.RadarSwordItem;
 import com.doraemon.pocket.item.ShockGunItem;
 import com.doraemon.pocket.item.StoneHatItem;
 import com.doraemon.pocket.item.TimeClothItem;
+import com.doraemon.pocket.item.TranslationGummyItem;
+import com.doraemon.pocket.item.WeatherCardItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -100,6 +104,34 @@ public final class ModItems {
 	public static final Item APARTMENT_TREE = register(
 			"apartment_tree",
 			new ApartmentTreeItem(ModBlocks.APARTMENT_TREE_SAPLING, new FabricItemSettings().maxCount(16).rarity(Rarity.RARE))
+	);
+	public static final Item WEATHER_BOX = register(
+			"weather_box",
+			new BlockItem(ModBlocks.WEATHER_BOX, new FabricItemSettings().maxCount(64).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item WEATHER_CARD_CLEAR = register(
+			"weather_card_clear",
+			new WeatherCardItem(WeatherCardItem.WeatherMode.CLEAR, new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item WEATHER_CARD_RAIN = register(
+			"weather_card_rain",
+			new WeatherCardItem(WeatherCardItem.WeatherMode.RAIN, new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item WEATHER_CARD_THUNDER = register(
+			"weather_card_thunder",
+			new WeatherCardItem(WeatherCardItem.WeatherMode.THUNDER, new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item WEATHER_CARD_SNOW = register(
+			"weather_card_snow",
+			new WeatherCardItem(WeatherCardItem.WeatherMode.SNOW, new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item TRANSLATION_GUMMY = register(
+			"translation_gummy",
+			new TranslationGummyItem(new FabricItemSettings().maxCount(16).food(new FoodComponent.Builder().hunger(2).saturationModifier(0.25F).alwaysEdible().build()).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item FOUR_DIMENSIONAL_POCKET = register(
+			"four_dimensional_pocket",
+			new FourDimensionalPocketItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE))
 	);
 
 	private ModItems() {

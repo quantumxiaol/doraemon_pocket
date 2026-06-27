@@ -11,12 +11,14 @@ import com.doraemon.pocket.event.RadarSwordEvents;
 import com.doraemon.pocket.event.ShockGunStunHandler;
 import com.doraemon.pocket.event.StoneHatEvents;
 import com.doraemon.pocket.event.TimeClothUseHandler;
+import com.doraemon.pocket.event.UniversalUnderstandingEvents;
 import com.doraemon.pocket.network.DoraemonPackets;
 import com.doraemon.pocket.registry.ModBlockEntities;
 import com.doraemon.pocket.registry.ModBlocks;
 import com.doraemon.pocket.registry.ModEntities;
 import com.doraemon.pocket.registry.ModItemGroups;
 import com.doraemon.pocket.registry.ModItems;
+import com.doraemon.pocket.registry.ModScreenHandlers;
 import com.doraemon.pocket.registry.ModStatusEffects;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -34,6 +36,7 @@ public class DoraemonPocket implements ModInitializer {
 		ModBlockEntities.register();
 		ModItems.register();
 		ModEntities.register();
+		ModScreenHandlers.register();
 		ModItemGroups.register();
 		ModCommands.register();
 		DoraemonPackets.registerServerReceivers();
@@ -47,6 +50,7 @@ public class DoraemonPocket implements ModInitializer {
 		EnvironmentalAdaptationEvents.register();
 		DodgeCloakEvents.register();
 		DoraemonFlybyEvents.register();
+		UniversalUnderstandingEvents.register();
 
 		LOGGER.info("Doraemon Pocket initialized.");
 	}

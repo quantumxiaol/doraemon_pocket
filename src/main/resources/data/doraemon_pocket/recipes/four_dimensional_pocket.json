@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"WEW",
+		"W W",
+		"WWW"
+	],
+	"key": {
+		"W": {
+			"item": "minecraft:white_wool"
+		},
+		"E": {
+			"item": "minecraft:ender_chest"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:four_dimensional_pocket"
+	}
+}

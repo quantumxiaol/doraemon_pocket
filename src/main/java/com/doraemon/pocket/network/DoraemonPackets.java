@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.item.BambooCopterItem;
+import com.doraemon.pocket.item.FourDimensionalPocketItem;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -14,6 +15,7 @@ import net.minecraft.util.Identifier;
 
 public final class DoraemonPackets {
 	public static final Identifier BAMBOO_COPTER_CONTROL = DoraemonPocket.id("bamboo_copter_control");
+	public static final Identifier OPEN_FOUR_DIMENSIONAL_POCKET = DoraemonPocket.id("open_four_dimensional_pocket");
 
 	private static final int BAMBOO_COPTER_CONTROL_TIMEOUT_TICKS = 30;
 	private static final Map<UUID, TimedBambooCopterControl> BAMBOO_COPTER_CONTROLS = new ConcurrentHashMap<>();
@@ -34,6 +36,9 @@ public final class DoraemonPackets {
 				}
 			});
 		});
+		ServerPlayNetworking.registerGlobalReceiver(OPEN_FOUR_DIMENSIONAL_POCKET, (server, player, handler, buf, responseSender) ->
+				server.execute(() -> FourDimensionalPocketItem.openFirst(player))
+		);
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> forgetBambooCopterControl(handler.player.getUuid()));
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> BAMBOO_COPTER_CONTROLS.clear());
 	}
