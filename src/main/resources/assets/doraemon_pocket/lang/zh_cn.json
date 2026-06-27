@@ -10,7 +10,7 @@
 	"item.doraemon_pocket.time_cloth": "时光包袱皮",
 	"item.doraemon_pocket.time_cloth.tooltip": "一手拿包袱皮，另一手拿受损物品，右键消耗 30 点经验修复。",
 	"item.doraemon_pocket.adaptation_light": "适应灯",
-	"item.doraemon_pocket.adaptation_light.tooltip": "放在背包或手上时，持续赋予环境适应效果。",
+	"item.doraemon_pocket.adaptation_light.tooltip": "右键照射目标，赋予 90 分钟环境适应；潜行右键照射自己。",
 	"item.doraemon_pocket.momotaro_dumpling": "桃太郎饭团",
 	"item.doraemon_pocket.momotaro_dumpling.tooltip": "右键投掷或喂给生物；大体型目标可骑乘，潜行右键放归。",
 	"item.doraemon_pocket.anywhere_door": "任意门",

@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "minecraft:item/lantern"
+		"layer0": "doraemon_pocket:item/adaptation_light"
 	}
 }
