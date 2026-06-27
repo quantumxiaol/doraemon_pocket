@@ -2,6 +2,8 @@
 
 一个适用于 Minecraft Java 版的 Fabric 小道具 Mod，加入哆啦A梦风格的实用道具。
 
+## 道具一览
+
 当前版本已实现：
 
 - 竹蜻蜓
@@ -35,6 +37,8 @@
 ## 竹蜻蜓
 
 竹蜻蜓需要装备到头盔栏。
+
+竹蜻蜓的早期贴图和头戴模型结构参考了 teaconmc 的示例项目 [DoraemonProps](https://github.com/teaconmc/DoraemonProps)。当前 Fabric 1.20.1 版本的装备渲染、飞行逻辑、音效混合和交互行为由本项目重新实现。
 
 - 按住跳跃键：上升
 - 按住潜行键：下降
@@ -74,6 +78,7 @@
 - 受到伤害时：有概率完全闪避本次伤害
 - 普通非环境伤害：当前闪避概率为 32%
 - 被投射物命中时：必定闪避，并尝试把投射物弹飞
+- 爆炸、岩浆、仙人掌、虚空等环境伤害或没有明确攻击者的伤害：当前不作为闪避斗篷的主要防护对象
 - 触发闪避时：播放格挡音效并消耗耐久
 
 ## 时光包袱皮
@@ -184,3 +189,9 @@
 ## 许可证
 
 本项目当前沿用模板的 CC0 许可证。
+
+## 免责声明 / Disclaimer
+
+本项目是出于对原作的喜爱制作的非官方、非盈利粉丝项目。“哆啦A梦 / Doraemon”以及相关概念、道具和设计归藤子·F·不二雄相关版权方、Fujiko-Pro、小学馆、TV Asahi 等权利方所有。本 Mod 与上述版权方没有从属、授权、赞助或背书关系。
+
+This is an unofficial, non-profit fan-made project created out of love for the original work. "Doraemon" and all related concepts, gadgets, and designs are the property of Fujiko-Pro, Shogakukan, and TV Asahi. This mod is not affiliated with, endorsed by, or sponsored by the copyright holders in any way.
