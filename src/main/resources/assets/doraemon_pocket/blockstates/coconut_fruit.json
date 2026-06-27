@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "doraemon_pocket:block/coconut_fruit",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "doraemon_pocket:block/coconut_fruit",
+			"y": 270
+		},
+		"facing=south": {
+			"model": "doraemon_pocket:block/coconut_fruit"
+		},
+		"facing=west": {
+			"model": "doraemon_pocket:block/coconut_fruit",
+			"y": 90
+		}
+	}
+}

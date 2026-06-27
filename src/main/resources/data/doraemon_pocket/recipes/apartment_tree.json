@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" L ",
+		"SPS",
+		" B "
+	],
+	"key": {
+		"L": {
+			"item": "minecraft:ladder"
+		},
+		"S": {
+			"item": "minecraft:oak_sapling"
+		},
+		"P": {
+			"item": "minecraft:birch_planks"
+		},
+		"B": {
+			"item": "minecraft:bone_meal"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:apartment_tree",
+		"count": 1
+	}
+}

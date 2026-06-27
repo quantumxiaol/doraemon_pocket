@@ -29,6 +29,8 @@ public class DoraemonPocketClient implements ClientModInitializer {
 		BlockEntityRendererFactories.register(ModBlockEntities.LINKED_PORTAL, LinkedPortalBlockEntityRenderer::new);
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ANYWHERE_DOOR_PORTAL, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PASS_LOOP_PORTAL, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COCONUT_FRUIT, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.APARTMENT_TREE_SAPLING, RenderLayer.getCutout());
 		BambooCopterInputHandler.register();
 		BambooCopterSoundManager.register();
 		EntityRendererRegistry.register(ModEntities.MOMOTARO_DUMPLING, FlyingItemEntityRenderer::new);

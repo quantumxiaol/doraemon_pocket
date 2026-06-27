@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cross",
+	"textures": {
+		"cross": "doraemon_pocket:block/apartment_tree_sapling"
+	}
+}

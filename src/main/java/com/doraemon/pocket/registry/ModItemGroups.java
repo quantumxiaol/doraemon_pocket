@@ -29,6 +29,9 @@ public final class ModItemGroups {
 						entries.add(ModItems.RADAR_SWORD);
 						entries.add(ModItems.DEPLETED_RADAR_SWORD);
 						entries.add(ModItems.DORAYAKI);
+						entries.add(ModItems.PLANT_MODIFICATION_LIQUID);
+						entries.add(ModItems.COCONUT);
+						entries.add(ModItems.APARTMENT_TREE);
 					})
 					.build()
 	);

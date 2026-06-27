@@ -3,12 +3,15 @@ package com.doraemon.pocket.registry;
 import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.item.AdaptationLightItem;
 import com.doraemon.pocket.item.AirCannonItem;
+import com.doraemon.pocket.item.ApartmentTreeItem;
 import com.doraemon.pocket.item.AnywhereDoorItem;
 import com.doraemon.pocket.item.BambooCopterItem;
+import com.doraemon.pocket.item.CoconutItem;
 import com.doraemon.pocket.item.DepletedRadarSwordItem;
 import com.doraemon.pocket.item.DodgeCloakItem;
 import com.doraemon.pocket.item.MomotaroDumplingItem;
 import com.doraemon.pocket.item.PassLoopItem;
+import com.doraemon.pocket.item.PlantModificationLiquidItem;
 import com.doraemon.pocket.item.RadarSwordItem;
 import com.doraemon.pocket.item.ShockGunItem;
 import com.doraemon.pocket.item.StoneHatItem;
@@ -85,6 +88,18 @@ public final class ModItems {
 	public static final Item DORAYAKI = register(
 			"dorayaki",
 			new Item(new FabricItemSettings().maxCount(64).food(new FoodComponent.Builder().hunger(5).saturationModifier(0.6F).build()))
+	);
+	public static final Item PLANT_MODIFICATION_LIQUID = register(
+			"plant_modification_liquid",
+			new PlantModificationLiquidItem(new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item COCONUT = register(
+			"coconut",
+			new CoconutItem(new FabricItemSettings().maxCount(64).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item APARTMENT_TREE = register(
+			"apartment_tree",
+			new ApartmentTreeItem(ModBlocks.APARTMENT_TREE_SAPLING, new FabricItemSettings().maxCount(16).rarity(Rarity.RARE))
 	);
 
 	private ModItems() {

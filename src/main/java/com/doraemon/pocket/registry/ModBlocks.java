@@ -1,7 +1,9 @@
 package com.doraemon.pocket.registry;
 
 import com.doraemon.pocket.DoraemonPocket;
+import com.doraemon.pocket.block.ApartmentTreeSaplingBlock;
 import com.doraemon.pocket.block.AnywhereDoorPortalBlock;
+import com.doraemon.pocket.block.CoconutFruitBlock;
 import com.doraemon.pocket.block.LinkedPortalBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.MapColor;
@@ -18,6 +20,14 @@ public final class ModBlocks {
 	public static final LinkedPortalBlock PASS_LOOP_PORTAL = register(
 			"pass_loop_portal",
 			new LinkedPortalBlock(portalSettings(MapColor.YELLOW))
+	);
+	public static final CoconutFruitBlock COCONUT_FRUIT = register(
+			"coconut_fruit",
+			new CoconutFruitBlock(coconutSettings())
+	);
+	public static final ApartmentTreeSaplingBlock APARTMENT_TREE_SAPLING = register(
+			"apartment_tree_sapling",
+			new ApartmentTreeSaplingBlock(saplingSettings())
 	);
 
 	private ModBlocks() {
@@ -45,6 +55,28 @@ public final class ModBlocks {
 				.nonOpaque()
 				.strength(0.6F)
 				.sounds(BlockSoundGroup.WOOD)
+				.pistonBehavior(PistonBehavior.DESTROY)
+				.dropsNothing();
+	}
+
+	private static AbstractBlock.Settings coconutSettings() {
+		return AbstractBlock.Settings.create()
+				.mapColor(MapColor.BROWN)
+				.noCollision()
+				.nonOpaque()
+				.strength(0.2F)
+				.sounds(BlockSoundGroup.WOOD)
+				.pistonBehavior(PistonBehavior.DESTROY)
+				.dropsNothing();
+	}
+
+	private static AbstractBlock.Settings saplingSettings() {
+		return AbstractBlock.Settings.create()
+				.mapColor(MapColor.DARK_GREEN)
+				.noCollision()
+				.nonOpaque()
+				.breakInstantly()
+				.sounds(BlockSoundGroup.GRASS)
 				.pistonBehavior(PistonBehavior.DESTROY)
 				.dropsNothing();
 	}
