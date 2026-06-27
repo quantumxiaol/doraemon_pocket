@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Doraemon Pocket 道具图鉴</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<header class="site-header">
+		<nav class="topbar" aria-label="页面导航">
+			<a href="#gadgets">道具图标</a>
+			<a href="#screenshots">实机截图</a>
+			<a href="#download">下载与版本</a>
+			<a href="#disclaimer">免责声明</a>
+		</nav>
+		<div class="hero">
+			<img class="hero-icon" src="assets/icons/item/four_dimensional_pocket.png" alt="哆啦A梦的百宝袋图标">
+			<div>
+				<p class="eyebrow">Minecraft Fabric 1.20.1</p>
+				<h1>Doraemon Pocket 道具图鉴</h1>
+				<p class="hero-copy">一个轻量粉丝向小道具 Mod，当前重点展示已经落地的玩法道具、像素图标和后续实机截图位。</p>
+			</div>
+		</div>
+	</header>
+
+	<main>
+		<section class="summary-grid" aria-label="项目概览">
+			<div class="summary-item">
+				<span>20+</span>
+				<p>已实现道具</p>
+			</div>
+			<div class="summary-item">
+				<span>1.20.1</span>
+				<p>Minecraft Java Edition</p>
+			</div>
+			<div class="summary-item">
+				<span>Fabric</span>
+				<p>Loader + API</p>
+			</div>
+		</section>
+
+		<section id="gadgets" class="section">
+			<div class="section-heading">
+				<p class="eyebrow">Gadgets</p>
+				<h2>道具图标</h2>
+				<p>这些图标来自当前 Mod 资源包。后续新增或重画图标时，同步复制到 <code>docs/assets/icons/</code> 即可更新展示页。</p>
+			</div>
+			<div id="gadget-grid" class="gadget-grid" aria-live="polite"></div>
+		</section>
+
+		<section id="screenshots" class="section">
+			<div class="section-heading">
+				<p class="eyebrow">Screenshots</p>
+				<h2>实机截图位</h2>
+				<p>截图会放在 <code>docs/assets/screenshots/</code>。当前还没做。</p>
+			</div>
+			<div class="screenshot-grid">
+				<article class="screenshot-slot">
+					<div class="placeholder">竹蜻蜓飞行</div>
+					<h3>竹蜻蜓与空中移动</h3>
+				</article>
+				<article class="screenshot-slot">
+					<div class="placeholder">任意门 / 穿透环</div>
+					<h3>空间类道具</h3>
+				</article>
+				<article class="screenshot-slot">
+					<div class="placeholder">空气炮 / 休克枪</div>
+					<h3>战斗与控制</h3>
+				</article>
+				<article class="screenshot-slot">
+					<div class="placeholder">公寓树地下房间</div>
+					<h3>植物改造与探索</h3>
+				</article>
+				<article class="screenshot-slot">
+					<div class="placeholder">影子保镖</div>
+					<h3>影子剪刀与胶水</h3>
+				</article>
+				<article class="screenshot-slot">
+					<div class="placeholder">美食桌布 / 天气箱</div>
+					<h3>生活类道具</h3>
+				</article>
+			</div>
+		</section>
+
+		<section id="download" class="section two-column">
+			<div>
+				<p class="eyebrow">Release</p>
+				<h2>下载与版本</h2>
+				<p>发布版本建议使用 GitHub Release 或 Modrinth 页面承载。GitHub Pages 后续可以在这里补正式下载链接、最新版本号和演示视频入口。</p>
+			</div>
+			<ul class="info-list">
+				<li>Minecraft Java Edition 1.20.1</li>
+				<li>Fabric Loader</li>
+				<li>Fabric API 0.92.9+1.20.1 或兼容版本</li>
+			</ul>
+		</section>
+
+		<section class="section resource-note">
+			<p class="eyebrow">Credits</p>
+			<h2>资源说明</h2>
+			<p>竹蜻蜓的早期贴图和头戴模型结构参考自 teaconmc 的示例项目 <a href="https://github.com/teaconmc/DoraemonProps">DoraemonProps</a>。当前 Fabric 1.20.1 版本的装备渲染、飞行逻辑、音效混合和交互行为由本项目重新实现。</p>
+		</section>
+	</main>
+
+	<footer id="disclaimer" class="disclaimer">
+		<h2>免责声明 / Disclaimer</h2>
+		<p>本项目是出于对原作的喜爱制作的非官方、非盈利粉丝项目。“哆啦A梦 / Doraemon”以及相关概念、道具和设计归藤子·F·不二雄相关版权方、Fujiko-Pro、小学馆、TV Asahi 等权利方所有。本 Mod 与上述版权方没有从属、授权、赞助或背书关系。</p>
+		<p>This is an unofficial, non-profit fan-made project created out of love for the original work. "Doraemon" and all related concepts, gadgets, and designs are the property of Fujiko-Pro, Shogakukan, and TV Asahi. This mod is not affiliated with, endorsed by, or sponsored by the copyright holders in any way.</p>
+	</footer>
+
+	<script>
+		const gadgets = [
+			["竹蜻蜓", "装备", "assets/icons/item/bamboo_copter.png", "头戴飞行，旋翼会随飞行状态转动。"],
+			["空气炮", "战斗", "assets/icons/item/air_cannon.png", "发射空气冲击，击退并轻微伤害前方实体。"],
+			["休克枪", "控制", "assets/icons/item/shock_gun.png", "让普通怪短暂休克，受伤后会苏醒。"],
+			["闪避斗篷", "防御", "assets/icons/item/dodge_cloak.png", "概率闪避伤害，并弹开投射物。"],
+			["时光包袱皮", "修复", "assets/icons/item/time_cloth.png", "消耗固定经验值修复另一只手的受损物品。"],
+			["适应灯", "生存", "assets/icons/item/adaptation_light.png", "绿色照射枪，命中目标后赋予 90 分钟环境适应。"],
+			["桃太郎饭团", "驯化", "assets/icons/item/momotaro_dumpling.png", "投掷或喂食，让生物短暂友好、跟随或骑乘。"],
+			["任意门", "传送", "assets/icons/item/anywhere_door.png", "手持输入坐标后放置成对传送门。"],
+			["穿透环", "传送", "assets/icons/item/pass_loop.png", "贴墙放置，连接墙后空腔。"],
+			["石头帽", "伪装", "assets/icons/item/stone_hat.png", "戴上后让敌对生物忽视玩家。"],
+			["名刀“电光丸”", "武器", "assets/icons/item/radar_sword.png", "自动格挡正面投射物，并反击近身攻击。"],
+			["铜锣烧", "食物", "assets/icons/item/dorayaki.png", "可食用，也预留为后续交易货币。"],
+			["植物改造液", "植物", "assets/icons/item/plant_modification_liquid.png", "对原木使用，生成可采摘椰子果实。"],
+			["椰子", "食物", "assets/icons/item/coconut.png", "打开后获得随机原版食物。"],
+			["公寓树", "探索", "assets/icons/item/apartment_tree.png", "骨粉催熟后向地下生成根系房间。"],
+			["天气箱", "机器", "assets/icons/block/weather_box_front.png", "插入天气卡片，修改当前维度天气。"],
+			["天气卡片", "机器", "assets/icons/item/weather_card_clear.png", "晴天、下雨、雷暴、下雪四类天气控制卡。"],
+			["翻译魔芋", "状态", "assets/icons/item/translation_gummy.png", "赋予通晓语言状态，影响末影人、猪灵和村民交易。"],
+			["百宝袋", "储物", "assets/icons/item/four_dimensional_pocket.png", "右键或按 B 打开 64 格随身背包。"],
+			["美食桌布", "食物", "assets/icons/item/gourmet_table_cloth.png", "放在地上后潜行右键随机点餐。"],
+			["影子剪刀", "随从", "assets/icons/item/shadow_scissors.png", "剪下影子，让它临时帮忙捡物和战斗。"],
+			["影子胶水", "随从", "assets/icons/item/shadow_glue.png", "收回自己的影子，叛变后也能使用。"],
+			["恶魔护照", "赦免", "assets/icons/item/devils_passport.png", "手持时持续清除附近怪物对玩家的仇恨。"]
+		];
+
+		const grid = document.querySelector("#gadget-grid");
+		for (const [name, category, icon, description] of gadgets) {
+			const iconMarkup = icon
+				? `<img src="${icon}" alt="${name}图标" loading="lazy">`
+				: `<span class="vanilla-icon" aria-label="${name}复用原版图标">MC</span>`;
+			const card = document.createElement("article");
+			card.className = "gadget-card";
+			card.innerHTML = `
+				<div class="icon-frame">${iconMarkup}</div>
+				<div class="gadget-copy">
+					<div class="card-topline"><span>${category}</span></div>
+					<h3>${name}</h3>
+					<p>${description}</p>
+				</div>
+			`;
+			grid.appendChild(card);
+		}
+	</script>
+</body>
+</html>
