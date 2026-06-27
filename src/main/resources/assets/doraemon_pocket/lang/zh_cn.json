@@ -44,6 +44,7 @@
 	"message.doraemon_pocket.plant_modification_liquid.need_plant": "植物改造液需要对原木使用",
 	"message.doraemon_pocket.plant_modification_liquid.no_coconut_space": "这棵树周围没有足够空间长出椰子",
 	"message.doraemon_pocket.plant_modification_liquid.coconuts": "长出了 %s 个椰子果实",
+	"message.doraemon_pocket.doraemon_flyby.started": "哆啦A梦飞行动画已开始",
 	"effect.doraemon_pocket.environmental_adaptation": "环境适应",
 	"effect.doraemon_pocket.stunned": "休克",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"

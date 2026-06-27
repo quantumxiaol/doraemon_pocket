@@ -1,6 +1,7 @@
 package com.doraemon.pocket.command;
 
 import com.doraemon.pocket.DoraemonPocket;
+import com.doraemon.pocket.event.DoraemonFlybyEvents;
 import com.doraemon.pocket.item.AnywhereDoorItem;
 import com.doraemon.pocket.registry.ModItems;
 import com.mojang.brigadier.CommandDispatcher;
@@ -28,7 +29,10 @@ public final class ModCommands {
 		dispatcher.register(CommandManager.literal("doraemon_pocket")
 				.then(CommandManager.literal("anywhere_door")
 						.then(CommandManager.argument("pos", BlockPosArgumentType.blockPos())
-								.executes(ModCommands::setAnywhereDoorTarget))));
+								.executes(ModCommands::setAnywhereDoorTarget)))
+				.then(CommandManager.literal("doraemon_flyby")
+						.requires(source -> source.hasPermissionLevel(2))
+						.executes(ModCommands::playDoraemonFlyby)));
 	}
 
 	private static int setAnywhereDoorTarget(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
@@ -43,6 +47,13 @@ public final class ModCommands {
 		BlockPos pos = BlockPosArgumentType.getBlockPos(context, "pos");
 		AnywhereDoorItem.setTarget(stack, source.getWorld(), pos);
 		source.sendFeedback(() -> Text.translatable("message.doraemon_pocket.anywhere_door.target_set", pos.getX(), pos.getY(), pos.getZ()), false);
+		return 1;
+	}
+
+	private static int playDoraemonFlyby(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+		ServerPlayerEntity player = context.getSource().getPlayerOrThrow();
+		DoraemonFlybyEvents.playForPlayer(player);
+		context.getSource().sendFeedback(() -> Text.translatable("message.doraemon_pocket.doraemon_flyby.started"), false);
 		return 1;
 	}
 

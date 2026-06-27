@@ -44,6 +44,7 @@
 	"message.doraemon_pocket.plant_modification_liquid.need_plant": "Use Plant Modification Liquid on a log",
 	"message.doraemon_pocket.plant_modification_liquid.no_coconut_space": "This tree has no room for coconut fruits",
 	"message.doraemon_pocket.plant_modification_liquid.coconuts": "%s coconut fruits grew",
+	"message.doraemon_pocket.doraemon_flyby.started": "Doraemon flyby animation started",
 	"effect.doraemon_pocket.environmental_adaptation": "Environmental Adaptation",
 	"effect.doraemon_pocket.stunned": "Stunned",
 	"itemGroup.doraemon_pocket.tools": "Doraemon Pocket"
