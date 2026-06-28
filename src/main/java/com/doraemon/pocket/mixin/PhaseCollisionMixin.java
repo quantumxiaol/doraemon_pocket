@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -33,11 +33,11 @@ public abstract class PhaseCollisionMixin {
 		}
 
 		Entity entity = entityShapeContext.getEntity();
-		if (!(entity instanceof LivingEntity livingEntity)) {
+		if (!(entity instanceof PlayerEntity player)) {
 			return;
 		}
 
-		if (PhaseBlockRules.canIgnoreCollision(livingEntity, asBlockState(), pos)) {
+		if (PhaseBlockRules.canIgnoreCollision(player, asBlockState(), pos)) {
 			cir.setReturnValue(VoxelShapes.empty());
 		}
 	}
