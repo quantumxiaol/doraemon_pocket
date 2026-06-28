@@ -5,6 +5,7 @@
 	"mixins": [
 		"AbstractFurnaceBlockEntityAccessor",
 		"EndermanEntityMixin",
+		"MobEntityMixin",
 		"PiglinBrainMixin",
 		"VillagerEntityMixin"
 	],

@@ -30,6 +30,7 @@ public class CloudHardeningGasItem extends Item {
 	private static final int COOLDOWN_TICKS = 50;
 	private static final double CLOUD_CENTER_RANGE = 10.0D;
 	private static final int MAX_PLACED_BLOCKS = 14000;
+	private static final int MASS_PLACE_FLAGS = Block.NOTIFY_LISTENERS | Block.FORCE_STATE;
 
 	public CloudHardeningGasItem(Settings settings) {
 		super(settings);
@@ -121,7 +122,7 @@ public class CloudHardeningGasItem extends Item {
 					if (!world.getBlockState(pos).isAir()) {
 						continue;
 					}
-					world.setBlockState(pos, cloud, Block.NOTIFY_ALL);
+					world.setBlockState(pos, cloud, MASS_PLACE_FLAGS);
 					placed++;
 					if (placed >= MAX_PLACED_BLOCKS) {
 						return placed;

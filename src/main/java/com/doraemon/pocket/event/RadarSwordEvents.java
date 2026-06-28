@@ -35,6 +35,10 @@ public final class RadarSwordEvents {
 	private static final double COUNTER_RANGE_SQUARED = 3.0D * 3.0D;
 	private static final double CREEPER_COUNTER_RANGE_SQUARED = 4.0D * 4.0D;
 	private static final double DRAGON_CONTACT_SCAN_RANGE = 4.0D;
+	private static final int ACTIVE_SCAN_INTERVAL_TICKS = 2;
+	private static final int PROJECTILE_SCAN_INTERVAL_TICKS = 4;
+	private static final int CREEPER_SCAN_INTERVAL_TICKS = 10;
+	private static final int DRAGON_SCAN_INTERVAL_TICKS = 4;
 	private static final int PROJECTILE_DURABILITY_COST = 8;
 	private static final int COUNTER_DURABILITY_COST = 10;
 	private static final int DRAGON_DURABILITY_COST = 16;
@@ -51,10 +55,14 @@ public final class RadarSwordEvents {
 
 	public static void register() {
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			if (server.getTicks() % 20 == 0) {
-				cleanupCaches(server.getTicks());
+			long time = server.getTicks();
+			if (time % 20 == 0) {
+				cleanupCaches(time);
 			}
-			server.getPlayerManager().getPlayerList().forEach(RadarSwordEvents::tickPlayer);
+			if (time % ACTIVE_SCAN_INTERVAL_TICKS != 0) {
+				return;
+			}
+			server.getPlayerManager().getPlayerList().forEach(player -> tickPlayer(player, time));
 		});
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
 			DEFLECTED_PROJECTILES.clear();
@@ -63,14 +71,13 @@ public final class RadarSwordEvents {
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(RadarSwordEvents::allowDamage);
 	}
 
-	private static void tickPlayer(ServerPlayerEntity player) {
+	private static void tickPlayer(ServerPlayerEntity player, long time) {
 		RadarSwordStack swordStack = findRadarSword(player);
 		if (swordStack == null) {
 			return;
 		}
 
-		long time = player.getServerWorld().getServer().getTicks();
-		if (player.age % 2 == 0) {
+		if (shouldRunScan(player, time, PROJECTILE_SCAN_INTERVAL_TICKS)) {
 			Box box = player.getBoundingBox().expand(PROJECTILE_SCAN_RANGE);
 			for (Entity entity : player.getWorld().getOtherEntities(player, box, entity -> entity instanceof ProjectileEntity)) {
 				ProjectileEntity projectile = (ProjectileEntity) entity;
@@ -83,11 +90,17 @@ public final class RadarSwordEvents {
 			}
 		}
 
-		if (player.age % 5 == 0) {
+		if (shouldRunScan(player, time, CREEPER_SCAN_INTERVAL_TICKS)) {
 			counterNearestPrimedCreeper(player, swordStack);
 		}
 
-		counterNearbyDragonPart(player, swordStack, time);
+		if (shouldRunScan(player, time, DRAGON_SCAN_INTERVAL_TICKS)) {
+			counterNearbyDragonPart(player, swordStack, time);
+		}
+	}
+
+	private static boolean shouldRunScan(ServerPlayerEntity player, long time, int interval) {
+		return (time + player.getId()) % interval == 0;
 	}
 
 	private static boolean allowDamage(LivingEntity entity, DamageSource source, float amount) {

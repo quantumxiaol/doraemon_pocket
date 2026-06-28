@@ -19,8 +19,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Box;
 
 public final class DevilsPassportEvents {
-	private static final int CHECK_INTERVAL_TICKS = 1;
-	private static final double PARDON_RANGE = 48.0D;
+	private static final int CHECK_INTERVAL_TICKS = 20;
+	private static final double PARDON_RANGE = 24.0D;
 
 	private DevilsPassportEvents() {
 	}
