@@ -1,14 +1,13 @@
 package com.doraemon.pocket.event;
 
 import com.doraemon.pocket.registry.ModItems;
+import com.doraemon.pocket.util.GadgetMobRules;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.Angerable;
-import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -62,7 +61,7 @@ public final class StoneHatEvents {
 
 		Box box = player.getBoundingBox().expand(IGNORE_RANGE);
 		player.getWorld().getOtherEntities(player, box, entity -> entity instanceof MobEntity)
-				.forEach(entity -> makeMobIgnorePlayer((MobEntity) entity, player));
+				.forEach(entity -> suppressMob((MobEntity) entity, player));
 	}
 
 	private static boolean shouldRunScan(ServerPlayerEntity player, long time, int interval) {
@@ -112,40 +111,10 @@ public final class StoneHatEvents {
 	private static void suppressCloseMobs(ServerPlayerEntity player) {
 		Box box = player.getBoundingBox().expand(CLOSE_SUPPRESS_RANGE);
 		player.getWorld().getOtherEntities(player, box, entity -> entity instanceof MobEntity)
-				.forEach(entity -> makeMobIgnorePlayer((MobEntity) entity, player));
+				.forEach(entity -> suppressMob((MobEntity) entity, player));
 	}
 
-	private static void makeMobIgnorePlayer(MobEntity mob, ServerPlayerEntity player) {
-		boolean targetsPlayer = mob.getTarget() == player;
-		boolean attackedByPlayer = mob.getAttacker() == player;
-		Angerable angerable = mob instanceof Angerable angerableMob ? angerableMob : null;
-		boolean angryAtPlayer = angerable != null && player.getUuid().equals(angerable.getAngryAt());
-		boolean primedCreeperNearPlayer = mob instanceof CreeperEntity creeper
-				&& mob.squaredDistanceTo(player) <= CLOSE_SUPPRESS_RANGE * CLOSE_SUPPRESS_RANGE
-				&& (creeper.getFuseSpeed() > 0 || creeper.isIgnited());
-
-		if (!targetsPlayer && !attackedByPlayer && !angryAtPlayer && !primedCreeperNearPlayer) {
-			return;
-		}
-
-		if (targetsPlayer) {
-			mob.setTarget(null);
-		}
-		if (attackedByPlayer) {
-			mob.setAttacker(null);
-		}
-		mob.setAttacking(false);
-		mob.clearActiveItem();
-		mob.getNavigation().stop();
-
-		if (angerable != null && angryAtPlayer) {
-			angerable.stopAnger();
-			angerable.setTarget(null);
-			angerable.setAttacker(null);
-		}
-
-		if (mob instanceof CreeperEntity creeper) {
-			creeper.setFuseSpeed(-1);
-		}
+	private static void suppressMob(MobEntity mob, ServerPlayerEntity player) {
+		GadgetMobRules.suppressMobForStoneHat(mob, player, CLOSE_SUPPRESS_RANGE * CLOSE_SUPPRESS_RANGE);
 	}
 }

@@ -35,13 +35,13 @@ public final class RadarSwordEvents {
 	private static final double COUNTER_RANGE_SQUARED = 3.0D * 3.0D;
 	private static final double CREEPER_COUNTER_RANGE_SQUARED = 4.0D * 4.0D;
 	private static final double DRAGON_CONTACT_SCAN_RANGE = 4.0D;
-	private static final int ACTIVE_SCAN_INTERVAL_TICKS = 2;
 	private static final int PROJECTILE_SCAN_INTERVAL_TICKS = 4;
-	private static final int CREEPER_SCAN_INTERVAL_TICKS = 10;
+	private static final int CREEPER_SCAN_INTERVAL_TICKS = 2;
 	private static final int DRAGON_SCAN_INTERVAL_TICKS = 4;
 	private static final int PROJECTILE_DURABILITY_COST = 8;
 	private static final int COUNTER_DURABILITY_COST = 10;
 	private static final int DRAGON_DURABILITY_COST = 16;
+	private static final int CREEPER_EXPLOSION_DURABILITY_COST = 40;
 	private static final int DEFLECTED_PROJECTILE_COOLDOWN_TICKS = 20;
 	private static final int DRAGON_PARRY_COOLDOWN_TICKS = 8;
 	private static final double DEFLECT_SPEED = 2.8D;
@@ -58,9 +58,6 @@ public final class RadarSwordEvents {
 			long time = server.getTicks();
 			if (time % 20 == 0) {
 				cleanupCaches(time);
-			}
-			if (time % ACTIVE_SCAN_INTERVAL_TICKS != 0) {
-				return;
 			}
 			server.getPlayerManager().getPlayerList().forEach(player -> tickPlayer(player, time));
 		});
@@ -130,6 +127,18 @@ public final class RadarSwordEvents {
 		if (dragonSource != null) {
 			parryDragonContact(player, swordStack, dragonSource, player.getServerWorld().getServer().getTicks());
 			return false;
+		}
+
+		if (source.isIn(DamageTypeTags.IS_EXPLOSION)) {
+			CreeperEntity creeper = findCreeperExplosionSource(source);
+			if (creeper != null && creeper.squaredDistanceTo(player) <= CREEPER_COUNTER_RANGE_SQUARED) {
+				turnPlayerToFace(player, creeper);
+				player.swingHand(swordStack.hand, true);
+				playParryFeedback(player);
+				damageRadarSword(player, swordStack, CREEPER_EXPLOSION_DURABILITY_COST);
+				return false;
+			}
+			return true;
 		}
 
 		if (attacker instanceof MobEntity mobAttacker && attacker.squaredDistanceTo(player) <= COUNTER_RANGE_SQUARED) {
@@ -241,6 +250,16 @@ public final class RadarSwordEvents {
 
 		Entity attacker = source.getAttacker();
 		return isDragonSourceEntity(attacker) ? attacker : null;
+	}
+
+	private static CreeperEntity findCreeperExplosionSource(DamageSource source) {
+		if (source.getSource() instanceof CreeperEntity creeper) {
+			return creeper;
+		}
+		if (source.getAttacker() instanceof CreeperEntity creeper) {
+			return creeper;
+		}
+		return null;
 	}
 
 	private static boolean shouldDeflectProjectile(ServerPlayerEntity player, ProjectileEntity projectile, long time) {

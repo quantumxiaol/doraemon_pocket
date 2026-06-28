@@ -30,6 +30,8 @@ public final class DodgeCloakEvents {
 	private static final float PROJECTILE_DODGE_CHANCE = 1.0F;
 	private static final double PROJECTILE_DEFLECT_SPEED = 3.4D;
 	private static final double PROJECTILE_DEFLECT_DISTANCE = 3.0D;
+	private static final int DEFAULT_DODGE_DURABILITY_COST = 1;
+	private static final int EXPLOSION_DODGE_DURABILITY_COST = 8;
 	private static final int DEFLECTED_PROJECTILE_PROTECTION_TICKS = 200;
 	private static final Map<UUID, DeflectedProjectile> DEFLECTED_PROJECTILES = new HashMap<>();
 
@@ -65,8 +67,9 @@ public final class DodgeCloakEvents {
 			return true;
 		}
 
-		boolean projectileDamage = source.isIn(DamageTypeTags.IS_PROJECTILE) || source.getSource() instanceof ProjectileEntity;
-		if (!projectileDamage && source.getAttacker() == null) {
+		boolean explosionDamage = source.isIn(DamageTypeTags.IS_EXPLOSION);
+		boolean projectileDamage = !explosionDamage && (source.isIn(DamageTypeTags.IS_PROJECTILE) || source.getSource() instanceof ProjectileEntity);
+		if (!projectileDamage && !explosionDamage && source.getAttacker() == null) {
 			return true;
 		}
 
@@ -83,7 +86,7 @@ public final class DodgeCloakEvents {
 		}
 
 		playDodgeFeedback(entity);
-		damageCloak(entity, cloakStack);
+		damageCloak(entity, cloakStack, explosionDamage ? EXPLOSION_DODGE_DURABILITY_COST : DEFAULT_DODGE_DURABILITY_COST);
 		return false;
 	}
 
@@ -163,8 +166,8 @@ public final class DodgeCloakEvents {
 		}
 	}
 
-	private static void damageCloak(LivingEntity entity, CloakStack cloakStack) {
-		cloakStack.stack.damage(1, entity, wearer -> {
+	private static void damageCloak(LivingEntity entity, CloakStack cloakStack, int amount) {
+		cloakStack.stack.damage(amount, entity, wearer -> {
 			if (wearer instanceof ServerPlayerEntity player && cloakStack.hand != null) {
 				player.sendToolBreakStatus(cloakStack.hand);
 			} else if (cloakStack.slot != null) {
