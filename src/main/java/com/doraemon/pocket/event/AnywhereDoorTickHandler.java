@@ -3,7 +3,6 @@ package com.doraemon.pocket.event;
 import com.doraemon.pocket.block.entity.LinkedPortalBlockEntity;
 import com.doraemon.pocket.portal.LinkedPortalManager;
 import com.doraemon.pocket.registry.ModBlocks;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.enums.DoubleBlockHalf;
@@ -17,7 +16,7 @@ public final class AnywhereDoorTickHandler {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(AnywhereDoorTickHandler::tickPlayer));
+		PlayerGadgetTickDispatcher.registerPlayerTick((player, time) -> tickPlayer(player));
 	}
 
 	private static void tickPlayer(ServerPlayerEntity player) {

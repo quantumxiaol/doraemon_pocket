@@ -3,7 +3,6 @@ package com.doraemon.pocket.event;
 import com.doraemon.pocket.registry.ModItems;
 import com.doraemon.pocket.util.GadgetMobRules;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -32,7 +31,7 @@ public final class StoneHatEvents {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(StoneHatEvents::tickPlayer));
+		PlayerGadgetTickDispatcher.registerPlayerTick((player, time) -> tickPlayer(player));
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(StoneHatEvents::allowDamage);
 	}
 

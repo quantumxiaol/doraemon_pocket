@@ -3,7 +3,6 @@ package com.doraemon.pocket.event;
 import com.doraemon.pocket.item.BambooCopterItem;
 import com.doraemon.pocket.network.BambooCopterControl;
 import com.doraemon.pocket.network.DoraemonPackets;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,7 +24,7 @@ public final class BambooCopterTickHandler {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> server.getPlayerManager().getPlayerList().forEach(BambooCopterTickHandler::tick));
+		PlayerGadgetTickDispatcher.registerPlayerTick((player, time) -> tick(player));
 	}
 
 	private static void tick(ServerPlayerEntity player) {

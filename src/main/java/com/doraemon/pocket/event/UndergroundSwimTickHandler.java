@@ -9,7 +9,6 @@ import com.doraemon.pocket.util.SpatialPhaseManager.PhaseSource;
 import com.doraemon.pocket.util.PhaseVisuals;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
@@ -25,9 +24,7 @@ public final class UndergroundSwimTickHandler {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server ->
-				server.getPlayerManager().getPlayerList().forEach(UndergroundSwimTickHandler::tickPlayer)
-		);
+		PlayerGadgetTickDispatcher.registerPlayerTick((player, time) -> tickPlayer(player));
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(UndergroundSwimTickHandler::allowDamage);
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> stopPhasing(handler.player));
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> SpatialPhaseManager.clear());

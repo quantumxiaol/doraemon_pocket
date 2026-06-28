@@ -9,6 +9,7 @@ import com.doraemon.pocket.event.DevilsPassportEvents;
 import com.doraemon.pocket.event.EnvironmentalAdaptationEvents;
 import com.doraemon.pocket.event.MomotaroObedienceHandler;
 import com.doraemon.pocket.event.PassThroughCapTickHandler;
+import com.doraemon.pocket.event.PlayerGadgetTickDispatcher;
 import com.doraemon.pocket.event.RadarSwordEvents;
 import com.doraemon.pocket.event.ShockGunStunHandler;
 import com.doraemon.pocket.event.StoneHatEvents;
@@ -43,6 +44,7 @@ public class DoraemonPocket implements ModInitializer {
 		ModItemGroups.register();
 		ModCommands.register();
 		DoraemonPackets.registerServerReceivers();
+		PlayerGadgetTickDispatcher.register();
 		AnywhereDoorTickHandler.register();
 		BambooCopterTickHandler.register();
 		ShockGunStunHandler.register();

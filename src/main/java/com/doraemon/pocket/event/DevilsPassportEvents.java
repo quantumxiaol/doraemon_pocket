@@ -2,7 +2,6 @@ package com.doraemon.pocket.event;
 
 import com.doraemon.pocket.util.GadgetMobRules;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -21,15 +20,12 @@ public final class DevilsPassportEvents {
 
 	public static void register() {
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(DevilsPassportEvents::allowDamage);
-		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			if (server.getTicks() % CHECK_INTERVAL_TICKS != 0) {
+		PlayerGadgetTickDispatcher.registerPlayerTick((player, time) -> {
+			if (time % CHECK_INTERVAL_TICKS != 0) {
 				return;
 			}
-
-			for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-				if (GadgetMobRules.hasDevilsPassport(player)) {
-					pardonNearby(player);
-				}
+			if (GadgetMobRules.hasDevilsPassport(player)) {
+				pardonNearby(player);
 			}
 		});
 	}

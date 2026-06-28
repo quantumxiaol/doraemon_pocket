@@ -8,7 +8,6 @@ import com.doraemon.pocket.entity.DoraemonEntity;
 import com.doraemon.pocket.registry.ModEntities;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -43,7 +42,7 @@ public final class DoraemonFlybyEvents {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> tick());
+		PlayerGadgetTickDispatcher.registerServerTick((server, time) -> tick());
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> ACTIVE_FLYBYS.clear());
 		ServerLivingEntityEvents.AFTER_DEATH.register(DoraemonFlybyEvents::afterDeath);
 	}

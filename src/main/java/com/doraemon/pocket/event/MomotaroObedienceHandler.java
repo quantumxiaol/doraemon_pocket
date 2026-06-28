@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -43,7 +42,7 @@ public final class MomotaroObedienceHandler {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(MomotaroObedienceHandler::tick);
+		PlayerGadgetTickDispatcher.registerServerTick((server, time) -> tick(server));
 		ServerLifecycleEvents.SERVER_STOPPING.register(MomotaroObedienceHandler::releaseLoadedStates);
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> OBEDIENT_ENTITIES.clear());
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register(MomotaroObedienceHandler::allowDamage);

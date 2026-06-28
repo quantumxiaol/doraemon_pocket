@@ -8,7 +8,6 @@ import java.util.UUID;
 import com.doraemon.pocket.registry.ModItems;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -39,9 +38,9 @@ public final class DodgeCloakEvents {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			if (server.getTicks() % 20 == 0) {
-				cleanupDeflectedProjectiles(server.getTicks());
+		PlayerGadgetTickDispatcher.registerServerTick((server, time) -> {
+			if (time % 20 == 0) {
+				cleanupDeflectedProjectiles(time);
 			}
 		});
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> DEFLECTED_PROJECTILES.clear());

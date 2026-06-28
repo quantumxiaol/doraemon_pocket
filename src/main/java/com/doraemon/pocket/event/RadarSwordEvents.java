@@ -8,7 +8,6 @@ import java.util.UUID;
 import com.doraemon.pocket.registry.ModItems;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -54,13 +53,12 @@ public final class RadarSwordEvents {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			long time = server.getTicks();
+		PlayerGadgetTickDispatcher.registerServerTick((server, time) -> {
 			if (time % 20 == 0) {
 				cleanupCaches(time);
 			}
-			server.getPlayerManager().getPlayerList().forEach(player -> tickPlayer(player, time));
 		});
+		PlayerGadgetTickDispatcher.registerPlayerTick(RadarSwordEvents::tickPlayer);
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
 			DEFLECTED_PROJECTILES.clear();
 			DRAGON_PARRY_COOLDOWNS.clear();

@@ -1,7 +1,6 @@
 package com.doraemon.pocket.event;
 
 import com.doraemon.pocket.registry.ModStatusEffects;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.mob.AbstractPiglinEntity;
@@ -18,15 +17,12 @@ public final class UniversalUnderstandingEvents {
 	}
 
 	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register(server -> {
-			if (server.getTicks() % CHECK_INTERVAL_TICKS != 0) {
+		PlayerGadgetTickDispatcher.registerPlayerTick((player, time) -> {
+			if (time % CHECK_INTERVAL_TICKS != 0) {
 				return;
 			}
-
-			for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-				if (player.hasStatusEffect(ModStatusEffects.UNIVERSAL_UNDERSTANDING)) {
-					calmNearbyMobs(player);
-				}
+			if (player.hasStatusEffect(ModStatusEffects.UNIVERSAL_UNDERSTANDING)) {
+				calmNearbyMobs(player);
 			}
 		});
 	}
