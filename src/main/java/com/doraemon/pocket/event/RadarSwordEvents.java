@@ -114,6 +114,11 @@ public final class RadarSwordEvents {
 		}
 
 		if (source.isIn(DamageTypeTags.IS_PROJECTILE) && source.getSource() instanceof ProjectileEntity projectile) {
+			long time = player.getServerWorld().getServer().getTicks();
+			if (isFriendlyOrRecentlyDeflectedProjectile(player, projectile, time)) {
+				nudgeProjectileAway(player, projectile);
+				return false;
+			}
 			deflectProjectile(player, projectile);
 			playParryFeedback(player);
 			damageRadarSword(player, swordStack, PROJECTILE_DURABILITY_COST);
@@ -239,7 +244,7 @@ public final class RadarSwordEvents {
 	}
 
 	private static boolean shouldDeflectProjectile(ServerPlayerEntity player, ProjectileEntity projectile, long time) {
-		if (!projectile.isAlive() || projectile.getOwner() == player || DEFLECTED_PROJECTILES.getOrDefault(projectile.getUuid(), 0L) > time) {
+		if (!projectile.isAlive() || isFriendlyOrRecentlyDeflectedProjectile(player, projectile, time)) {
 			return false;
 		}
 
@@ -261,6 +266,23 @@ public final class RadarSwordEvents {
 
 		Vec3d toPlayer = player.getEyePos().subtract(projectile.getPos()).normalize();
 		return projectileVelocity.normalize().dotProduct(toPlayer) > 0.2D;
+	}
+
+	private static boolean isFriendlyOrRecentlyDeflectedProjectile(ServerPlayerEntity player, ProjectileEntity projectile, long time) {
+		return projectile.getOwner() == player || DEFLECTED_PROJECTILES.getOrDefault(projectile.getUuid(), 0L) > time;
+	}
+
+	private static void nudgeProjectileAway(ServerPlayerEntity player, ProjectileEntity projectile) {
+		if (!projectile.isAlive()) {
+			return;
+		}
+
+		Vec3d direction = projectile.getVelocity().lengthSquared() > 0.001D
+				? projectile.getVelocity().normalize()
+				: player.getRotationVec(1.0F).normalize();
+		projectile.refreshPositionAfterTeleport(player.getEyePos().add(direction.multiply(2.2D)));
+		projectile.setVelocity(direction.multiply(Math.max(DEFLECT_SPEED, projectile.getVelocity().length())));
+		projectile.velocityModified = true;
 	}
 
 	private static void deflectProjectile(ServerPlayerEntity player, ProjectileEntity projectile) {

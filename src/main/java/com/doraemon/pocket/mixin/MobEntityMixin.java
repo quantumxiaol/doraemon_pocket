@@ -1,6 +1,8 @@
 package com.doraemon.pocket.mixin;
 
 import com.doraemon.pocket.item.DevilsPassportItem;
+import com.doraemon.pocket.registry.ModItems;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,9 +14,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin {
 	@Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
-	private void doraemonPocket$devilsPassportRejectsTarget(LivingEntity target, CallbackInfo ci) {
-		if (target instanceof PlayerEntity player && DevilsPassportItem.isActive(player)) {
+	private void doraemonPocket$gadgetRejectsTarget(LivingEntity target, CallbackInfo ci) {
+		if (target instanceof PlayerEntity player && shouldIgnorePlayer(player)) {
 			ci.cancel();
 		}
+	}
+
+	private static boolean shouldIgnorePlayer(PlayerEntity player) {
+		return DevilsPassportItem.isActive(player) || player.getEquippedStack(EquipmentSlot.HEAD).isOf(ModItems.STONE_HAT);
 	}
 }

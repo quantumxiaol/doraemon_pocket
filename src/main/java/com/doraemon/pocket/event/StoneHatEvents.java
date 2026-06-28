@@ -25,6 +25,9 @@ public final class StoneHatEvents {
 	private static final double IGNORE_RANGE = 36.0D;
 	private static final double CLOSE_SUPPRESS_RANGE = 18.0D;
 	private static final double PROJECTILE_SUPPRESS_RANGE = 18.0D;
+	private static final int PROJECTILE_SUPPRESS_INTERVAL_TICKS = 4;
+	private static final int CLOSE_SUPPRESS_INTERVAL_TICKS = 4;
+	private static final int WIDE_IGNORE_INTERVAL_TICKS = 20;
 
 	private StoneHatEvents() {
 	}
@@ -45,16 +48,25 @@ public final class StoneHatEvents {
 			return;
 		}
 
-		discardHostileProjectiles(player);
-		suppressCloseMobs(player);
+		long time = player.getServerWorld().getServer().getTicks();
+		if (shouldRunScan(player, time, PROJECTILE_SUPPRESS_INTERVAL_TICKS)) {
+			discardHostileProjectiles(player);
+		}
+		if (shouldRunScan(player, time, CLOSE_SUPPRESS_INTERVAL_TICKS)) {
+			suppressCloseMobs(player);
+		}
 
-		if (player.age % 5 != 0) {
+		if (!shouldRunScan(player, time, WIDE_IGNORE_INTERVAL_TICKS)) {
 			return;
 		}
 
 		Box box = player.getBoundingBox().expand(IGNORE_RANGE);
 		player.getWorld().getOtherEntities(player, box, entity -> entity instanceof MobEntity)
 				.forEach(entity -> makeMobIgnorePlayer((MobEntity) entity, player));
+	}
+
+	private static boolean shouldRunScan(ServerPlayerEntity player, long time, int interval) {
+		return (time + player.getId()) % interval == 0;
 	}
 
 	private static boolean allowDamage(LivingEntity entity, DamageSource source, float amount) {
