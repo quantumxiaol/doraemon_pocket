@@ -25,6 +25,7 @@ public final class ModItemGroups {
 						entries.add(ModItems.MOMOTARO_DUMPLING);
 						entries.add(ModItems.ANYWHERE_DOOR);
 						entries.add(ModItems.PASS_LOOP);
+						entries.add(ModItems.PASS_THROUGH_CAP);
 						entries.add(ModItems.STONE_HAT);
 						entries.add(ModItems.RADAR_SWORD);
 						entries.add(ModItems.DEPLETED_RADAR_SWORD);
@@ -46,6 +47,7 @@ public final class ModItemGroups {
 						entries.add(ModItems.CLOUD_HARDENING_GAS);
 						entries.add(ModItems.SOLIDIFIED_CLOUD);
 						entries.add(ModItems.DEEP_SEA_CREAM);
+						entries.add(ModItems.UNDERGROUND_SWIMMING_CREAM);
 						entries.add(ModItems.FAST_FORWARD_WINDER);
 						entries.add(ModItems.WOODCUTTERS_SPRING);
 						entries.add(ModItems.CAMPING_CAPSULE);

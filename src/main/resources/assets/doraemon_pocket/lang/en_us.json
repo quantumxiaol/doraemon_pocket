@@ -17,6 +17,8 @@
 	"item.doraemon_pocket.anywhere_door.tooltip": "Use /doraemon_pocket anywhere_door <pos> while holding it, right-click a block to place it, right-click the door to toggle it, sneak-right-click to recover it.",
 	"item.doraemon_pocket.pass_loop": "Pass Loop",
 	"item.doraemon_pocket.pass_loop.tooltip": "Right-click a surface to place and link it; right-click or enter to pass through, sneak-right-click to recover it.",
+	"item.doraemon_pocket.pass_through_cap": "Pass-Through Cap",
+	"item.doraemon_pocket.pass_through_cap.tooltip": "Wear it, then move into a wall or hold jump to pass through ordinary blocks. Bedrock and obsidian still block it.",
 	"item.doraemon_pocket.stone_hat": "Stone Hat",
 	"item.doraemon_pocket.stone_hat.tooltip": "Wear it on your head to make mobs ignore you. It falls off when touching water.",
 	"item.doraemon_pocket.radar_sword": "Radar Sword",
@@ -53,6 +55,8 @@
 	"item.doraemon_pocket.solidified_cloud": "Solidified Cloud",
 	"item.doraemon_pocket.deep_sea_cream": "Deep Sea Cream",
 	"item.doraemon_pocket.deep_sea_cream.tooltip": "Apply it for 20 minutes of Water Breathing, Night Vision, and Dolphin's Grace.",
+	"item.doraemon_pocket.underground_swimming_cream": "Underground Swimming Cream",
+	"item.doraemon_pocket.underground_swimming_cream.tooltip": "Apply it to swim through natural dirt and stone for 5 minutes. Move into terrain or hold jump to dig in; once inside, jump rises and sneak dives.",
 	"item.doraemon_pocket.fast_forward_winder": "Fast-Forward Winder",
 	"item.doraemon_pocket.fast_forward_winder.tooltip": "Use on mobs to speed them up, or on furnaces to advance cooking progress.",
 	"item.doraemon_pocket.woodcutters_spring": "Woodcutter's Spring",
@@ -111,5 +115,6 @@
 	"effect.doraemon_pocket.environmental_adaptation": "Environmental Adaptation",
 	"effect.doraemon_pocket.stunned": "Stunned",
 	"effect.doraemon_pocket.universal_understanding": "Universal Understanding",
+	"effect.doraemon_pocket.underground_swimming": "Underground Swimming",
 	"itemGroup.doraemon_pocket.tools": "Doraemon Pocket"
 }

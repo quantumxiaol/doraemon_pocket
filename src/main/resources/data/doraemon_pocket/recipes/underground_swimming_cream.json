@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:honey_bottle"
+		},
+		{
+			"item": "minecraft:clay_ball"
+		},
+		{
+			"item": "minecraft:amethyst_shard"
+		},
+		{
+			"item": "minecraft:glow_ink_sac"
+		}
+	],
+	"result": {
+		"item": "doraemon_pocket:underground_swimming_cream",
+		"count": 2
+	}
+}

@@ -17,6 +17,8 @@
 	"item.doraemon_pocket.anywhere_door.tooltip": "先用 /doraemon_pocket anywhere_door <坐标> 写入目标；右键方块放门，右键门体开关，潜行右键回收。",
 	"item.doraemon_pocket.pass_loop": "穿透环",
 	"item.doraemon_pocket.pass_loop.tooltip": "右键方块表面放置并连接空腔；普通右键或走入穿过，潜行右键回收。",
+	"item.doraemon_pocket.pass_through_cap": "穿越空间神奇帽",
+	"item.doraemon_pocket.pass_through_cap.tooltip": "戴在头上后，朝墙移动或按住跳跃即可穿过普通方块；无法穿越基岩和黑曜石。",
 	"item.doraemon_pocket.stone_hat": "石头帽",
 	"item.doraemon_pocket.stone_hat.tooltip": "戴在头上后让怪物无视你；接触水时会脱落。",
 	"item.doraemon_pocket.radar_sword": "名刀“电光丸”",
@@ -53,6 +55,8 @@
 	"item.doraemon_pocket.solidified_cloud": "凝固云朵",
 	"item.doraemon_pocket.deep_sea_cream": "深海面霜",
 	"item.doraemon_pocket.deep_sea_cream.tooltip": "右键涂抹，20 分钟内获得水下呼吸、夜视和海豚的恩惠。",
+	"item.doraemon_pocket.underground_swimming_cream": "游泳霜",
+	"item.doraemon_pocket.underground_swimming_cream.tooltip": "右键涂抹，5 分钟内可朝天然泥土和石头移动或按住跳跃钻入；进入后空格上游，潜行下游。",
 	"item.doraemon_pocket.fast_forward_winder": "快速发条",
 	"item.doraemon_pocket.fast_forward_winder.tooltip": "右键生物让其加速；右键熔炉、高炉或烟熏炉推进烧炼进度。",
 	"item.doraemon_pocket.woodcutters_spring": "樵夫之泉",
@@ -111,5 +115,6 @@
 	"effect.doraemon_pocket.environmental_adaptation": "环境适应",
 	"effect.doraemon_pocket.stunned": "休克",
 	"effect.doraemon_pocket.universal_understanding": "通晓语言",
+	"effect.doraemon_pocket.underground_swimming": "土地潜游",
 	"itemGroup.doraemon_pocket.tools": "哆啦A梦口袋"
 }

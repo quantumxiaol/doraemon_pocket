@@ -2,6 +2,7 @@ package com.doraemon.pocket.client;
 
 import com.doraemon.pocket.client.input.BambooCopterInputHandler;
 import com.doraemon.pocket.client.input.FourDimensionalPocketInputHandler;
+import com.doraemon.pocket.client.input.UndergroundSwimInputHandler;
 import com.doraemon.pocket.client.model.BambooCopterModel;
 import com.doraemon.pocket.client.model.DoraemonEntityModel;
 import com.doraemon.pocket.client.model.DodgeCloakModel;
@@ -10,6 +11,7 @@ import com.doraemon.pocket.client.render.DodgeCloakArmorRenderer;
 import com.doraemon.pocket.client.render.DoraemonEntityRenderer;
 import com.doraemon.pocket.client.render.LinkedPortalBlockEntityRenderer;
 import com.doraemon.pocket.client.render.MiniDoraemonEntityRenderer;
+import com.doraemon.pocket.client.render.PassThroughCapArmorRenderer;
 import com.doraemon.pocket.client.render.ShadowEntityRenderer;
 import com.doraemon.pocket.client.render.StoneHatArmorRenderer;
 import com.doraemon.pocket.client.screen.FourDimensionalPocketScreen;
@@ -35,6 +37,7 @@ public class DoraemonPocketClient implements ClientModInitializer {
 		BambooCopterArmorRenderer.register();
 		DodgeCloakArmorRenderer.register();
 		StoneHatArmorRenderer.register();
+		PassThroughCapArmorRenderer.register();
 		BlockEntityRendererFactories.register(ModBlockEntities.LINKED_PORTAL, LinkedPortalBlockEntityRenderer::new);
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ANYWHERE_DOOR_PORTAL, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PASS_LOOP_PORTAL, RenderLayer.getCutout());
@@ -44,6 +47,7 @@ public class DoraemonPocketClient implements ClientModInitializer {
 		HandledScreens.register(ModScreenHandlers.FOUR_DIMENSIONAL_POCKET, FourDimensionalPocketScreen::new);
 		BambooCopterInputHandler.register();
 		FourDimensionalPocketInputHandler.register();
+		UndergroundSwimInputHandler.register();
 		BambooCopterSoundManager.register();
 		EntityRendererRegistry.register(ModEntities.MOMOTARO_DUMPLING, FlyingItemEntityRenderer::new);
 		EntityRendererRegistry.register(ModEntities.SHADOW, ShadowEntityRenderer::new);

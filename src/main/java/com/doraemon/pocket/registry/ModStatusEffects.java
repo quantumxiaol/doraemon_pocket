@@ -3,6 +3,7 @@ package com.doraemon.pocket.registry;
 import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.effect.EnvironmentalAdaptationStatusEffect;
 import com.doraemon.pocket.effect.StunnedStatusEffect;
+import com.doraemon.pocket.effect.UndergroundSwimmingStatusEffect;
 import com.doraemon.pocket.effect.UniversalUnderstandingStatusEffect;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
@@ -23,6 +24,11 @@ public final class ModStatusEffects {
 			Registries.STATUS_EFFECT,
 			DoraemonPocket.id("universal_understanding"),
 			new UniversalUnderstandingStatusEffect()
+	);
+	public static final StatusEffect UNDERGROUND_SWIMMING = Registry.register(
+			Registries.STATUS_EFFECT,
+			DoraemonPocket.id("underground_swimming"),
+			new UndergroundSwimmingStatusEffect()
 	);
 
 	private ModStatusEffects() {

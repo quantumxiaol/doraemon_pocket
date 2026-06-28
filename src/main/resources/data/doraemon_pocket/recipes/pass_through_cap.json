@@ -1,0 +1,25 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" E ",
+		"WLW",
+		"B B"
+	],
+	"key": {
+		"E": {
+			"item": "minecraft:ender_pearl"
+		},
+		"W": {
+			"item": "minecraft:white_wool"
+		},
+		"L": {
+			"item": "minecraft:leather_helmet"
+		},
+		"B": {
+			"item": "minecraft:light_blue_dye"
+		}
+	},
+	"result": {
+		"item": "doraemon_pocket:pass_through_cap"
+	}
+}

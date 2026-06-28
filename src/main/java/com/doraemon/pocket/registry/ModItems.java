@@ -17,6 +17,7 @@ import com.doraemon.pocket.item.FastForwardWinderItem;
 import com.doraemon.pocket.item.FourDimensionalPocketItem;
 import com.doraemon.pocket.item.MomotaroDumplingItem;
 import com.doraemon.pocket.item.PassLoopItem;
+import com.doraemon.pocket.item.PassThroughCapItem;
 import com.doraemon.pocket.item.PlantModificationLiquidItem;
 import com.doraemon.pocket.item.RadarSwordItem;
 import com.doraemon.pocket.item.RestoringFlashlightItem;
@@ -26,6 +27,7 @@ import com.doraemon.pocket.item.ShadowGlueItem;
 import com.doraemon.pocket.item.StoneHatItem;
 import com.doraemon.pocket.item.TimeClothItem;
 import com.doraemon.pocket.item.TranslationGummyItem;
+import com.doraemon.pocket.item.UndergroundSwimmingCreamItem;
 import com.doraemon.pocket.item.WeatherCardItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
@@ -81,6 +83,14 @@ public final class ModItems {
 	public static final Item PASS_LOOP = register(
 			"pass_loop",
 			new PassLoopItem(new FabricItemSettings().maxCount(1).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item PASS_THROUGH_CAP = register(
+			"pass_through_cap",
+			new PassThroughCapItem(
+					ModArmorMaterials.PASS_THROUGH_CAP,
+					ArmorItem.Type.HELMET,
+					new FabricItemSettings().maxDamage(176).rarity(Rarity.RARE)
+			)
 	);
 	public static final Item STONE_HAT = register(
 			"stone_hat",
@@ -169,6 +179,10 @@ public final class ModItems {
 	public static final Item DEEP_SEA_CREAM = register(
 			"deep_sea_cream",
 			new DeepSeaCreamItem(new FabricItemSettings().maxCount(16).rarity(Rarity.UNCOMMON))
+	);
+	public static final Item UNDERGROUND_SWIMMING_CREAM = register(
+			"underground_swimming_cream",
+			new UndergroundSwimmingCreamItem(new FabricItemSettings().maxCount(16).rarity(Rarity.RARE))
 	);
 	public static final Item FAST_FORWARD_WINDER = register(
 			"fast_forward_winder",

@@ -9,7 +9,8 @@ import net.minecraft.sound.SoundEvents;
 public enum ModArmorMaterials implements ArmorMaterial {
 	BAMBOO_COPTER("bamboo_copter", 9, 15, 0.0F, 0.0F),
 	DODGE_CLOAK("dodge_cloak", 12, 18, 0.0F, 0.0F),
-	STONE_HAT("stone_hat", 8, 8, 0.0F, 0.0F);
+	STONE_HAT("stone_hat", 8, 8, 0.0F, 0.0F),
+	PASS_THROUGH_CAP("pass_through_cap", 16, 14, 0.0F, 0.0F);
 
 	private final String name;
 	private final int durabilityMultiplier;

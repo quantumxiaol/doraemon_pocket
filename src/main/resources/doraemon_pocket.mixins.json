@@ -6,8 +6,12 @@
 		"AbstractFurnaceBlockEntityAccessor",
 		"EndermanEntityMixin",
 		"MobEntityMixin",
+		"PhaseCollisionMixin",
 		"PiglinBrainMixin",
 		"VillagerEntityMixin"
+	],
+	"client": [
+		"InGameOverlayRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

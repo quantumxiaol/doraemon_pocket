@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.doraemon.pocket.DoraemonPocket;
 import com.doraemon.pocket.item.BambooCopterItem;
 import com.doraemon.pocket.item.FourDimensionalPocketItem;
+import com.doraemon.pocket.item.PassThroughCapItem;
+import com.doraemon.pocket.registry.ModStatusEffects;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -16,9 +18,12 @@ import net.minecraft.util.Identifier;
 public final class DoraemonPackets {
 	public static final Identifier BAMBOO_COPTER_CONTROL = DoraemonPocket.id("bamboo_copter_control");
 	public static final Identifier OPEN_FOUR_DIMENSIONAL_POCKET = DoraemonPocket.id("open_four_dimensional_pocket");
+	public static final Identifier UNDERGROUND_SWIM_CONTROL = DoraemonPocket.id("underground_swim_control");
 
 	private static final int BAMBOO_COPTER_CONTROL_TIMEOUT_TICKS = 30;
+	private static final int UNDERGROUND_SWIM_CONTROL_TIMEOUT_TICKS = 30;
 	private static final Map<UUID, TimedBambooCopterControl> BAMBOO_COPTER_CONTROLS = new ConcurrentHashMap<>();
+	private static final Map<UUID, TimedUndergroundSwimControl> UNDERGROUND_SWIM_CONTROLS = new ConcurrentHashMap<>();
 
 	private DoraemonPackets() {
 	}
@@ -39,8 +44,26 @@ public final class DoraemonPackets {
 		ServerPlayNetworking.registerGlobalReceiver(OPEN_FOUR_DIMENSIONAL_POCKET, (server, player, handler, buf, responseSender) ->
 				server.execute(() -> FourDimensionalPocketItem.openFirst(player))
 		);
-		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> forgetBambooCopterControl(handler.player.getUuid()));
-		ServerLifecycleEvents.SERVER_STOPPED.register(server -> BAMBOO_COPTER_CONTROLS.clear());
+		ServerPlayNetworking.registerGlobalReceiver(UNDERGROUND_SWIM_CONTROL, (server, player, handler, buf, responseSender) -> {
+			UndergroundSwimControl control = UndergroundSwimControl.read(buf);
+			server.execute(() -> {
+				if ((!player.hasStatusEffect(ModStatusEffects.UNDERGROUND_SWIMMING) && !PassThroughCapItem.isEquipped(player)) || player.isSpectator()) {
+					forgetUndergroundSwimControl(player.getUuid());
+					return;
+				}
+				if (!player.isRemoved()) {
+					UNDERGROUND_SWIM_CONTROLS.put(player.getUuid(), new TimedUndergroundSwimControl(control, server.getTicks()));
+				}
+			});
+		});
+		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+			forgetBambooCopterControl(handler.player.getUuid());
+			forgetUndergroundSwimControl(handler.player.getUuid());
+		});
+		ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+			BAMBOO_COPTER_CONTROLS.clear();
+			UNDERGROUND_SWIM_CONTROLS.clear();
+		});
 	}
 
 	public static BambooCopterControl getBambooCopterControl(ServerPlayerEntity player) {
@@ -61,6 +84,27 @@ public final class DoraemonPackets {
 		BAMBOO_COPTER_CONTROLS.remove(playerId);
 	}
 
+	public static UndergroundSwimControl getUndergroundSwimControl(ServerPlayerEntity player) {
+		TimedUndergroundSwimControl timedControl = UNDERGROUND_SWIM_CONTROLS.get(player.getUuid());
+		if (timedControl == null) {
+			return UndergroundSwimControl.IDLE;
+		}
+
+		if (player.getServerWorld().getServer().getTicks() - timedControl.receivedAtTick() > UNDERGROUND_SWIM_CONTROL_TIMEOUT_TICKS) {
+			UNDERGROUND_SWIM_CONTROLS.remove(player.getUuid());
+			return UndergroundSwimControl.IDLE;
+		}
+
+		return timedControl.control();
+	}
+
+	public static void forgetUndergroundSwimControl(UUID playerId) {
+		UNDERGROUND_SWIM_CONTROLS.remove(playerId);
+	}
+
 	private record TimedBambooCopterControl(BambooCopterControl control, long receivedAtTick) {
+	}
+
+	private record TimedUndergroundSwimControl(UndergroundSwimControl control, long receivedAtTick) {
 	}
 }

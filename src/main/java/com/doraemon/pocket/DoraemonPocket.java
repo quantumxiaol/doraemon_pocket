@@ -8,10 +8,12 @@ import com.doraemon.pocket.event.DoraemonFlybyEvents;
 import com.doraemon.pocket.event.DevilsPassportEvents;
 import com.doraemon.pocket.event.EnvironmentalAdaptationEvents;
 import com.doraemon.pocket.event.MomotaroObedienceHandler;
+import com.doraemon.pocket.event.PassThroughCapTickHandler;
 import com.doraemon.pocket.event.RadarSwordEvents;
 import com.doraemon.pocket.event.ShockGunStunHandler;
 import com.doraemon.pocket.event.StoneHatEvents;
 import com.doraemon.pocket.event.TimeClothUseHandler;
+import com.doraemon.pocket.event.UndergroundSwimTickHandler;
 import com.doraemon.pocket.event.UniversalUnderstandingEvents;
 import com.doraemon.pocket.network.DoraemonPackets;
 import com.doraemon.pocket.registry.ModBlockEntities;
@@ -53,6 +55,8 @@ public class DoraemonPocket implements ModInitializer {
 		DoraemonFlybyEvents.register();
 		UniversalUnderstandingEvents.register();
 		DevilsPassportEvents.register();
+		UndergroundSwimTickHandler.register();
+		PassThroughCapTickHandler.register();
 
 		LOGGER.info("Doraemon Pocket initialized.");
 	}
